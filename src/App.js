@@ -1,7 +1,17 @@
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Login from "./pages/login";
+//import Nav from "./components/nav";
+
 function App() {
   return (
     <div className="App">
-      <h1>Portfolio Admin</h1>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/">
+            <Login />
+          </Route>
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }
