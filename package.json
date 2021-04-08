@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
+    "@userfront/react": "^0.1.24",
     "framer-motion": "^4.1.2",
     "node-sass": "^5.0.0",
     "react": "^17.0.2",
