@@ -1,43 +1,77 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Nav from "../components/nav";
+import Bar from "../components/bar";
 import styled from "styled-components";
-import { FaUser, FaLock } from "react-icons/fa";
+//import { FaUser, FaLock } from "react-icons/fa";
 import { motion } from "framer-motion";
-import curve from "../images/curve.svg";
-//import loginPic from "../images/login.svg";
-import login2 from "../images/login2.svg";
-//import organise from "../images/organise.svg";
-import profile from "../images/profile.svg";
+//import profile from "../images/profile.svg";
+//auth
+import { getData } from "../api/api";
+//UUID inique ID generator
+import { v4 as uuidv4 } from "uuid";
 
-function Admin() {
+function Admin({ auth }) {
+  const [projects, setProjects] = useState({});
+  const [links, setLinks] = useState({});
+  const [technologies, setTechnologies] = useState({});
+
+  async function fetchdata(type) {
+    const res = await getData(auth, type);
+    if (res.status === 200) {
+      //console.log(res);
+      return res.data;
+    }
+  }
+
+  useEffect(() => {
+    async function getData() {
+      setProjects(await fetchdata("projects"));
+      setLinks(await fetchdata("links"));
+      setTechnologies(await fetchdata("technologies"));
+    }
+    getData();
+  }, []);
+
   return (
     <StyledAdmin>
-      <img src={curve} alt="curve" id="curve" />
-      {/* <img src={loginPic} alt="login" />
-      <img src={login2} alt="login2" />
-      <img src={profile} alt="profile" />
-      <img src={organise} alt="organise" /> */}
-
-      <div className="title">
-        <h1>Administration</h1>
-      </div>
+      <Bar />
+      <Nav />
+      {projects.length > 0 ? (
+        <ul>
+          {projects.map((item) => {
+            return <li key={uuidv4()}>{item.projectName}</li>;
+          })}
+        </ul>
+      ) : (
+        ""
+      )}
+      {links.length > 0 ? (
+        <ul>
+          {links.map((item) => {
+            return <li key={uuidv4()}>{item.name}</li>;
+          })}
+        </ul>
+      ) : (
+        ""
+      )}
+      {technologies.length > 0 ? (
+        <ul>
+          {technologies.map((item) => {
+            return <li key={uuidv4()}>{item.name}</li>;
+          })}
+        </ul>
+      ) : (
+        ""
+      )}
     </StyledAdmin>
   );
 }
 
 const StyledAdmin = styled(motion.div)`
+  position: relative;
   display: flex;
   flex-direction: column;
   overflow-y: hidden;
-
-  .title {
-    position: fixed;
-    width: 100vw;
-    display: flex;
-    margin: 2rem;
-    justify-content: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
 `;
 
 export default Admin;

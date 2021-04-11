@@ -1,35 +1,96 @@
 import React, { useState } from "react";
-import { BrowserRouter, Switch, Route, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
 import { FaUser, FaLock } from "react-icons/fa";
+//message components
+import { ToastContainer, toast, Zoom } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 //images
 import curve from "../images/curve.svg";
+import curve2 from "../images/curve-lin-grad.svg";
 //import loginPic from "../images/login.svg";
 //import login2 from "../images/login2.svg";
 import organise from "../images/organise.svg";
 import profile from "../images/profile.svg";
 
-function Login() {
-  const location = useLocation();
+//auth
+import { signin } from "../api/auth";
 
-  const [username, setUsername] = useState("");
+function Login({ setAuth }) {
+  const history = useHistory();
+
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [usernameFocus, toggleUsername] = useState(false);
+  const [emailFocus, toggleEmail] = useState(false);
   const [passwordFocus, togglePassword] = useState(false);
 
-  const handleSubmit = (e) => {
+  const notify = (type) => {
+    switch (type) {
+      case "ADDED":
+        toast.dark("Budget Added");
+        break;
+      case "INVALID":
+        toast.warn("Please enter a username and password", { color: "black" });
+        break;
+      default:
+        toast.dark("Nothing to report");
+    }
+  };
+  const handleSubmit = async (e) => {
     //e.preventDefault();
     setPassword("");
-    setUsername("");
-    toggleUsername(false);
+    setEmail("");
+    toggleEmail(false);
     togglePassword(false);
+
+    if (email.length > 0 && password.length > 0) {
+      const data = { email, password };
+      const res = await signin(data);
+      console.log(res);
+
+      if (res.status === 200) {
+        //TODOS: change this later to something more secure
+        //save token and user id
+        localStorage.setItem(
+          "adminJWT",
+          JSON.stringify({
+            token: res.data.token,
+            id: res.data.id,
+          })
+        );
+
+        setAuth({
+          id: res.data.id,
+          username: res.data.username,
+          token: res.data.token,
+        });
+
+        history.push("/admin");
+      }
+    } else {
+      //toast message
+      notify("INVALID");
+    }
   };
 
   return (
     <StyledLogin>
-      <img src={curve} alt="curve" id="curve" />
+      <ToastContainer
+        closeButton={false}
+        transition={Zoom}
+        position="bottom-center"
+        draggable={false}
+        pauseOnHover
+        autoClose={2000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+      />
+      <img src={curve2} alt="curve" id="curve" />
       {/* <img src={loginPic} alt="login" />
       <img src={login2} alt="login2" />
       <img src={profile} alt="profile" />
@@ -48,21 +109,19 @@ function Login() {
             <div className="input-div">
               <h5
                 className={
-                  usernameFocus || username.length > 0
-                    ? "prompt-selected"
-                    : "prompt"
+                  emailFocus || email.length > 0 ? "prompt-selected" : "prompt"
                 }
               >
-                Username
+                Email
               </h5>
-              <div className={usernameFocus ? "focus" : "label"}>
+              <div className={emailFocus ? "focus" : "label"}>
                 <FaUser className="icon" />
                 <input
-                  name="username"
-                  onFocus={() => toggleUsername(!usernameFocus)}
-                  onBlur={() => toggleUsername(!usernameFocus)}
-                  onChange={(e) => setUsername(e.target.value)}
-                  value={username}
+                  name="email"
+                  onFocus={() => toggleEmail(!emailFocus)}
+                  onBlur={() => toggleEmail(!emailFocus)}
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
                   type="text"
                   //placeholder="Username"
                   size="20"
