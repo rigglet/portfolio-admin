@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { HiChevronRight, HiChevronDown, HiCode, HiLink } from "react-icons/hi";
@@ -14,8 +14,6 @@ function Nav({ auth }) {
   const [links, setLinks] = useState({});
   const [technologies, setTechnologies] = useState({});
 
-  console.log(auth);
-
   async function fetchdata(type) {
     console.log(auth);
     const res = await getData(auth, type);
@@ -25,14 +23,34 @@ function Nav({ auth }) {
     }
   }
 
-  useEffect(() => {
-    async function getData() {
-      setProjects(await fetchdata("projects"));
-      setLinks(await fetchdata("links"));
-      setTechnologies(await fetchdata("technologies"));
-    }
-    getData();
-  }, []);
+  useEffect(
+    () => {
+      async function getData() {
+        setProjects(await fetchdata("projects"));
+        setLinks(await fetchdata("links"));
+        setTechnologies(await fetchdata("technologies"));
+      }
+      getData();
+    },
+    //eslint-disable-next-line
+    []
+  );
+
+  //framer motion
+  const container = {
+    open: { opacity: 1, transition: { duration: 0.3, staggerChildren: 0.5 } },
+    closed: {
+      opacity: 0,
+      transition: { duration: 0.3 },
+    },
+  };
+  const item = {
+    open: { opacity: 1, transition: { duration: 0.3 } },
+    closed: {
+      opacity: 0,
+      transition: { duration: 0.3 },
+    },
+  };
 
   return (
     <StyledNav>
@@ -50,39 +68,35 @@ function Nav({ auth }) {
           />
         )}
       </div>
-      {chevron ? (
-        <ul>
-          <li>
-            <div className="link-info">
-              <MdWeb className="nav-icon" />
-              <Link to="/admin/projects">Projects</Link>
-            </div>
-            <div className="link-amount">
-              {projects.length ? <h4>{projects.length}</h4> : ""}
-            </div>
-          </li>
-          <li>
-            <div className="link-info">
-              <HiLink className="nav-icon" />
-              <Link to="/admin/links">Links</Link>
-            </div>
-            <div className="link-amount">
-              {links.length ? <h4>{links.length}</h4> : ""}
-            </div>
-          </li>
-          <li>
-            <div className="link-info">
-              <HiCode className="nav-icon" />
-              <Link to="/admin/tech">Technologies</Link>
-            </div>
-            <div className="link-amount">
-              {technologies.length ? <h4>{technologies.length}</h4> : ""}
-            </div>
-          </li>
-        </ul>
-      ) : (
-        ""
-      )}
+      <motion.ul animate={chevron ? "open" : "closed"} variants={container}>
+        <motion.li variants={item}>
+          <div className="link-info">
+            <MdWeb className="nav-icon" />
+            <Link to="/admin/projects">Projects</Link>
+          </div>
+          <div className="link-amount">
+            {projects.length ? <h4>{projects.length}</h4> : ""}
+          </div>
+        </motion.li>
+        <motion.li variants={item}>
+          <div className="link-info">
+            <HiLink className="nav-icon" />
+            <Link to="/admin/links">Links</Link>
+          </div>
+          <div className="link-amount">
+            {links.length ? <h4>{links.length}</h4> : ""}
+          </div>
+        </motion.li>
+        <motion.li variants={item}>
+          <div className="link-info">
+            <HiCode className="nav-icon" />
+            <Link to="/admin/tech">Technologies</Link>
+          </div>
+          <div className="link-amount">
+            {technologies.length ? <h4>{technologies.length}</h4> : ""}
+          </div>
+        </motion.li>
+      </motion.ul>
     </StyledNav>
   );
 }

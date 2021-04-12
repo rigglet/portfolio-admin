@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { motion } from "framer-motion";
+//import styled from "styled-components";
+//import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 //components
 import Projects from "../components/projects";
@@ -19,7 +19,7 @@ function Admin({ auth }) {
       case "/admin/tech":
         return <Technologies auth={auth} />;
       default:
-        return <Projects />;
+        return "";
     }
   };
 

@@ -39,26 +39,23 @@ function Login({ setAuth }) {
   };
   const handleSubmit = async (e) => {
     //e.preventDefault();
-    setPassword("");
-    setEmail("");
     toggleEmail(false);
     togglePassword(false);
 
     if (email.length > 0 && password.length > 0) {
       const data = { email, password };
       const res = await signin(data);
-      console.log(res);
 
       if (res.status === 200) {
         //TODOS: change this later to something more secure
         //save token and user id
-        localStorage.setItem(
-          "adminJWT",
-          JSON.stringify({
-            token: res.data.token,
-            id: res.data.id,
-          })
-        );
+        // localStorage.setItem(
+        //   "adminJWT",
+        //   JSON.stringify({
+        //     token: res.data.token,
+        //     id: res.data.id,
+        //   })
+        // );
 
         setAuth({
           id: res.data.id,
@@ -66,6 +63,8 @@ function Login({ setAuth }) {
           token: res.data.token,
         });
 
+        setPassword("");
+        setEmail("");
         history.push("/admin");
       }
     } else {
