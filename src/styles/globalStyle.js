@@ -19,6 +19,7 @@ body{
     //font-family: 'Roboto', sans-serif;
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 `;
 

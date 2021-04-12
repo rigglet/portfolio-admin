@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from "react";
+//styling
 import styled from "styled-components";
-//import { FaUser, FaLock } from "react-icons/fa";
 import { motion } from "framer-motion";
+//images
 import profile from "../images/profile.svg";
 import organise from "../images/organise.svg";
-//auth
-import { getData } from "../api/api";
-//UUID inique ID generator
-import { v4 as uuidv4 } from "uuid";
 //icons
 import { HiChevronDown } from "react-icons/hi";
 
@@ -32,7 +28,7 @@ const StyledBar = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #494c48;
+  background-color: #011e44;
   width: 100vw;
   height: 9vh;
   font-size: 1rem;
@@ -43,7 +39,7 @@ const StyledBar = styled(motion.div)`
   .header-logo {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 12rem;
     #logo {
       width: 4rem;
       height: 4rem;
@@ -58,7 +54,7 @@ const StyledBar = styled(motion.div)`
     display: flex;
     align-items: center;
     margin-right: 1rem;
-    gap: 1rem;
+    gap: 2rem;
     .username {
       color: white;
     }
@@ -71,7 +67,7 @@ const StyledBar = styled(motion.div)`
       height: 1.5rem;
       color: white;
       &:hover {
-        background-color: #73797e;
+        background-color: #688297;
         border-radius: 50%;
       }
     }

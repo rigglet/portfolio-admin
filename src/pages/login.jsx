@@ -8,7 +8,6 @@ import { FaUser, FaLock } from "react-icons/fa";
 import { ToastContainer, toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 //images
-import curve from "../images/curve.svg";
 import curve2 from "../images/curve-lin-grad.svg";
 //import loginPic from "../images/login.svg";
 //import login2 from "../images/login2.svg";
