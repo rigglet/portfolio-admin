@@ -7,13 +7,13 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box
 }
 
-body{
+body {
     color: #313131;
     background-color: rgba(255, 255, 255, 0.918);
     //font-family: 'Roboto', sans-serif;

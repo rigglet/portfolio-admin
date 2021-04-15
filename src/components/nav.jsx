@@ -38,17 +38,28 @@ function Nav({ auth }) {
 
   //framer motion
   const container = {
-    open: { opacity: 1, transition: { duration: 0.3, staggerChildren: 0.5 } },
+    open: {
+      opacity: 1,
+      transition: { duration: 0.3, staggerChildren: 0.1 },
+    },
     closed: {
+      height: "0px",
       opacity: 0,
       transition: { duration: 0.3 },
     },
   };
   const item = {
-    open: { opacity: 1, transition: { duration: 0.3 } },
+    open: {
+      opacity: 1,
+      display: "flex",
+      transition: { duration: 0.3 },
+    },
     closed: {
       opacity: 0,
       transition: { duration: 0.3 },
+      transitionEnd: {
+        display: "none",
+      },
     },
   };
 

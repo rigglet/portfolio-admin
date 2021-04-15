@@ -6,7 +6,7 @@ import { getData } from "../api/api";
 import { v4 as uuidv4 } from "uuid";
 
 function Links({ auth }) {
-  const [links, setLinks] = useState({});
+  const [links, setLinks] = useState([]);
 
   useEffect(
     () => {
@@ -14,6 +14,7 @@ function Links({ auth }) {
         const res = await getData(auth, "links");
         if (res.status === 200) {
           setLinks(res.data);
+          console.log(res.data);
         }
       }
       getTable();
