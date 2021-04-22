@@ -11,18 +11,20 @@ function Links({ auth }) {
   useEffect(
     () => {
       async function getTable() {
-        const res = await getData(auth, "links");
-        if (res.status === 200) {
-          setLinks(res.data);
-          console.log(res.data);
-        }
+        return await getData(auth, "links");
       }
-      getTable();
+      getTable().then((result) => {
+        if (result.status === 200) {
+          setLinks(result.data);
+          console.log(result.data);
+        }
+      });
     },
     // eslint-disable-next-line
     []
   );
 
+  //TODO: Just use a list of divs
   return (
     <StyledLinks>
       <h1>Links</h1>

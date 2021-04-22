@@ -44,30 +44,34 @@ function Bar() {
 
   return (
     <StyledBar>
-      <motion.ul
-        className="bar-menu"
-        animate={menu ? "open" : "closed"}
-        variants={variants}
-      >
-        <motion.li className="bar-list-item" variants={bugFix}>
-          <div className="profile-menu-item">
-            <BiUser className="profile-menu-icon" />
-            <h3 onClick={() => showProfile()}>Profile</h3>
-          </div>
-        </motion.li>
-        <motion.li className="bar-list-item" variants={bugFix}>
-          <div className="profile-menu-item">
-            <FiSettings className="profile-menu-icon" />
-            <h3 onClick={() => showSettings()}>Settings</h3>
-          </div>
-        </motion.li>
-        <motion.li className="bar-list-item" variants={bugFix}>
-          <div className="profile-menu-item">
-            <FiLogOut className="profile-menu-icon" />
-            <h3 onClick={() => logOut()}>Logout</h3>
-          </div>
-        </motion.li>
-      </motion.ul>
+      {menu ? (
+        <ul
+          className="bar-menu"
+          animate={menu ? "open" : "closed"}
+          variants={variants}
+        >
+          <li className="bar-list-item" variants={bugFix}>
+            <div className="profile-menu-item">
+              <BiUser className="profile-menu-icon" />
+              <h3 onClick={() => showProfile()}>Profile</h3>
+            </div>
+          </li>
+          <li className="bar-list-item" variants={bugFix}>
+            <div className="profile-menu-item">
+              <FiSettings className="profile-menu-icon" />
+              <h3 onClick={() => showSettings()}>Settings</h3>
+            </div>
+          </li>
+          <li className="bar-list-item" variants={bugFix}>
+            <div className="profile-menu-item">
+              <FiLogOut className="profile-menu-icon" />
+              <h3 onClick={() => logOut()}>Logout</h3>
+            </div>
+          </li>
+        </ul>
+      ) : (
+        ""
+      )}
 
       <div className="header-logo">
         <img id="logo" src={organise} alt="logo" />
@@ -101,7 +105,7 @@ const StyledBar = styled(motion.div)`
     opacity: 0;
   }
   .bar-menu {
-    //z-index: 99;
+    z-index: 99;
     width: 20vw;
     //height: 100px;
     position: absolute;

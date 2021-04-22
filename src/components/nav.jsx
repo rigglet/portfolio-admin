@@ -1,40 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { HiChevronRight, HiChevronDown, HiCode, HiLink } from "react-icons/hi";
 import { MdWeb } from "react-icons/md";
+import { IoLibraryOutline } from "react-icons/io5";
+import { GoPackage } from "react-icons/go";
 import { motion } from "framer-motion";
-import { getData } from "../api/api";
-//UUID inique ID generator
-//import { v4 as uuidv4 } from "uuid";
 
-function Nav({ auth }) {
+function Nav({ projectNo, linkNo, techNo, libNo, packageNo }) {
   const [chevron, setChevron] = useState(true);
-  const [projects, setProjects] = useState({});
-  const [links, setLinks] = useState({});
-  const [technologies, setTechnologies] = useState({});
-
-  async function fetchdata(type) {
-    console.log(auth);
-    const res = await getData(auth, type);
-    if (res.status === 200) {
-      //console.log(res);
-      return res.data;
-    }
-  }
-
-  useEffect(
-    () => {
-      async function getData() {
-        setProjects(await fetchdata("projects"));
-        setLinks(await fetchdata("links"));
-        setTechnologies(await fetchdata("technologies"));
-      }
-      getData();
-    },
-    //eslint-disable-next-line
-    []
-  );
 
   //framer motion
   const container = {
@@ -86,7 +60,7 @@ function Nav({ auth }) {
             <Link to="/admin/projects">Projects</Link>
           </div>
           <div className="link-amount">
-            {projects.length ? <h4>{projects.length}</h4> : ""}
+            <h4>{projectNo}</h4>
           </div>
         </motion.li>
         <motion.li variants={item}>
@@ -95,7 +69,7 @@ function Nav({ auth }) {
             <Link to="/admin/links">Links</Link>
           </div>
           <div className="link-amount">
-            {links.length ? <h4>{links.length}</h4> : ""}
+            <h4>{linkNo}</h4>
           </div>
         </motion.li>
         <motion.li variants={item}>
@@ -104,7 +78,25 @@ function Nav({ auth }) {
             <Link to="/admin/tech">Technologies</Link>
           </div>
           <div className="link-amount">
-            {technologies.length ? <h4>{technologies.length}</h4> : ""}
+            <h4>{techNo}</h4>
+          </div>
+        </motion.li>
+        <motion.li variants={item}>
+          <div className="link-info">
+            <IoLibraryOutline className="nav-icon" />
+            <Link to="/admin/libraries">Libraries</Link>
+          </div>
+          <div className="link-amount">
+            <h4>{libNo}</h4>
+          </div>
+        </motion.li>
+        <motion.li variants={item}>
+          <div className="link-info">
+            <GoPackage className="nav-icon" />
+            <Link to="/admin/packages">Packages</Link>
+          </div>
+          <div className="link-amount">
+            <h4>{packageNo}</h4>
           </div>
         </motion.li>
       </motion.ul>

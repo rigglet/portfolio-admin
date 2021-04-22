@@ -2,8 +2,6 @@ import { useState } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Login from "./pages/login";
 import Admin from "./pages/admin";
-import Nav from "./components/nav";
-import Bar from "./components/bar";
 
 function App() {
   const [auth, setAuth] = useState({});
@@ -14,7 +12,7 @@ function App() {
     return (
       <Route
         {...rest}
-        render={({ ...rest }) =>
+        render={() =>
           auth.username ? (
             children
           ) : (
@@ -40,8 +38,12 @@ function App() {
             <Login setAuth={setAuth} />
           </Route>
           <PrivateRoute path="/admin">
-            <Bar />
-            <Nav auth={auth} />
+            {/* <Bar />
+            <Nav
+              projectNo={projects ? projects.length : 0}
+              LinkNo={links ? links.length : 0}
+              TechNo={technologies ? technologies.length : 0}
+            /> */}
             <Admin auth={auth} />
           </PrivateRoute>
         </Switch>

@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 //table
 import { useTable } from "react-table";
 
-function Technologies({ auth }) {
+function Packages({ auth }) {
   const [technologies, setTechnologies] = useState([]);
 
   useEffect(
@@ -112,7 +112,7 @@ function Technologies({ auth }) {
   return (
     <StyledTechnologies>
       <div className="header">
-        <h1>Technologies</h1>
+        <h1>Packages</h1>
         <RiAddCircleLine
           className="h-icon"
           onClick={(e) => handleAddRecord(e)}
@@ -208,4 +208,4 @@ const StyledTechnologies = styled(motion.div)`
   }
 `;
 
-export default Technologies;
+export default Packages;
