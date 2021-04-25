@@ -5,6 +5,8 @@ export const getUserData = async (auth) => {
   const projects = `http://localhost:8081/api/users/${id}/projects`;
   const links = `http://localhost:8081/api/users/${id}/links`;
   const technologies = `http://localhost:8081/api/users/${id}/technologies`;
+  const libraries = `http://localhost:8081/api/users/${id}/libraries`;
+  const packages = `http://localhost:8081/api/users/${id}/packages`;
 
   const headers = {
     headers: {
@@ -12,19 +14,27 @@ export const getUserData = async (auth) => {
     },
   };
 
+  const requestPackages = await axios.get(packages, headers);
+  const requestLibraries = await axios.get(libraries, headers);
   const requestProjects = await axios.get(projects, headers);
   const requestLinks = await axios.get(links, headers);
   const requestTechnologies = await axios.get(technologies, headers);
   try {
-    axios.all([requestProjects, requestLinks, requestTechnologies]).then(
-      axios.spread((...responses) => {
-        return responses;
-      })
-    );
-    //console.log(response);
+    axios
+      .all([
+        requestProjects,
+        requestLinks,
+        requestTechnologies,
+        requestLibraries,
+        requestPackages,
+      ])
+      .then(
+        axios.spread((...responses) => {
+          return responses;
+        })
+      );
   } catch (errors) {
     return errors;
-    //console.error(error);
   }
 };
 
@@ -45,10 +55,75 @@ export const getData = async (auth, datatype) => {
     if (response.status === 200) {
       return response;
     }
-
-    //console.log(response);
   } catch (error) {
     return error;
-    //console.error(error);
+  }
+};
+
+export const updateData = async (auth, datatype, data) => {
+  const { id, token } = auth;
+
+  try {
+    //axios.headers.Authorization = { bearer: token };
+    const response = await axios.put(
+      `http://localhost:8081/api/users/${id}/${datatype}/${data._id}`,
+      data,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      return response;
+    }
+  } catch (error) {
+    return error;
+  }
+};
+
+export const postData = async (auth, datatype, data) => {
+  const { id, token } = auth;
+
+  try {
+    //axios.headers.Authorization = { bearer: token };
+    const response = await axios.post(
+      `http://localhost:8081/api/users/${id}/${datatype}`,
+      data,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      return response;
+    }
+  } catch (error) {
+    return error;
+  }
+};
+
+export const deleteData = async (auth, datatype, delete_id) => {
+  const { id, token } = auth;
+
+  try {
+    //axios.headers.Authorization = { bearer: token };
+    const response = await axios.delete(
+      `http://localhost:8081/api/users/${id}/${datatype}/${delete_id}`,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      return response;
+    }
+  } catch (error) {
+    return error;
   }
 };

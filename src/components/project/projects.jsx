@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { getData } from "../api/api";
+import { getData } from "../../api/api";
 //UUID inique ID generator
 import { v4 as uuidv4 } from "uuid";
 //icons
@@ -15,27 +15,27 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import ProjectList from "./projectList";
 import ProjectAdd from "./projectAdd";
 
-function Projects({ auth, intialProjects }) {
-  const [projects, setProjects] = useState(intialProjects);
+function Projects({ auth }) {
+  const [projects, setProjects] = useState({});
   const [currentProject, setCurrentProject] = useState(null);
   const [viewProject, setViewProject] = useState(false);
   const [viewAddProject, setViewAddProject] = useState(false);
 
-  // useEffect(
-  //   () => {
-  //     async function getTable() {
-  //       return await getData(auth, "projects");
-  //     }
-  //     getTable().then((result) => {
-  //       if (result.status === 200) {
-  //         setProjects(result.data);
-  //         //console.log(result.data);
-  //       }
-  //     });
-  //   },
-  //   // eslint-disable-next-line
-  //   []
-  // );
+  useEffect(
+    () => {
+      async function getTable() {
+        return await getData(auth, "projects");
+      }
+      getTable().then((result) => {
+        if (result.status === 200) {
+          setProjects(result.data);
+          //console.log(result.data);
+        }
+      });
+    },
+    // eslint-disable-next-line
+    []
+  );
 
   const handleAddRecord = () => {
     setViewAddProject(true);
@@ -171,26 +171,29 @@ const ProjectView = function ({ project, setCurrentProject }) {
         </div>
         <div className="information">
           <h4>Id:</h4>
-          {project._id}
+          <p>{project._id}</p>
           <h4>Name:</h4>
-          {project.projectName}
+          <p>{project.projectName}</p>
           <h4>Version:</h4>
-          {project.version}
+          <p>{project.version}</p>
           <h4>Author:</h4>
-          {project.author}
+          <p>{project.author}</p>
           <h4>Featured:</h4>
-          {project.featured ? (
-            <TiTick className="icon tick" />
-          ) : (
-            <TiTimes className="icon cross" />
-          )}
-
+          <p>
+            {project.featured ? (
+              <TiTick className="icon tick" />
+            ) : (
+              <TiTimes className="icon cross" />
+            )}
+          </p>
           <h4>Included:</h4>
-          {project.included ? (
-            <TiTick className="icon tick" />
-          ) : (
-            <TiTimes className="icon cross" />
-          )}
+          <p>
+            {project.included ? (
+              <TiTick className="icon tick" />
+            ) : (
+              <TiTimes className="icon cross" />
+            )}
+          </p>
 
           <h4>Github:</h4>
           {project.githubLink}

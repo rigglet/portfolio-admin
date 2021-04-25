@@ -7,10 +7,10 @@ import { motion } from "framer-motion";
 //import { TiTick, TiTimes } from "react-icons/ti";
 //components
 import StepWizard from "react-step-wizard";
-import { default as StepInfo } from "./wizard/step1";
-import { default as StepPackages } from "./wizard/step2";
-import { default as StepLibraries } from "./wizard/step3";
-import { default as StepTechnologies } from "./wizard/step4";
+import { default as StepInfo } from "../wizard/step1";
+import { default as StepPackages } from "../wizard/step2";
+import { default as StepLibraries } from "../wizard/step3";
+import { default as StepTechnologies } from "../wizard/step4";
 
 const ProjectAdd = function ({ setViewAddProject }) {
   const [formData, setFormData] = useState({});
@@ -58,31 +58,6 @@ const StyledProjectAdd = styled(motion.div)`
     font-size: 12pt;
     border: 0.05rem #689ed0 solid;
     position: relative;
-
-    .close {
-      z-index: 11;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 2.2rem;
-      height: 2.2rem;
-      padding-bottom: 0.5rem;
-      position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
-      border: 0;
-      outline: 0;
-      cursor: pointer;
-      font-size: 1.6rem;
-      font-weight: bold;
-      color: #ff6767;
-      //background-color: #689ed0;
-      border-radius: 50%;
-      &:hover {
-        transform: scale(1.1);
-        transition: 0.3s ease;
-      }
-    }
 
     .information {
       .icon {

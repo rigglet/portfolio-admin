@@ -115,7 +115,7 @@ const StyledNav = styled(motion.div)`
   justify-content: left;
   background-color: #688297;
   width: 15.5vw;
-  height: 100vh;
+  height: 91vh;
   font-size: 1rem;
   font-weight: 400;
   padding: 0.25rem;
@@ -169,12 +169,16 @@ const StyledNav = styled(motion.div)`
         }
       }
       h4 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-size: 1rem;
         font-weight: 200;
-        padding: 0.25rem;
-        border-radius: 10px;
+        border-radius: 50%;
         background: #011e44;
         color: white;
+        width: 1.5rem;
+        height: 1.5rem;
       }
     }
   }

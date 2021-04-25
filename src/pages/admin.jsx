@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
-//import styled from "styled-components";
-//import { motion } from "framer-motion";
+//styling
+import styled from "styled-components";
+//router
 import { useLocation } from "react-router-dom";
 //components
-import Projects from "../components/projects";
-import Links from "../components/links";
-import Technologies from "../components/technologies";
-import Packages from "../components/packages";
-import Libraries from "../components/libraries";
+import Projects from "../components/project/projects";
+import Packages from "../components/package/packages";
+import Links from "../components/link/links";
+import Technologies from "../components/technology/techs";
+import Libraries from "../components/library/libs";
+//nav components
 import Nav from "../components/nav";
 import Bar from "../components/bar";
+//data
 import { getData } from "../api/api";
 
 function Admin({ auth }) {
@@ -47,22 +50,22 @@ function Admin({ auth }) {
   const data = () => {
     switch (path) {
       case "/admin/projects":
-        return <Projects auth={auth} intialProjects={projects} />;
-      case "/admin/links":
-        return <Links auth={auth} intialLinks={links} />;
-      case "/admin/tech":
-        return <Technologies auth={auth} intialTech={technologies} />;
+        return <Projects auth={auth} />;
       case "/admin/packages":
-        return <Packages auth={auth} intialPackages={packages} />;
+        return <Packages auth={auth} />;
+      case "/admin/links":
+        return <Links auth={auth} />;
+      case "/admin/tech":
+        return <Technologies auth={auth} />;
       case "/admin/libraries":
-        return <Libraries auth={auth} intialLibraries={libraries} />;
+        return <Libraries auth={auth} />;
       default:
         return "";
     }
   };
 
   return (
-    <div>
+    <StyledAdmin>
       <Bar />
       <Nav
         projectNo={projects?.length ? projects.length : 0}
@@ -72,8 +75,12 @@ function Admin({ auth }) {
         packageNo={packages?.length ? packages.length : 0}
       />
       {data()}
-    </div>
+    </StyledAdmin>
   );
 }
 
+const StyledAdmin = styled.div`
+  width: 84.5vw;
+  height: 91vh;
+`;
 export default Admin;
