@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
 import { CgWebsite } from "react-icons/cg";
+import { AiOutlineGlobal } from "react-icons/ai";
 //forms
 import { useForm } from "react-hook-form";
 
