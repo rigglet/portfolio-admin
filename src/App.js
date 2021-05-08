@@ -44,7 +44,7 @@ function App() {
               LinkNo={links ? links.length : 0}
               TechNo={technologies ? technologies.length : 0}
             /> */}
-            <Admin auth={auth} />
+            <Admin auth={auth} setAuth={setAuth} />
           </PrivateRoute>
         </Switch>
       </BrowserRouter>

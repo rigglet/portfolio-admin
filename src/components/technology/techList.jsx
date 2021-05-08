@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //UUID inique ID generator
@@ -79,7 +78,7 @@ const StyledTechList = styled(motion.div)`
     text-align: left;
   }
   .actions-header {
-    flex: 0 0 15%;
+    flex: 0 0 10%;
     justify-content: center;
   }
   .long-header {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 //styling
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -9,25 +9,34 @@ import organise from "../images/organise.svg";
 import { HiChevronDown } from "react-icons/hi";
 import { FiLogOut, FiSettings } from "react-icons/fi";
 import { BiUser } from "react-icons/bi";
+//components
+import Profile from "./profile";
 
-function Bar() {
+function Bar({ auth, setAuth }) {
   const [menu, toggleMenu] = useState(false);
-  const username = "Neil";
+  const [showProfile, setShowProfile] = useState(false);
+  const { username } = auth;
+  const profileImageUrl = auth.profileImageUrl?.fileName || null;
+  const [selectedFile, setSelectedFile] = useState(profileImageUrl);
+  const baseURL = `http://localhost:8081/public/uploads/`;
+
+  //console.log(auth);
+  useEffect(() => {
+    if (profileImageUrl !== null) {
+      setSelectedFile(`${baseURL}${profileImageUrl}`);
+    }
+  }, []);
 
   const logOut = () => {
-    toggleMenu(!menu);
-    console.log("Logging out...");
+    setAuth({});
   };
-  const showProfile = () => {
-    toggleMenu(!menu);
-    console.log("Profile...");
-  };
+
   const showSettings = () => {
     toggleMenu(!menu);
     console.log("Settings...");
   };
 
-  const variants = {
+  const listvariants = {
     open: { opacity: 1, transition: { duration: 0.3 } },
     closed: {
       opacity: 0,
@@ -35,7 +44,7 @@ function Bar() {
       transition: { duration: 0.3 },
     },
   };
-  const bugFix = {
+  const itemListVariants = {
     open: { display: "flex" },
     closed: {
       transitionEnd: { dislay: "none" },
@@ -44,31 +53,52 @@ function Bar() {
 
   return (
     <StyledBar>
+      {showProfile ? (
+        <Profile
+          auth={auth}
+          setAuth={setAuth}
+          setShowProfile={setShowProfile}
+          selectedFile={selectedFile}
+          setSelectedFile={setSelectedFile}
+        />
+      ) : (
+        ""
+      )}
       {menu ? (
-        <ul
-          className="bar-menu"
-          animate={menu ? "open" : "closed"}
-          variants={variants}
-        >
-          <li className="bar-list-item" variants={bugFix}>
-            <div className="profile-menu-item">
-              <BiUser className="profile-menu-icon" />
-              <h3 onClick={() => showProfile()}>Profile</h3>
-            </div>
-          </li>
-          <li className="bar-list-item" variants={bugFix}>
-            <div className="profile-menu-item">
-              <FiSettings className="profile-menu-icon" />
-              <h3 onClick={() => showSettings()}>Settings</h3>
-            </div>
-          </li>
-          <li className="bar-list-item" variants={bugFix}>
-            <div className="profile-menu-item">
-              <FiLogOut className="profile-menu-icon" />
-              <h3 onClick={() => logOut()}>Logout</h3>
-            </div>
-          </li>
-        </ul>
+        <div className="bar-background" onClick={() => toggleMenu(!menu)}>
+          <ul
+            className="bar-menu"
+            animate={menu ? "open" : "closed"}
+            listvariants={listvariants}
+          >
+            <li className="bar-list-item" listvariants={itemListVariants}>
+              <div className="profile-menu-item">
+                <BiUser className="profile-menu-icon" />
+                <h3
+                  onClick={() => {
+                    toggleMenu(!menu);
+                    setShowProfile(!showProfile);
+                    console.log("Profile...");
+                  }}
+                >
+                  Profile
+                </h3>
+              </div>
+            </li>
+            <li className="bar-list-item" listvariants={itemListVariants}>
+              <div className="profile-menu-item">
+                <FiSettings className="profile-menu-icon" />
+                <h3 onClick={() => showSettings()}>Settings</h3>
+              </div>
+            </li>
+            <li className="bar-list-item" listvariants={itemListVariants}>
+              <div className="profile-menu-item">
+                <FiLogOut className="profile-menu-icon" />
+                <h3 onClick={() => logOut()}>Logout</h3>
+              </div>
+            </li>
+          </ul>
+        </div>
       ) : (
         ""
       )}
@@ -78,8 +108,15 @@ function Bar() {
         <h1 id="title">Portfolio Administration</h1>
       </div>
       <div className="header-profile">
-        <img className="profileImg" src={profile} alt="profile" />
         <h4 className="username">{username}</h4>
+        <div className="image-container">
+          <img
+            className="profileImg"
+            src={selectedFile ? selectedFile : profile}
+            alt="profile"
+          />
+        </div>
+
         <HiChevronDown onClick={() => toggleMenu(!menu)} className="chevron" />
       </div>
     </StyledBar>
@@ -97,46 +134,55 @@ const StyledBar = styled(motion.div)`
   font-weight: 400;
   //padding: 0.25rem;
   border-bottom: 2px solid white;
-
+  position: relative;
   .show {
     opacity: 100;
   }
   .hide {
     opacity: 0;
   }
-  .bar-menu {
-    z-index: 99;
-    width: 20vw;
-    //height: 100px;
-    position: absolute;
-    top: 9.5vh;
-    right: 0.5vw;
-    border: 1px solid #011e44;
-    background: #688297;
-    color: #011e44;
-    border-radius: 4px;
-    list-style: none;
+  .bar-background {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 98;
+    background-color: rgba(255, 255, 255, 0);
+    .bar-menu {
+      z-index: 99;
+      width: 20vw;
+      //height: 100px;
+      position: absolute;
+      top: 9.5vh;
+      right: 0.5vw;
+      border: 1px solid #011e44;
+      background: #688297;
+      color: #011e44;
+      border-radius: 4px;
+      list-style: none;
 
-    //margin: 1rem 0 0 0;
-    .bar-list-item {
-      display: flex;
-      align-items: center;
-      padding: 0.75rem 1rem;
-      cursor: pointer;
-      .profile-menu-item {
-        width: 100%;
+      //margin: 1rem 0 0 0;
+      .bar-list-item {
         display: flex;
         align-items: center;
-        //justify-content: space-between;
-        gap: 1rem;
-        h3 {
-          color: white;
-          font-weight: 200;
-          font-size: 0.9rem;
-        }
-        .profile-menu-icon {
-          width: 1.2rem;
-          height: 1.2rem;
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        .profile-menu-item {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          //justify-content: space-between;
+          gap: 1rem;
+          h3 {
+            color: white;
+            font-weight: 200;
+            font-size: 0.9rem;
+          }
+          .profile-menu-icon {
+            width: 1.2rem;
+            height: 1.2rem;
+          }
         }
       }
     }
@@ -162,10 +208,21 @@ const StyledBar = styled(motion.div)`
     gap: 2rem;
     .username {
       color: white;
+      font-weight: 400;
+      font-size: 12pt;
     }
-    .profileImg {
-      width: 2.5rem;
-      height: 2.5rem;
+    .image-container {
+      min-width: 2.8rem;
+      height: 2.8rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      overflow: hidden;
+      .profileImg {
+        width: 45px;
+        height: 45px;
+      }
     }
     .chevron {
       width: 1.5rem;

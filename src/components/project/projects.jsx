@@ -1,25 +1,46 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { getData } from "../../api/api";
+//data
+import { getData, deleteData, postData, updateData } from "../../api/api";
 //UUID inique ID generator
-import { v4 as uuidv4 } from "uuid";
+//import { v4 as uuidv4 } from "uuid";
 //icons
 import { RiAddCircleLine } from "react-icons/ri";
 import { FaRegSave } from "react-icons/fa";
-import { TiTick, TiTimes } from "react-icons/ti";
+//import { TiTick, TiTimes } from "react-icons/ti";
 //image gallery
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 //components
 import ProjectList from "./projectList";
-import ProjectAdd from "./projectAdd";
+import ProjectAddViewEdit from "./projectAddViewEdit";
+//message components
+import { ToastContainer, toast, Zoom } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Projects({ auth }) {
   const [projects, setProjects] = useState({});
   const [currentProject, setCurrentProject] = useState(null);
-  const [viewProject, setViewProject] = useState(false);
+  const [viewViewProject, setViewViewProject] = useState(false);
   const [viewAddProject, setViewAddProject] = useState(false);
+  const [viewEditProject, setViewEditProject] = useState(false);
+
+  const notify = (type, status, id) => {
+    switch (type) {
+      case "EDITED":
+        toast.dark(`Status: ${status} => Project EDITED successfully`);
+        break;
+      case "ADDED":
+        toast.dark(`Status: ${status} => Project ${id} ADDED successfully`);
+        break;
+      case "DELETED":
+        toast.dark(`Status: ${status} => Project ${id} DELETED successfully`);
+        break;
+      default:
+        toast.dark("Nothing to report");
+    }
+  };
 
   useEffect(
     () => {
@@ -29,7 +50,6 @@ function Projects({ auth }) {
       getTable().then((result) => {
         if (result.status === 200) {
           setProjects(result.data);
-          //console.log(result.data);
         }
       });
     },
@@ -37,50 +57,143 @@ function Projects({ auth }) {
     []
   );
 
-  const handleAddRecord = () => {
-    setViewAddProject(true);
+  //HANDLE LIST EDIT
+  const handleSaveList = async (project) => {
+    const updateProject = async () => {
+      return await updateData(auth, "projects", project);
+    };
+
+    updateProject()
+      .then((result) => {
+        //Toast message
+        notify("EDITED", result.status, result._id);
+        return result;
+      })
+      .then(() => {
+        setProjects([
+          ...projects.filter((p) => p._id !== project._id),
+          project,
+        ]);
+      });
   };
 
-  const updateProject = (project) => {
-    setProjects([...projects.filter((p) => p._id !== project._id), project]);
-    //update DB
+  //HANDLE ADD/EDIT SUBMIT
+  const handleSaveProject = async (data) => {
+    console.log(data);
+    const editProject = async () => {
+      return await updateData(auth, "projects", data);
+    };
+
+    const addProject = async () => {
+      return await postData(auth, "projects", data);
+    };
+
+    data?.formtype === "EDIT"
+      ? editProject()
+          .then((result) => {
+            //Toast message
+            notify("EDITED", result.status, result._id);
+            return result;
+          })
+          .then(() => {
+            setProjects([...projects.filter((p) => p._id !== data._id), data]);
+          })
+          .then(() => {
+            setViewEditProject(false);
+          })
+      : addProject()
+          .then((result) => {
+            //Toast message
+            notify("ADDED", result.status, result.data._id);
+            return result;
+          })
+          .then((result) => {
+            setProjects([...projects, result.data]);
+          })
+          .then(() => {
+            setViewAddProject(false);
+          });
   };
 
-  const handleViewRecord = (id) => {
-    console.log(id);
-    //View full record
-    setCurrentProject(projects.filter((p) => p._id === id)[0]);
-  };
-
+  //HANDLE DELETE RECORD
   const handleDeleteRecord = (id) => {
-    setProjects([...projects.filter((p) => p._id !== id)]);
+    const deleteProject = async () => {
+      return await deleteData(auth, "projects", id);
+    };
+
+    deleteProject()
+      .then((result) => {
+        //Toast message
+        notify("DELETED", result.status, result.data._id);
+      })
+      .then(() => {
+        setProjects([...projects.filter((p) => p._id !== id)]);
+      });
   };
 
-  const handleEditRecord = (e) => {
-    //console.log(technologies[index]._id);
-    console.log(e);
-  };
-
-  const handleSaveProjects = () => {
-    console.log("save projects to DB");
+  //HANDLE VIEW / EDIT RECORD
+  const handleViewEditRecord = (project) => {
+    setCurrentProject(project);
   };
 
   return (
     <StyledProjects>
+      <ToastContainer
+        closeButton={false}
+        transition={Zoom}
+        position="bottom-center"
+        draggable={false}
+        pauseOnHover
+        autoClose={2000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+      />
+
       {
         //view ADD PROJECT modal
         viewAddProject ? (
-          <ProjectAdd setViewAddProject={setViewAddProject} />
+          <ProjectAddViewEdit
+            auth={auth}
+            openingHookSetter={setViewAddProject}
+            handleSaveProject={handleSaveProject}
+            title="Add new project"
+            showSubmit={true}
+            formType={"NEW"}
+          />
+        ) : (
+          ""
+        )
+      }
+
+      {
+        //view EDIT PROJECT modal
+        viewEditProject ? (
+          <ProjectAddViewEdit
+            auth={auth}
+            openingHookSetter={setViewEditProject}
+            handleSaveProject={handleSaveProject}
+            currentProject={currentProject}
+            title="Edit project"
+            showSubmit={true}
+            formType={"EDIT"}
+          />
         ) : (
           ""
         )
       }
       {
         //view VIEW PROJECT modal
-        currentProject ? (
-          <ProjectView
-            project={currentProject}
-            setCurrentProject={setCurrentProject}
+        viewViewProject ? (
+          <ProjectAddViewEdit
+            openingHookSetter={setViewViewProject}
+            currentProject={currentProject}
+            setViewViewProject={setViewViewProject}
+            title="View project"
+            showSubmit={false}
+            formType={"VIEW"}
           />
         ) : (
           ""
@@ -89,23 +202,28 @@ function Projects({ auth }) {
       <div className="header">
         <h1>Projects</h1>
         <div className="toolbar">
-          <FaRegSave className="h-icon" onClick={() => handleSaveProjects()} />
+          {projects.length > 0 ? (
+            <FaRegSave className="h-icon" onClick={() => handleSaveList()} />
+          ) : (
+            ""
+          )}
           <RiAddCircleLine
             className="h-icon"
-            onClick={(e) => handleAddRecord(e)}
+            onClick={() => setViewAddProject(true)}
           />
         </div>
       </div>
       {projects.length > 0 ? (
         <ProjectList
           projects={projects}
-          handleEditRecord={handleEditRecord}
-          handleDeleteRecord={handleDeleteRecord}
-          handleViewRecord={handleViewRecord}
-          updateProject={updateProject}
+          acceptFnc={handleDeleteRecord}
+          handleViewEditRecord={handleViewEditRecord}
+          handleSaveList={handleSaveList}
+          setViewEditProject={setViewEditProject}
+          setViewViewProject={setViewViewProject}
         />
       ) : (
-        ""
+        <h4 className="empty">No projects to display</h4>
       )}
     </StyledProjects>
   );
@@ -119,6 +237,10 @@ const StyledProjects = styled(motion.div)`
   display: flex;
   flex-direction: column;
 
+  //empty table msg
+  .empty {
+    margin-top: 2rem;
+  }
   //top header
   .header {
     display: flex;
@@ -142,204 +264,106 @@ const StyledProjects = styled(motion.div)`
   }
 `;
 
-const ProjectView = function ({ project, setCurrentProject }) {
-  const screenshots = project.screenshots.map((shot) => {
-    return {
-      original: shot,
-    };
-  });
-  console.log(screenshots);
-  const images = [
-    {
-      original: "https://picsum.photos/id/1018/1000/600/",
-      thumbnail: "https://picsum.photos/id/1018/250/150/",
-    },
-    {
-      original: "https://picsum.photos/id/1015/1000/600/",
-      thumbnail: "https://picsum.photos/id/1015/250/150/",
-    },
-    {
-      original: "https://picsum.photos/id/1019/1000/600/",
-      thumbnail: "https://picsum.photos/id/1019/250/150/",
-    },
-  ];
-  return (
-    <StyledProjectView>
-      <div className="container">
-        <div className="close" onClick={() => setCurrentProject(null)}>
-          &#10008;
-        </div>
-        <div className="information">
-          <h4>Id:</h4>
-          <p>{project._id}</p>
-          <h4>Name:</h4>
-          <p>{project.projectName}</p>
-          <h4>Version:</h4>
-          <p>{project.version}</p>
-          <h4>Author:</h4>
-          <p>{project.author}</p>
-          <h4>Featured:</h4>
-          <p>
-            {project.featured ? (
-              <TiTick className="icon tick" />
-            ) : (
-              <TiTimes className="icon cross" />
-            )}
-          </p>
-          <h4>Included:</h4>
-          <p>
-            {project.included ? (
-              <TiTick className="icon tick" />
-            ) : (
-              <TiTimes className="icon cross" />
-            )}
-          </p>
+// const ProjectView = function ({ project, setCurrentProject }) {
+//   const screenshots = project.screenshots.map((shot) => {
+//     return {
+//       original: shot,
+//     };
+//   });
+//   console.log(screenshots);
+//   const images = [
+//     {
+//       original: "https://picsum.photos/id/1018/1000/600/",
+//       thumbnail: "https://picsum.photos/id/1018/250/150/",
+//     },
+//     {
+//       original: "https://picsum.photos/id/1015/1000/600/",
+//       thumbnail: "https://picsum.photos/id/1015/250/150/",
+//     },
+//     {
+//       original: "https://picsum.photos/id/1019/1000/600/",
+//       thumbnail: "https://picsum.photos/id/1019/250/150/",
+//     },
+//   ];
+//   return (
+//     <StyledProjectView>
+//       <div className="container">
+//         <div className="close" onClick={() => setCurrentProject(null)}>
+//           &#10008;
+//         </div>
+//         <div className="information">
+//           <h4>Id:</h4>
+//           <p>{project._id}</p>
+//           <h4>Name:</h4>
+//           <p>{project.projectName}</p>
+//           <h4>Version:</h4>
+//           <p>{project.version}</p>
+//           <h4>Author:</h4>
+//           <p>{project.author}</p>
+//           <h4>Featured:</h4>
+//           <p>
+//             {project.featured ? (
+//               <TiTick className="icon tick" />
+//             ) : (
+//               <TiTimes className="icon cross" />
+//             )}
+//           </p>
+//           <h4>Included:</h4>
+//           <p>
+//             {project.included ? (
+//               <TiTick className="icon tick" />
+//             ) : (
+//               <TiTimes className="icon cross" />
+//             )}
+//           </p>
 
-          <h4>Github:</h4>
-          {project.githubLink}
-          <h4>Website:</h4>
-          {project.website}
-          <h4>Short Description:</h4>
-          {project.shortDescription}
-          <h4>Long Description:</h4>
-          {project.projectDescription}
-          <h4>Libraries:</h4>
-          {project.libraries.map((l) => (
-            <p key={uuidv4()}>{l}</p>
-          ))}
-          <h4>Packages:</h4>
-          {project.packages.map((p) => (
-            <p key={uuidv4()}>{p}</p>
-          ))}
-          <h4>Technologies:</h4>
-          {project.technologies.map((t) => (
-            <p key={uuidv4()}>{t}</p>
-          ))}
-          <h4>Added:</h4>
-          {project.addedDate}
-          <h4>Started:</h4>
-          {project.startedDate}
-          <h4>Completed:</h4>
-          {project.completedDate}
-        </div>
-        <div className="image-gallery">
-          <div className="main">
-            <h4>Main Image:</h4>
-            <img src="project.mainImg" alt="main" />
-          </div>
-          <div className="screenshots">
-            <ImageGallery
-              items={images}
-              showPlayButton={false}
-              thumbnailPosition={"bottom"}
-              //showIndex={true}
-              //autoPlay={true}
-              showBullets={true}
-              showNav={false}
-            />
-          </div>
-        </div>
-      </div>
-    </StyledProjectView>
-  );
-};
-
-const StyledProjectView = styled(motion.div)`
-  width: 100vw;
-  height: 100vh;
-  z-index: 99;
-  position: absolute;
-  top: -9vh;
-  left: -15.5vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  background-color: rgba(256, 256, 256, 0.5);
-  .container {
-    display: flex;
-    flex-direction: column;
-    width: 90vw;
-    height: 90vh;
-    background-color: white;
-    font-size: 12pt;
-    border: 0.05rem #689ed0 solid;
-    padding: 1rem;
-    position: relative;
-
-    .close {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 2.2rem;
-      height: 2.2rem;
-      padding-bottom: 0.5rem;
-      position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
-      border: 0;
-      outline: 0;
-      cursor: pointer;
-      font-size: 1.6rem;
-      font-weight: bold;
-      color: #ff4949;
-      background-color: white;
-      //border-radius: 50%;
-      &:hover {
-        transform: scale(1.1);
-        transition: 0.3s ease;
-      }
-    }
-
-    .information {
-      .icon {
-        cursor: pointer;
-        width: 1.2rem;
-        height: 1.2rem;
-        color: #888888;
-      }
-      .tick {
-        color: green;
-        //cursor: default;
-      }
-      .cross {
-        color: red;
-        //cursor: default;
-      }
-    }
-    .image-gallery {
-      display: flex;
-      justify-content: space-between;
-      .main {
-        width: 60%;
-        height: 50%;
-      }
-      .screenshots {
-        width: 60%;
-        height: 50%;
-      }
-    }
-  }
-`;
+//           <h4>Github:</h4>
+//           {project.githubLink}
+//           <h4>Website:</h4>
+//           {project.website}
+//           <h4>Short Description:</h4>
+//           {project.shortDescription}
+//           <h4>Long Description:</h4>
+//           {project.projectDescription}
+//           <h4>Libraries:</h4>
+//           {project.libraries.map((l) => (
+//             <p key={uuidv4()}>{l}</p>
+//           ))}
+//           <h4>Packages:</h4>
+//           {project.packages.map((p) => (
+//             <p key={uuidv4()}>{p}</p>
+//           ))}
+//           <h4>Technologies:</h4>
+//           {project.technologies.map((t) => (
+//             <p key={uuidv4()}>{t}</p>
+//           ))}
+//           <h4>Added:</h4>
+//           {project.addedDate}
+//           <h4>Started:</h4>
+//           {project.startedDate}
+//           <h4>Completed:</h4>
+//           {project.completedDate}
+//         </div>
+//         <div className="image-gallery">
+//           <div className="main">
+//             <h4>Main Image:</h4>
+//             <img src="project.mainImg" alt="main" />
+//           </div>
+//           <div className="screenshots">
+//             <ImageGallery
+//               items={images}
+//               showPlayButton={false}
+//               thumbnailPosition={"bottom"}
+//               //showIndex={true}
+//               //autoPlay={true}
+//               showBullets={true}
+//               showNav={false}
+//             />
+//           </div>
+//         </div>
+//       </div>
+//     </StyledProjectView>
+//   );
+// };
 
 export default Projects;
-
-// addedDate: null
-// author: "req.body.author"
-// completedDate: null
-// featured: true
-// githubLink: "req.body.githubLink"
-// libraries: ["req.body.libraries"]
-// mainImg: {type: "Buffer", data: Array(16)}
-// packages: ["req.body.packages"]
-// projectDescription: "req.body.projectDescription"
-// projectName: "req.body.projectName"
-// screenshots: [{…}]
-// shortDescription: "req.body.shortDescription"
-// startedDate: null
-// technologies: ["req.body.technologies"]
-// user: "606a02ec243b3b3e1831fcd1"
-// version: "req.body.version"
-// website: "req.body.website"
-// __v: 0
-// _id: "606a0cb82c805f37e4da5bb6"

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //UUID inique ID generator
@@ -8,10 +7,12 @@ import ProjectItem from "./projectItem";
 
 function ProjectList({
   projects,
-  handleEditRecord,
-  handleDeleteRecord,
-  handleViewRecord,
-  updateProject,
+  setViewEditProject,
+  setViewViewProject,
+  declineFnc,
+  acceptFnc,
+  handleViewEditRecord,
+  handleSaveList,
 }) {
   const toggleIncluded = (project) => {
     const newProject = {
@@ -20,7 +21,7 @@ function ProjectList({
     };
 
     //update project
-    updateProject(newProject);
+    handleSaveList(newProject);
   };
 
   const toggleFeatured = (project) => {
@@ -30,7 +31,7 @@ function ProjectList({
     };
 
     //update project
-    updateProject(newProject);
+    handleSaveList(newProject);
   };
 
   return (
@@ -42,7 +43,7 @@ function ProjectList({
             <h4 className="long-header">Description</h4>
             <h4 className="short-header">Featured?</h4>
             <h4 className="short-header">Included?</h4>
-            <h4 className="short-header">Actions</h4>
+            <h4 className="actions-header">Actions</h4>
           </li>
           {projects
             .sort((a, b) => (a.projectName > b.projectName ? 1 : -1))
@@ -50,13 +51,14 @@ function ProjectList({
               return (
                 <ProjectItem
                   key={uuidv4()}
-                  project={project}
-                  handleDeleteRecord={handleDeleteRecord}
-                  handleEditRecord={handleEditRecord}
-                  handleViewRecord={handleViewRecord}
-                  updateProject={updateProject}
                   toggleFeatured={toggleFeatured}
                   toggleIncluded={toggleIncluded}
+                  project={project}
+                  declineFnc={declineFnc}
+                  acceptFnc={acceptFnc}
+                  setViewEditProject={setViewEditProject}
+                  setViewViewProject={setViewViewProject}
+                  handleViewEditRecord={handleViewEditRecord}
                 />
               );
             })}
@@ -96,9 +98,15 @@ const StyledProjectList = styled(motion.div)`
   .short-header {
     flex: 0 0 10%;
     justify-content: center;
+    text-align: left;
+  }
+  .actions-header {
+    flex: 0 0 10%;
+    justify-content: center;
   }
   .long-header {
     flex-grow: 1;
+    text-align: left;
   }
 `;
 

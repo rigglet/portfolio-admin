@@ -2,8 +2,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
-import { FaGithub } from "react-icons/fa";
-import { CgWebsite, CgNpm } from "react-icons/cg";
+import { CgWebsite } from "react-icons/cg";
 //forms
 import { useForm } from "react-hook-form";
 //import { postData } from "../../api/api";
@@ -115,6 +114,7 @@ const StyledLinkAddViewEdit = styled(motion.div)`
     font-size: 12pt;
     border: 0.05rem #689ed0 solid;
     position: relative;
+    box-shadow: 0 0 20px 10px #689ed0;
 
     .form-information {
       height: 85%;

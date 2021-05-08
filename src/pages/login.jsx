@@ -27,11 +27,13 @@ function Login({ setAuth }) {
 
   const notify = (type) => {
     switch (type) {
-      case "ADDED":
-        toast.dark("Budget Added");
+      case "MISSING":
+        toast.warn("Please enter a username and password", { color: "black" });
         break;
       case "INVALID":
-        toast.warn("Please enter a username and password", { color: "black" });
+        toast.error("Please check username and password are correct", {
+          color: "black",
+        });
         break;
       default:
         toast.dark("Nothing to report");
@@ -47,29 +49,24 @@ function Login({ setAuth }) {
       const res = await signin(data);
 
       if (res.status === 200) {
-        //TODOS: change this later to something more secure
-        //save token and user id
-        // localStorage.setItem(
-        //   "adminJWT",
-        //   JSON.stringify({
-        //     token: res.data.token,
-        //     id: res.data.id,
-        //   })
-        // );
-
         setAuth({
           id: res.data.id,
           username: res.data.username,
           token: res.data.token,
+          profileImageUrl: res.data.profileImageUrl,
+          email: res.data.email,
         });
 
         setPassword("");
         setEmail("");
-        history.push("/admin");
+        history.push("/admin/projects");
+      } else {
+        //toast message - invalid credentials
+        notify("INVALID", res.error);
       }
     } else {
-      //toast message
-      notify("INVALID");
+      //toast message - missing credentials
+      notify("MISSING");
     }
   };
 
@@ -88,11 +85,8 @@ function Login({ setAuth }) {
         rtl={false}
         pauseOnFocusLoss
       />
+
       <img src={curve2} alt="curve" id="curve" />
-      {/* <img src={loginPic} alt="login" />
-      <img src={login2} alt="login2" />
-      <img src={profile} alt="profile" />
-      <img src={organise} alt="organise" /> */}
 
       <h1 className="title">Portfolio Administration</h1>
 
@@ -121,7 +115,6 @@ function Login({ setAuth }) {
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
                   type="text"
-                  //placeholder="Username"
                   size="20"
                   autoComplete="off"
                 />
@@ -146,7 +139,6 @@ function Login({ setAuth }) {
                   type="password"
                   onChange={(e) => setPassword(e.target.value)}
                   value={password}
-                  //placeholder="Password"
                   size="20"
                   autoComplete="off"
                 />

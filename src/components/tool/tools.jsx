@@ -7,30 +7,28 @@ import { RiAddCircleLine } from "react-icons/ri";
 import { ToastContainer, toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 //components
-import TechList from "./techList";
-import TechAdd from "./techAddViewEdit";
+import ToolList from "./toolList";
+import ToolAdd from "./toolAddViewEdit";
 //data
 import { getData, deleteData, postData, updateData } from "../../api/api";
 
-function Techs({ auth }) {
-  const [techs, setTechs] = useState({});
-  const [currentTech, setCurrentTech] = useState(null);
-  const [viewViewTech, setViewViewTech] = useState(false);
-  const [viewAddTech, setViewAddTech] = useState(false);
-  const [viewEditTech, setViewEditTech] = useState(false);
+function Tools({ auth }) {
+  const [tools, setTools] = useState({});
+  const [currentTool, setCurrentTool] = useState(null);
+  const [viewViewTool, setViewViewTool] = useState(false);
+  const [viewAddTool, setViewAddTool] = useState(false);
+  const [viewEditTool, setViewEditTool] = useState(false);
 
   const notify = (type, status, id) => {
     switch (type) {
       case "EDITED":
-        toast.dark(`Status: ${status} => Technology EDITED successfully`);
+        toast.dark(`Status: ${status} => Tool EDITED successfully`);
         break;
       case "ADDED":
-        toast.dark(`Status: ${status} => Technology ${id} ADDED successfully`);
+        toast.dark(`Status: ${status} => Tool ${id} ADDED successfully`);
         break;
       case "DELETED":
-        toast.dark(
-          `Status: ${status} => Technology ${id} DELETED successfully`
-        );
+        toast.dark(`Status: ${status} => Tool ${id} DELETED successfully`);
         break;
       default:
         toast.dark("Nothing to report");
@@ -40,11 +38,11 @@ function Techs({ auth }) {
   useEffect(
     () => {
       async function getTable() {
-        return await getData(auth, "technologies");
+        return await getData(auth, "tools");
       }
       getTable().then((result) => {
         if (result.status === 200) {
-          setTechs(result.data);
+          setTools(result.data);
         }
       });
     },
@@ -53,65 +51,65 @@ function Techs({ auth }) {
   );
 
   //HANDLE ADD/EDIT SUBMIT
-  const handleSaveTech = async (data) => {
-    const editTech = async () => {
-      return await updateData(auth, "technologies", data);
+  const handleSaveTool = async (data) => {
+    const editTool = async () => {
+      return await updateData(auth, "tools", data);
     };
 
-    const addTech = async () => {
-      return await postData(auth, "technologies", data);
+    const addTool = async () => {
+      return await postData(auth, "tools", data);
     };
 
     data?.formtype === "EDIT"
-      ? editTech()
+      ? editTool()
           .then((result) => {
             //Toast message
             notify("EDITED", result.status, result._id);
             return result;
           })
           .then(() => {
-            setTechs([...techs.filter((t) => t._id !== data._id), data]);
+            setTools([...tools.filter((t) => t._id !== data._id), data]);
           })
           .then(() => {
-            setViewEditTech(false);
+            setViewEditTool(false);
           })
-      : addTech()
+      : addTool()
           .then((result) => {
             //Toast message
             notify("ADDED", result.status, result.data._id);
             return result;
           })
           .then((result) => {
-            setTechs([...techs, result.data]);
+            setTools([...tools, result.data]);
           })
           .then(() => {
-            setViewAddTech(false);
+            setViewAddTool(false);
           });
   };
 
   //HANDLE DELETE RECORD
   const handleDeleteRecord = (id) => {
-    const deleteTech = async () => {
-      return await deleteData(auth, "technologies", id);
+    const deleteTool = async () => {
+      return await deleteData(auth, "tools", id);
     };
 
-    deleteTech()
+    deleteTool()
       .then((result) => {
         //Toast message
         notify("DELETED", result.status, result.data._id);
       })
       .then(() => {
-        setTechs([...techs.filter((t) => t._id !== id)]);
+        setTools([...tools.filter((t) => t._id !== id)]);
       });
   };
 
   //HANDLE VIEW / EDIT RECORD
-  const handleViewEditRecord = (tech) => {
-    setCurrentTech(tech);
+  const handleViewEditRecord = (tool) => {
+    setCurrentTool(tool);
   };
 
   return (
-    <StyledTechs>
+    <StyledTools>
       <ToastContainer
         closeButton={false}
         transition={Zoom}
@@ -127,12 +125,12 @@ function Techs({ auth }) {
       />
 
       {
-        //view ADD TECH modal
-        viewAddTech ? (
-          <TechAdd
-            openingHookSetter={setViewAddTech}
-            handleSaveTech={handleSaveTech}
-            title="Add new technology"
+        //view ADD TOOL modal
+        viewAddTool ? (
+          <ToolAdd
+            openingHookSetter={setViewAddTool}
+            handleSaveTool={handleSaveTool}
+            title="Add new tool"
             showSubmit={true}
             formType={"NEW"}
           />
@@ -142,13 +140,13 @@ function Techs({ auth }) {
       }
 
       {
-        //view EDIT TECH modal
-        viewEditTech ? (
-          <TechAdd
-            openingHookSetter={setViewEditTech}
-            handleSaveTech={handleSaveTech}
-            currentTech={currentTech}
-            title="Edit technology"
+        //view EDIT TOOL modal
+        viewEditTool ? (
+          <ToolAdd
+            openingHookSetter={setViewEditTool}
+            handleSaveTool={handleSaveTool}
+            currentTool={currentTool}
+            title="Edit tool"
             showSubmit={true}
             formType={"EDIT"}
           />
@@ -157,14 +155,14 @@ function Techs({ auth }) {
         )
       }
       {
-        //view VIEW TECH modal
-        viewViewTech ? (
-          <TechAdd
-            openingHookSetter={setViewViewTech}
-            setViewViewTech={setViewViewTech}
-            title="View technology"
+        //view VIEW TOOL modal
+        viewViewTool ? (
+          <ToolAdd
+            openingHookSetter={setViewViewTool}
+            setViewViewTool={setViewViewTool}
+            title="View tool"
             showSubmit={false}
-            currentTech={currentTech}
+            currentTool={currentTool}
             formType={"VIEW"}
           />
         ) : (
@@ -172,30 +170,30 @@ function Techs({ auth }) {
         )
       }
       <div className="header">
-        <h1>Technologies</h1>
+        <h1>Tools</h1>
         <div className="toolbar">
           <RiAddCircleLine
             className="h-icon"
-            onClick={() => setViewAddTech(true)}
+            onClick={() => setViewAddTool(true)}
           />
         </div>
       </div>
-      {techs.length > 0 ? (
-        <TechList
-          techs={techs}
+      {tools.length > 0 ? (
+        <ToolList
+          tools={tools}
           acceptFnc={handleDeleteRecord}
           handleViewEditRecord={handleViewEditRecord}
-          setViewEditTech={setViewEditTech}
-          setViewViewTech={setViewViewTech}
+          setViewEditTool={setViewEditTool}
+          setViewViewTool={setViewViewTool}
         />
       ) : (
-        <h4 className="empty">No techs to display</h4>
+        <h4 className="empty">No tools to display</h4>
       )}
-    </StyledTechs>
+    </StyledTools>
   );
 }
 
-const StyledTechs = styled(motion.div)`
+const StyledTools = styled(motion.div)`
   position: relative;
   left: 15.5vw;
   top: 0;
@@ -230,4 +228,4 @@ const StyledTechs = styled(motion.div)`
   }
 `;
 
-export default Techs;
+export default Tools;

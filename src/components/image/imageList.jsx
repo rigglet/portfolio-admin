@@ -3,37 +3,37 @@ import { motion } from "framer-motion";
 //UUID inique ID generator
 import { v4 as uuidv4 } from "uuid";
 //components
-import LinkItem from "./linkItem";
+import ImageItem from "./imageItem";
 
-function LinkList({
-  links,
-  setViewEditLink,
-  setViewViewLink,
+function ImageList({
+  images,
+  setViewEditImage,
+  setViewViewImage,
   declineFnc,
   acceptFnc,
   handleViewEditRecord,
 }) {
   return (
-    <StyledLinkList>
-      {links.length > 0 ? (
+    <StyledImageList>
+      {images.length > 0 ? (
         <ul>
           <li key={uuidv4()} className="headers">
-            <h4 className="name-header">Name</h4>
-            <h4 className="short-header">Type</h4>
-            <h4 className="long-header">Address</h4>
-            <h4 className="short-header">Actions</h4>
+            <h4 className="long-header">Id</h4>
+            <h4 className="long-header">Filename</h4>
+            <h4 className="short-header">Category</h4>
+            <h4 className="actions-header">Actions</h4>
           </li>
-          {links
-            .sort((a, b) => (a.linkName > b.linkName ? 1 : -1))
-            .map((link) => {
+          {images
+            .sort((a, b) => (a.imageName > b.imageName ? 1 : -1))
+            .map((image) => {
               return (
-                <LinkItem
+                <ImageItem
                   key={uuidv4()}
-                  link={link}
+                  image={image}
                   declineFnc={declineFnc}
                   acceptFnc={acceptFnc}
-                  setViewEditLink={setViewEditLink}
-                  setViewViewLink={setViewViewLink}
+                  setViewEditImage={setViewEditImage}
+                  setViewViewImage={setViewViewImage}
                   handleViewEditRecord={handleViewEditRecord}
                 />
               );
@@ -42,11 +42,11 @@ function LinkList({
       ) : (
         ""
       )}
-    </StyledLinkList>
+    </StyledImageList>
   );
 }
 
-const StyledLinkList = styled(motion.div)`
+const StyledImageList = styled(motion.div)`
   display: flex;
   flex-direction: column;
 
@@ -73,6 +73,11 @@ const StyledLinkList = styled(motion.div)`
     flex: 0 0 20%;
   }
   .short-header {
+    flex: 0 0 15%;
+    //justify-content: center;
+    text-align: left;
+  }
+  .actions-header {
     flex: 0 0 10%;
     justify-content: center;
   }
@@ -82,4 +87,4 @@ const StyledLinkList = styled(motion.div)`
   }
 `;
 
-export default LinkList;
+export default ImageList;

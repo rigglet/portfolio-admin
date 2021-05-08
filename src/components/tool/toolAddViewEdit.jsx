@@ -6,26 +6,26 @@ import { CgWebsite } from "react-icons/cg";
 //forms
 import { useForm } from "react-hook-form";
 
-const TechAddViewEdit = function ({
+const ToolAddViewEdit = function ({
   openingHookSetter,
-  handleSaveTech,
+  handleSaveTool,
   title,
   showSubmit,
-  currentTech,
+  currentTool,
   formType,
 }) {
   const { register, handleSubmit } = useForm();
 
   return (
-    <StyledTechAddViewEdit>
+    <StyledToolAddViewEdit>
       <div className="container">
         <button className="close" onClick={() => openingHookSetter(false)}>
           &#10008;
         </button>
         <div className="form-information">
           <h1>{title}</h1>
-          <h5>{currentTech?._id}</h5>
-          <form onSubmit={handleSubmit(handleSaveTech)}>
+          <h5>{currentTool?._id}</h5>
+          <form onSubmit={handleSubmit(handleSaveTool)}>
             <input
               type="hidden"
               {...register("formtype")}
@@ -38,11 +38,11 @@ const TechAddViewEdit = function ({
               {...register("_id")}
               autoComplete="off"
               size="40"
-              defaultValue={currentTech?._id}
+              defaultValue={currentTool?._id}
             />
             <div className="name-v">
               <div className="input-item">
-                <label htmlFor="name">Technology name:</label>
+                <label htmlFor="name">Tool name:</label>
                 <input
                   className={!showSubmit ? "disabled" : ""}
                   disabled={!showSubmit ? true : false}
@@ -50,7 +50,19 @@ const TechAddViewEdit = function ({
                   {...register("name")}
                   autoComplete="off"
                   size="40"
-                  defaultValue={currentTech?.name}
+                  defaultValue={currentTool?.name}
+                />
+              </div>
+              <div className="input-item">
+                <label htmlFor="category">Category:</label>
+                <input
+                  className={!showSubmit ? "disabled" : ""}
+                  disabled={!showSubmit ? true : false}
+                  type="text"
+                  {...register("category")}
+                  autoComplete="off"
+                  size="40"
+                  defaultValue={currentTool?.category}
                 />
               </div>
 
@@ -63,7 +75,7 @@ const TechAddViewEdit = function ({
                   {...register("type")}
                   autoComplete="off"
                   size="40"
-                  defaultValue={currentTech?.type}
+                  defaultValue={currentTool?.type}
                 />
               </div>
             </div>
@@ -79,7 +91,7 @@ const TechAddViewEdit = function ({
                     {...register("address")}
                     autoComplete="off"
                     size="50"
-                    defaultValue={currentTech?.address}
+                    defaultValue={currentTool?.address}
                   />
                 </div>
               </div>
@@ -89,11 +101,11 @@ const TechAddViewEdit = function ({
           </form>
         </div>
       </div>
-    </StyledTechAddViewEdit>
+    </StyledToolAddViewEdit>
   );
 };
 
-const StyledTechAddViewEdit = styled(motion.div)`
+const StyledToolAddViewEdit = styled(motion.div)`
   width: 100vw;
   height: 100vh;
   z-index: 10;
@@ -201,4 +213,4 @@ const StyledTechAddViewEdit = styled(motion.div)`
   }
 `;
 
-export default TechAddViewEdit;
+export default ToolAddViewEdit;

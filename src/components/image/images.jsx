@@ -7,30 +7,28 @@ import { RiAddCircleLine } from "react-icons/ri";
 import { ToastContainer, toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 //components
-import TechList from "./techList";
-import TechAdd from "./techAddViewEdit";
+import ImageList from "./imageList";
+import ImageAdd from "./imageAddViewEdit";
 //data
 import { getData, deleteData, postData, updateData } from "../../api/api";
 
-function Techs({ auth }) {
-  const [techs, setTechs] = useState({});
-  const [currentTech, setCurrentTech] = useState(null);
-  const [viewViewTech, setViewViewTech] = useState(false);
-  const [viewAddTech, setViewAddTech] = useState(false);
-  const [viewEditTech, setViewEditTech] = useState(false);
+function Images({ auth }) {
+  const [images, setImages] = useState({});
+  const [currentImage, setCurrentImage] = useState(null);
+  const [viewViewImage, setViewViewImage] = useState(false);
+  const [viewAddImage, setViewAddImage] = useState(false);
+  const [viewEditImage, setViewEditImage] = useState(false);
 
   const notify = (type, status, id) => {
     switch (type) {
       case "EDITED":
-        toast.dark(`Status: ${status} => Technology EDITED successfully`);
+        toast.dark(`Status: ${status} => Image EDITED successfully`);
         break;
       case "ADDED":
-        toast.dark(`Status: ${status} => Technology ${id} ADDED successfully`);
+        toast.dark(`Status: ${status} => Image ${id} ADDED successfully`);
         break;
       case "DELETED":
-        toast.dark(
-          `Status: ${status} => Technology ${id} DELETED successfully`
-        );
+        toast.dark(`Status: ${status} => Image ${id} DELETED successfully`);
         break;
       default:
         toast.dark("Nothing to report");
@@ -40,11 +38,11 @@ function Techs({ auth }) {
   useEffect(
     () => {
       async function getTable() {
-        return await getData(auth, "technologies");
+        return await getData(auth, "images");
       }
       getTable().then((result) => {
         if (result.status === 200) {
-          setTechs(result.data);
+          setImages(result.data);
         }
       });
     },
@@ -53,65 +51,65 @@ function Techs({ auth }) {
   );
 
   //HANDLE ADD/EDIT SUBMIT
-  const handleSaveTech = async (data) => {
-    const editTech = async () => {
-      return await updateData(auth, "technologies", data);
+  const handleSaveImage = async (data) => {
+    const editImage = async () => {
+      return await updateData(auth, "images", data);
     };
 
-    const addTech = async () => {
-      return await postData(auth, "technologies", data);
+    const addImage = async () => {
+      return await postData(auth, "images", data);
     };
 
     data?.formtype === "EDIT"
-      ? editTech()
+      ? editImage()
           .then((result) => {
             //Toast message
             notify("EDITED", result.status, result._id);
             return result;
           })
           .then(() => {
-            setTechs([...techs.filter((t) => t._id !== data._id), data]);
+            setImages([...images.filter((t) => t._id !== data._id), data]);
           })
           .then(() => {
-            setViewEditTech(false);
+            setViewEditImage(false);
           })
-      : addTech()
+      : addImage()
           .then((result) => {
             //Toast message
             notify("ADDED", result.status, result.data._id);
             return result;
           })
           .then((result) => {
-            setTechs([...techs, result.data]);
+            setImages([...images, result.data]);
           })
           .then(() => {
-            setViewAddTech(false);
+            setViewAddImage(false);
           });
   };
 
   //HANDLE DELETE RECORD
   const handleDeleteRecord = (id) => {
-    const deleteTech = async () => {
-      return await deleteData(auth, "technologies", id);
+    const deleteImage = async () => {
+      return await deleteData(auth, "images", id);
     };
 
-    deleteTech()
+    deleteImage()
       .then((result) => {
         //Toast message
         notify("DELETED", result.status, result.data._id);
       })
       .then(() => {
-        setTechs([...techs.filter((t) => t._id !== id)]);
+        setImages([...images.filter((t) => t._id !== id)]);
       });
   };
 
   //HANDLE VIEW / EDIT RECORD
-  const handleViewEditRecord = (tech) => {
-    setCurrentTech(tech);
+  const handleViewEditRecord = (image) => {
+    setCurrentImage(image);
   };
 
   return (
-    <StyledTechs>
+    <StyledImages>
       <ToastContainer
         closeButton={false}
         transition={Zoom}
@@ -127,12 +125,12 @@ function Techs({ auth }) {
       />
 
       {
-        //view ADD TECH modal
-        viewAddTech ? (
-          <TechAdd
-            openingHookSetter={setViewAddTech}
-            handleSaveTech={handleSaveTech}
-            title="Add new technology"
+        //view ADD IMAGE modal
+        viewAddImage ? (
+          <ImageAdd
+            openingHookSetter={setViewAddImage}
+            handleSaveImage={handleSaveImage}
+            title="Add new image"
             showSubmit={true}
             formType={"NEW"}
           />
@@ -142,13 +140,13 @@ function Techs({ auth }) {
       }
 
       {
-        //view EDIT TECH modal
-        viewEditTech ? (
-          <TechAdd
-            openingHookSetter={setViewEditTech}
-            handleSaveTech={handleSaveTech}
-            currentTech={currentTech}
-            title="Edit technology"
+        //view EDIT IMAGE modal
+        viewEditImage ? (
+          <ImageAdd
+            openingHookSetter={setViewEditImage}
+            handleSaveImage={handleSaveImage}
+            currentImage={currentImage}
+            title="Edit image"
             showSubmit={true}
             formType={"EDIT"}
           />
@@ -157,14 +155,14 @@ function Techs({ auth }) {
         )
       }
       {
-        //view VIEW TECH modal
-        viewViewTech ? (
-          <TechAdd
-            openingHookSetter={setViewViewTech}
-            setViewViewTech={setViewViewTech}
-            title="View technology"
+        //view VIEW IMAGE modal
+        viewViewImage ? (
+          <ImageAdd
+            openingHookSetter={setViewViewImage}
+            setViewViewImage={setViewViewImage}
+            title="View image"
             showSubmit={false}
-            currentTech={currentTech}
+            currentImage={currentImage}
             formType={"VIEW"}
           />
         ) : (
@@ -172,30 +170,30 @@ function Techs({ auth }) {
         )
       }
       <div className="header">
-        <h1>Technologies</h1>
-        <div className="toolbar">
+        <h1>Images</h1>
+        <div className="imagebar">
           <RiAddCircleLine
             className="h-icon"
-            onClick={() => setViewAddTech(true)}
+            onClick={() => setViewAddImage(true)}
           />
         </div>
       </div>
-      {techs.length > 0 ? (
-        <TechList
-          techs={techs}
+      {images.length > 0 ? (
+        <ImageList
+          images={images}
           acceptFnc={handleDeleteRecord}
           handleViewEditRecord={handleViewEditRecord}
-          setViewEditTech={setViewEditTech}
-          setViewViewTech={setViewViewTech}
+          setViewEditImage={setViewEditImage}
+          setViewViewImage={setViewViewImage}
         />
       ) : (
-        <h4 className="empty">No techs to display</h4>
+        <h4 className="empty">No images to display</h4>
       )}
-    </StyledTechs>
+    </StyledImages>
   );
 }
 
-const StyledTechs = styled(motion.div)`
+const StyledImages = styled(motion.div)`
   position: relative;
   left: 15.5vw;
   top: 0;
@@ -214,7 +212,7 @@ const StyledTechs = styled(motion.div)`
     justify-content: space-between;
     width: 80vw;
     margin-bottom: 0.5rem;
-    .toolbar {
+    .imagebar {
       display: flex;
       gap: 0.5rem;
       .h-icon {
@@ -230,4 +228,4 @@ const StyledTechs = styled(motion.div)`
   }
 `;
 
-export default Techs;
+export default Images;

@@ -6,26 +6,26 @@ import { CgWebsite } from "react-icons/cg";
 //forms
 import { useForm } from "react-hook-form";
 
-const TechAddViewEdit = function ({
+const ImageAddViewEdit = function ({
   openingHookSetter,
-  handleSaveTech,
+  handleSaveImage,
   title,
   showSubmit,
-  currentTech,
+  currentImage,
   formType,
 }) {
   const { register, handleSubmit } = useForm();
 
   return (
-    <StyledTechAddViewEdit>
+    <StyledImageAddViewEdit>
       <div className="container">
         <button className="close" onClick={() => openingHookSetter(false)}>
           &#10008;
         </button>
         <div className="form-information">
           <h1>{title}</h1>
-          <h5>{currentTech?._id}</h5>
-          <form onSubmit={handleSubmit(handleSaveTech)}>
+          <h5>{currentImage?._id}</h5>
+          <form onSubmit={handleSubmit(handleSaveImage)}>
             <input
               type="hidden"
               {...register("formtype")}
@@ -38,11 +38,11 @@ const TechAddViewEdit = function ({
               {...register("_id")}
               autoComplete="off"
               size="40"
-              defaultValue={currentTech?._id}
+              defaultValue={currentImage?._id}
             />
             <div className="name-v">
               <div className="input-item">
-                <label htmlFor="name">Technology name:</label>
+                <label htmlFor="name">Image name:</label>
                 <input
                   className={!showSubmit ? "disabled" : ""}
                   disabled={!showSubmit ? true : false}
@@ -50,7 +50,7 @@ const TechAddViewEdit = function ({
                   {...register("name")}
                   autoComplete="off"
                   size="40"
-                  defaultValue={currentTech?.name}
+                  defaultValue={currentImage?.name}
                 />
               </div>
 
@@ -63,7 +63,7 @@ const TechAddViewEdit = function ({
                   {...register("type")}
                   autoComplete="off"
                   size="40"
-                  defaultValue={currentTech?.type}
+                  defaultValue={currentImage?.type}
                 />
               </div>
             </div>
@@ -79,7 +79,7 @@ const TechAddViewEdit = function ({
                     {...register("address")}
                     autoComplete="off"
                     size="50"
-                    defaultValue={currentTech?.address}
+                    defaultValue={currentImage?.address}
                   />
                 </div>
               </div>
@@ -89,11 +89,11 @@ const TechAddViewEdit = function ({
           </form>
         </div>
       </div>
-    </StyledTechAddViewEdit>
+    </StyledImageAddViewEdit>
   );
 };
 
-const StyledTechAddViewEdit = styled(motion.div)`
+const StyledImageAddViewEdit = styled(motion.div)`
   width: 100vw;
   height: 100vh;
   z-index: 10;
@@ -201,4 +201,4 @@ const StyledTechAddViewEdit = styled(motion.div)`
   }
 `;
 
-export default TechAddViewEdit;
+export default ImageAddViewEdit;

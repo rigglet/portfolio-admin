@@ -5,10 +5,10 @@ import { motion } from "framer-motion";
 import { FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
 import DeleteConfirmation from "../DeleteConfirmation";
 
-function TechItem({
-  tech,
-  setViewEditTech,
-  setViewViewTech,
+function ImageItem({
+  image,
+  setViewEditImage,
+  setViewViewImage,
   handleViewEditRecord,
   declineFnc,
   acceptFnc,
@@ -16,7 +16,7 @@ function TechItem({
   const [viewDelete, setViewDelete] = useState(false);
 
   return (
-    <StyledTechItem>
+    <StyledImageItem>
       {
         //view deleteConfirmation
         viewDelete ? (
@@ -24,41 +24,41 @@ function TechItem({
             declineFnc={declineFnc}
             acceptFnc={acceptFnc}
             setViewDelete={setViewDelete}
-            id={tech._id}
+            id={image._id}
           />
         ) : (
           ""
         )
       }
 
-      <div className="data-item name-cell">{tech.name}</div>
-      <div className="data-item short-cell">{tech.type}</div>
-      <div className="data-item long-cell">{tech.address}</div>
+      <div className="data-item long-cell">{image._id}</div>
+      <div className="data-item long-cell">{image.fileName}</div>
+      <div className="data-item short-cell">{image.category}</div>
 
       <div className="data-item actions-cell">
-        <div className="toolbar">
+        <div className="imagebar">
           <FaRegFolderOpen
             className="icon"
             onClick={() => {
-              handleViewEditRecord(tech);
-              setViewViewTech(true);
+              handleViewEditRecord(image);
+              setViewViewImage(true);
             }}
           />
           <FaEdit
             className="icon"
             onClick={() => {
-              handleViewEditRecord(tech);
-              setViewEditTech(true);
+              handleViewEditRecord(image);
+              setViewEditImage(true);
             }}
           />
           <FaTrash className="icon" onClick={() => setViewDelete(true)} />
         </div>
       </div>
-    </StyledTechItem>
+    </StyledImageItem>
   );
 }
 
-const StyledTechItem = styled(motion.li)`
+const StyledImageItem = styled(motion.li)`
   display: flex;
   border-bottom: 1px solid #688297;
   gap: 0.25rem;
@@ -96,7 +96,7 @@ const StyledTechItem = styled(motion.li)`
     justify-content: center;
   }
 
-  .toolbar {
+  .imagebar {
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -109,4 +109,4 @@ const StyledTechItem = styled(motion.li)`
   }
 `;
 
-export default TechItem;
+export default ImageItem;

@@ -9,13 +9,15 @@ import Packages from "../components/package/packages";
 import Links from "../components/link/links";
 import Technologies from "../components/technology/techs";
 import Libraries from "../components/library/libs";
+import Tools from "../components/tool/tools";
+import Images from "../components/image/images";
 //nav components
 import Nav from "../components/nav";
 import Bar from "../components/bar";
 //data
 import { getData } from "../api/api";
 
-function Admin({ auth }) {
+function Admin({ auth, setAuth }) {
   const location = useLocation();
   const path = location.pathname;
 
@@ -24,6 +26,8 @@ function Admin({ auth }) {
   const [technologies, setTechnologies] = useState({});
   const [libraries, setLibraries] = useState({});
   const [packages, setPackages] = useState({});
+  const [tools, setTools] = useState({});
+  const [images, setImages] = useState({});
 
   async function fetchdata(type) {
     const res = await getData(auth, type);
@@ -40,6 +44,8 @@ function Admin({ auth }) {
         setTechnologies(await fetchdata("technologies"));
         setPackages(await fetchdata("packages"));
         setLibraries(await fetchdata("libraries"));
+        setTools(await fetchdata("tools"));
+        setImages(await fetchdata("images"));
       }
       getData();
     },
@@ -59,6 +65,10 @@ function Admin({ auth }) {
         return <Technologies auth={auth} />;
       case "/admin/libraries":
         return <Libraries auth={auth} />;
+      case "/admin/tools":
+        return <Tools auth={auth} />;
+      case "/admin/images":
+        return <Images auth={auth} />;
       default:
         return "";
     }
@@ -66,13 +76,15 @@ function Admin({ auth }) {
 
   return (
     <StyledAdmin>
-      <Bar />
+      <Bar auth={auth} setAuth={setAuth} />
       <Nav
         projectNo={projects?.length ? projects.length : 0}
         linkNo={links?.length ? links.length : 0}
         techNo={technologies?.length ? technologies.length : 0}
         libNo={libraries?.length ? libraries.length : 0}
         packageNo={packages?.length ? packages.length : 0}
+        toolNo={tools?.length ? tools.length : 0}
+        imageNo={images?.length ? images.length : 0}
       />
       {data()}
     </StyledAdmin>

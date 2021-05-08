@@ -18,8 +18,8 @@ body {
     background-color: #ebebeb;
     //font-family: 'Roboto', sans-serif;
     font-family: 'Inter', sans-serif;
-    /* overflow-x: hidden;
-    overflow-y: hidden; */
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 .close {
       z-index: 11;
@@ -30,8 +30,8 @@ body {
       height: 2.2rem;
       //padding-bottom: 0.5rem;
       position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
+      top: 1rem;
+      right: 1rem;
       border: 0;
       outline: 0;
       cursor: pointer;

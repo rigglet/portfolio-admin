@@ -157,6 +157,7 @@ const StyledLibAddViewEdit = styled(motion.div)`
     font-size: 12pt;
     border: 0.05rem #689ed0 solid;
     position: relative;
+    box-shadow: 0 0 20px 10px #689ed0;
 
     .form-information {
       height: 85%;

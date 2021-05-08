@@ -1,31 +1,88 @@
+import { useState, useEffect } from "react";
 import styled from "styled-components";
+//UUID inique ID generator
+import { v4 as uuidv4 } from "uuid";
 //icons
 import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa";
 //forms
 import { useForm } from "react-hook-form";
+import { getData } from "../../api/api";
+//components
+import ListItem from "./listItem";
 
 const Step2 = function (props) {
-  const { register, handleSubmit } = useForm();
+  const { register } = useForm();
 
-  const { currentStep, totalSteps, previousStep, nextStep, handleStep } = props;
+  const {
+    auth,
+    currentStep,
+    totalSteps,
+    previousStep,
+    nextStep,
+    handleSaveStep,
+    formType,
+    showSubmit,
+    currentProject,
+  } = props;
+
+  const [libs, setLibs] = useState([]);
+  const [selectedLibs, setSelectedLibs] = useState([]);
+
+  useEffect(
+    () => {
+      async function getTable() {
+        return await getData(auth, "libraries");
+      }
+      getTable().then((result) => {
+        if (result.status === 200) {
+          setLibs(result.data);
+        }
+      });
+    },
+    // eslint-disable-next-line
+    []
+  );
+
+  const handleLibItemClick = (lib) => {
+    setLibs(libs.filter((l) => l._id !== lib._id));
+    setSelectedLibs([...selectedLibs, lib]);
+  };
+
+  const handleSelectedItemClick = (lib) => {
+    setSelectedLibs(selectedLibs.filter((l) => l._id !== lib._id));
+    setLibs([...libs, lib]);
+  };
 
   return (
     <StyledStep>
       <h2>Libraries</h2>
       <div className="form-information">
-        <form onSubmit={handleSubmit(handleStep)}>
-          <div className="details">
-            <div className="input-item">
-              <label htmlFor="projectName">Libraries:</label>
-              <input
-                type="text"
-                {...register("projectName")}
-                autoComplete="off"
-                size="40"
-              />
-            </div>
-          </div>
-
+        <h4>Available:</h4>
+        <div className="list">
+          {libs
+            .filter((l) => !selectedLibs.includes(l))
+            .map((l) => (
+              <ListItem key={uuidv4()} handleItemClick={handleLibItemClick}>
+                {l}
+              </ListItem>
+            ))}
+        </div>
+        <h4>Included:</h4>
+        <div className="list">
+          {selectedLibs.map((l) => (
+            <ListItem key={uuidv4()} handleItemClick={handleSelectedItemClick}>
+              {l}
+            </ListItem>
+          ))}
+        </div>
+        <form>
+          <input
+            type="hidden"
+            {...register("libraries")}
+            //autoComplete="off"
+            //size="40"
+            defaultValue={selectedLibs.map((l) => l._id)}
+          />
           {/*<h4>Packages:</h4>
         {project.packages.map((p) => (
           <p key={uuidv4()}>{p}</p>
@@ -42,7 +99,10 @@ const Step2 = function (props) {
             {currentStep > 1 ? (
               <FaArrowCircleLeft
                 className="nav-buttons"
-                onClick={previousStep}
+                onClick={() => {
+                  handleSaveStep({ libraries: selectedLibs.map((l) => l._id) });
+                  previousStep();
+                }}
               />
             ) : (
               ""
@@ -57,7 +117,13 @@ const Step2 = function (props) {
           </div>
           <div className="arrowBox">
             {currentStep < totalSteps ? (
-              <FaArrowCircleRight className="nav-buttons" onClick={nextStep} />
+              <FaArrowCircleRight
+                className="nav-buttons"
+                onClick={() => {
+                  handleSaveStep(selectedLibs.map((l) => l._id));
+                  nextStep();
+                }}
+              />
             ) : (
               ""
             )}
@@ -73,14 +139,27 @@ const StyledStep = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 3rem;
+  padding: 0rem 3rem 3rem 3rem;
   width: 100%;
-  height: 90vh;
+  height: 80vh;
   color: #0c395e;
   .form-information {
     height: 85%;
     width: 100%;
     padding: 2rem;
+    display: flex;
+    column-gap: 4rem;
+    .list {
+      display: flex;
+      flex-direction: column;
+      //border: 1px solid #0c395e;
+      box-shadow: 0 0 3px 5px #dededf;
+      width: 100%;
+      overflow-y: scroll;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0 0.5rem;
+    }
     form {
       .address-item {
         display: flex;

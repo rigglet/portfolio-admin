@@ -7,6 +7,8 @@ export const getUserData = async (auth) => {
   const technologies = `http://localhost:8081/api/users/${id}/technologies`;
   const libraries = `http://localhost:8081/api/users/${id}/libraries`;
   const packages = `http://localhost:8081/api/users/${id}/packages`;
+  const tools = `http://localhost:8081/api/users/${id}/tools`;
+  const images = `http://localhost:8081/api/users/${id}/images`;
 
   const headers = {
     headers: {
@@ -19,6 +21,9 @@ export const getUserData = async (auth) => {
   const requestProjects = await axios.get(projects, headers);
   const requestLinks = await axios.get(links, headers);
   const requestTechnologies = await axios.get(technologies, headers);
+  const requestTools = await axios.get(tools, headers);
+  const requestImages = await axios.get(images, headers);
+
   try {
     axios
       .all([
@@ -27,6 +32,8 @@ export const getUserData = async (auth) => {
         requestTechnologies,
         requestLibraries,
         requestPackages,
+        requestTools,
+        requestImages,
       ])
       .then(
         axios.spread((...responses) => {
@@ -120,6 +127,29 @@ export const deleteData = async (auth, datatype, delete_id) => {
       }
     );
 
+    if (response.status === 200) {
+      return response;
+    }
+  } catch (error) {
+    return error;
+  }
+};
+
+//USER DATA
+export const updateUser = async (auth, data, option) => {
+  const { id, token } = auth;
+  try {
+    const response = await axios.put(
+      `http://localhost:8081/api/users/${id}?profile_option=${option}`,
+      //to test
+      //`https://httpbin.org/anything`,
+      data,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
     if (response.status === 200) {
       return response;
     }

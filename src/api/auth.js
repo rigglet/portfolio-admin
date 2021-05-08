@@ -10,12 +10,9 @@ export const signin = async (data) => {
     if (response.status === 200) {
       return response;
     }
-
-    //console.log(response);
   } catch (error) {
     return error;
-    //console.error(error);
   }
 };
 
-export const signout = () => {};
+//export const signout = ({}) => {};

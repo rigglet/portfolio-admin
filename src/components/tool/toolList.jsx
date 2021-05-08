@@ -3,37 +3,37 @@ import { motion } from "framer-motion";
 //UUID inique ID generator
 import { v4 as uuidv4 } from "uuid";
 //components
-import LinkItem from "./linkItem";
+import ToolItem from "./toolItem";
 
-function LinkList({
-  links,
-  setViewEditLink,
-  setViewViewLink,
+function ToolList({
+  tools,
+  setViewEditTool,
+  setViewViewTool,
   declineFnc,
   acceptFnc,
   handleViewEditRecord,
 }) {
   return (
-    <StyledLinkList>
-      {links.length > 0 ? (
+    <StyledToolList>
+      {tools.length > 0 ? (
         <ul>
           <li key={uuidv4()} className="headers">
             <h4 className="name-header">Name</h4>
             <h4 className="short-header">Type</h4>
             <h4 className="long-header">Address</h4>
-            <h4 className="short-header">Actions</h4>
+            <h4 className="actions-header">Actions</h4>
           </li>
-          {links
-            .sort((a, b) => (a.linkName > b.linkName ? 1 : -1))
-            .map((link) => {
+          {tools
+            .sort((a, b) => (a.toolName > b.toolName ? 1 : -1))
+            .map((tool) => {
               return (
-                <LinkItem
+                <ToolItem
                   key={uuidv4()}
-                  link={link}
+                  tool={tool}
                   declineFnc={declineFnc}
                   acceptFnc={acceptFnc}
-                  setViewEditLink={setViewEditLink}
-                  setViewViewLink={setViewViewLink}
+                  setViewEditTool={setViewEditTool}
+                  setViewViewTool={setViewViewTool}
                   handleViewEditRecord={handleViewEditRecord}
                 />
               );
@@ -42,11 +42,11 @@ function LinkList({
       ) : (
         ""
       )}
-    </StyledLinkList>
+    </StyledToolList>
   );
 }
 
-const StyledLinkList = styled(motion.div)`
+const StyledToolList = styled(motion.div)`
   display: flex;
   flex-direction: column;
 
@@ -73,6 +73,11 @@ const StyledLinkList = styled(motion.div)`
     flex: 0 0 20%;
   }
   .short-header {
+    flex: 0 0 15%;
+    //justify-content: center;
+    text-align: left;
+  }
+  .actions-header {
     flex: 0 0 10%;
     justify-content: center;
   }
@@ -82,4 +87,4 @@ const StyledLinkList = styled(motion.div)`
   }
 `;
 
-export default LinkList;
+export default ToolList;

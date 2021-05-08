@@ -1,19 +1,38 @@
+import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
 import { FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
 import { TiTick, TiTimes } from "react-icons/ti";
+//components
+import DeleteConfirmation from "../DeleteConfirmation";
 
 function ProjectItem({
   project,
-  handleDeleteRecord,
-  handleEditRecord,
-  handleViewRecord,
+  setViewEditProject,
+  setViewViewProject,
+  handleViewEditRecord,
+  declineFnc,
+  acceptFnc,
   toggleFeatured,
   toggleIncluded,
 }) {
+  const [viewDelete, setViewDelete] = useState(false);
   return (
     <StyledProjectItem>
+      {
+        //view deleteConfirmation
+        viewDelete ? (
+          <DeleteConfirmation
+            declineFnc={declineFnc}
+            acceptFnc={acceptFnc}
+            setViewDelete={setViewDelete}
+            id={project._id}
+          />
+        ) : (
+          ""
+        )
+      }
       <div className="data-item name-cell">{project.projectName}</div>
       <div className="data-item long-cell">{project.projectDescription}</div>
       <div className="data-item short-cell">
@@ -44,21 +63,23 @@ function ProjectItem({
         )}
       </div>
 
-      <div className="data-item short-cell">
+      <div className="data-item actions-cell">
         <div className="toolbar">
           <FaRegFolderOpen
-            id="view"
             className="icon"
-            onClick={() => handleViewRecord(project._id)}
+            onClick={() => {
+              handleViewEditRecord(project);
+              setViewViewProject(true);
+            }}
           />
           <FaEdit
             className="icon"
-            onClick={() => handleEditRecord(project._id)}
+            onClick={() => {
+              handleViewEditRecord(project);
+              setViewEditProject(true);
+            }}
           />
-          <FaTrash
-            className="icon"
-            onClick={() => handleDeleteRecord(project._id)}
-          />
+          <FaTrash className="icon" onClick={() => setViewDelete(true)} />
         </div>
       </div>
     </StyledProjectItem>
@@ -69,8 +90,8 @@ const StyledProjectItem = styled(motion.li)`
   display: flex;
   border-bottom: 1px solid #688297;
   gap: 0.25rem;
-
   text-decoration: none;
+
   &:visited {
     text-decoration: none;
   }
@@ -87,14 +108,19 @@ const StyledProjectItem = styled(motion.li)`
   .name-cell {
     flex: 0 0 20%;
   }
+  .actions-cell {
+    display: flex;
+    flex: 0 0 10%;
+    justify-content: center;
+  }
   .short-cell {
     display: flex;
-    align-items: center;
     flex: 0 0 10%;
     justify-content: center;
   }
   .long-cell {
     flex-grow: 1;
+    justify-content: center;
   }
 
   .toolbar {

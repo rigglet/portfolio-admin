@@ -5,10 +5,10 @@ import { motion } from "framer-motion";
 import { FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
 import DeleteConfirmation from "../DeleteConfirmation";
 
-function TechItem({
-  tech,
-  setViewEditTech,
-  setViewViewTech,
+function ToolItem({
+  tool,
+  setViewEditTool,
+  setViewViewTool,
   handleViewEditRecord,
   declineFnc,
   acceptFnc,
@@ -16,7 +16,7 @@ function TechItem({
   const [viewDelete, setViewDelete] = useState(false);
 
   return (
-    <StyledTechItem>
+    <StyledToolItem>
       {
         //view deleteConfirmation
         viewDelete ? (
@@ -24,41 +24,41 @@ function TechItem({
             declineFnc={declineFnc}
             acceptFnc={acceptFnc}
             setViewDelete={setViewDelete}
-            id={tech._id}
+            id={tool._id}
           />
         ) : (
           ""
         )
       }
 
-      <div className="data-item name-cell">{tech.name}</div>
-      <div className="data-item short-cell">{tech.type}</div>
-      <div className="data-item long-cell">{tech.address}</div>
+      <div className="data-item name-cell">{tool.name}</div>
+      <div className="data-item short-cell">{tool.type}</div>
+      <div className="data-item long-cell">{tool.address}</div>
 
       <div className="data-item actions-cell">
         <div className="toolbar">
           <FaRegFolderOpen
             className="icon"
             onClick={() => {
-              handleViewEditRecord(tech);
-              setViewViewTech(true);
+              handleViewEditRecord(tool);
+              setViewViewTool(true);
             }}
           />
           <FaEdit
             className="icon"
             onClick={() => {
-              handleViewEditRecord(tech);
-              setViewEditTech(true);
+              handleViewEditRecord(tool);
+              setViewEditTool(true);
             }}
           />
           <FaTrash className="icon" onClick={() => setViewDelete(true)} />
         </div>
       </div>
-    </StyledTechItem>
+    </StyledToolItem>
   );
 }
 
-const StyledTechItem = styled(motion.li)`
+const StyledToolItem = styled(motion.li)`
   display: flex;
   border-bottom: 1px solid #688297;
   gap: 0.25rem;
@@ -109,4 +109,4 @@ const StyledTechItem = styled(motion.li)`
   }
 `;
 
-export default TechItem;
+export default ToolItem;

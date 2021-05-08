@@ -2,7 +2,7 @@ import styled from "styled-components";
 //dates
 import { DateTime } from "luxon";
 //calendar
-import Calendar from "react-calendar";
+//import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 //icons
 import {
@@ -15,19 +15,44 @@ import { CgWebsite } from "react-icons/cg";
 import { useForm } from "react-hook-form";
 
 const Step1 = function (props) {
-  const { register, handleSubmit } = useForm();
+  const { register, getValues } = useForm();
 
-  const { currentStep, totalSteps, previousStep, nextStep, handleStep } = props;
+  const {
+    currentStep,
+    totalSteps,
+    previousStep,
+    nextStep,
+    handleSaveStep,
+    formType,
+    showSubmit,
+    currentProject,
+  } = props;
+
+  //console.log(currentProject?.startedDate);
 
   return (
     <StyledStep>
       <h2>Project information</h2>
       <div className="form-information">
-        <form onSubmit={handleSubmit(handleStep)}>
+        <form>
           <div className="details">
+            <input
+              type="hidden"
+              {...register("formtype")}
+              defaultValue={formType}
+            />
+            <input
+              type="hidden"
+              {...register("_id")}
+              defaultValue={currentProject?._id}
+            />
+
             <div className="input-item">
               <label htmlFor="projectName">Project name:</label>
               <input
+                className={!showSubmit ? "disabled" : ""}
+                disabled={!showSubmit ? true : false}
+                defaultValue={currentProject?.projectName}
                 type="text"
                 {...register("projectName")}
                 autoComplete="off"
@@ -38,6 +63,9 @@ const Step1 = function (props) {
             <div className="input-item">
               <label htmlFor="version">Version:</label>
               <input
+                className={!showSubmit ? "disabled" : ""}
+                disabled={!showSubmit ? true : false}
+                defaultValue={currentProject?.version}
                 type="text"
                 {...register("version")}
                 autoComplete="off"
@@ -47,6 +75,9 @@ const Step1 = function (props) {
             <div className="input-item">
               <label htmlFor="author">Author:</label>
               <input
+                className={!showSubmit ? "disabled" : ""}
+                disabled={!showSubmit ? true : false}
+                defaultValue={currentProject?.author}
                 type="text"
                 {...register("author")}
                 autoComplete="off"
@@ -55,11 +86,25 @@ const Step1 = function (props) {
             </div>
             <div className="input-item">
               <label htmlFor="featured">Featured:</label>
-              <input type="checkbox" {...register("featured")} id="featured" />
+              <input
+                className={!showSubmit ? "disabled" : ""}
+                disabled={!showSubmit ? true : false}
+                defaultChecked={currentProject?.featured}
+                type="checkbox"
+                {...register("featured")}
+                id="featured"
+              />
             </div>
             <div className="input-item">
               <label htmlFor="included">Included:</label>
-              <input type="checkbox" {...register("included")} id="included" />
+              <input
+                className={!showSubmit ? "disabled" : ""}
+                disabled={!showSubmit ? true : false}
+                defaultChecked={currentProject?.included}
+                type="checkbox"
+                {...register("included")}
+                id="included"
+              />
             </div>
           </div>
           <div className="addresses">
@@ -68,8 +113,11 @@ const Step1 = function (props) {
               <div className="address-item">
                 <FaGithub className="address-icon" />
                 <input
+                  className={!showSubmit ? "disabled" : ""}
+                  disabled={!showSubmit ? true : false}
+                  defaultValue={currentProject?.githubLink}
                   type="text"
-                  {...register("github")}
+                  {...register("githubLink")}
                   autoComplete="off"
                   size="40"
                 />
@@ -80,6 +128,9 @@ const Step1 = function (props) {
               <div className="address-item">
                 <CgWebsite className="address-icon" />
                 <input
+                  className={!showSubmit ? "disabled" : ""}
+                  disabled={!showSubmit ? true : false}
+                  defaultValue={currentProject?.website}
                   type="text"
                   {...register("website")}
                   autoComplete="off"
@@ -93,8 +144,11 @@ const Step1 = function (props) {
             <div className="input-item">
               <label htmlFor="short">Short description:</label>
               <textarea
+                className={!showSubmit ? "disabled" : ""}
+                disabled={!showSubmit ? true : false}
+                defaultValue={currentProject?.shortDescription}
                 type=""
-                {...register("short")}
+                {...register("shortDescription")}
                 autoComplete="off"
                 cols="50"
                 rows="4"
@@ -103,8 +157,11 @@ const Step1 = function (props) {
             <div className="input-item">
               <label htmlFor="description">Description:</label>
               <textarea
+                className={!showSubmit ? "disabled" : ""}
+                disabled={!showSubmit ? true : false}
+                defaultValue={currentProject?.projectDescription}
                 type="text"
-                {...register("description")}
+                {...register("projectDescription")}
                 autoComplete="off"
                 cols="50"
                 rows="4"
@@ -114,59 +171,109 @@ const Step1 = function (props) {
           <div className="dates">
             <div className="input-item">
               <label>Added:</label>
-              <input type="date" {...register("added")} id="added" />
+              {!showSubmit ? (
+                <p>
+                  {DateTime.fromISO(currentProject?.addedDate)
+                    .setLocale("uk")
+                    .toLocaleString({
+                      timeZoneName: "short",
+                    })}
+                </p>
+              ) : (
+                <input
+                  className={!showSubmit ? "disabled" : ""}
+                  disabled={!showSubmit ? true : false}
+                  defaultValue={currentProject?.addedDate}
+                  type="date"
+                  {...register("addedDate")}
+                  id="added"
+                />
+              )}
             </div>
             <div className="input-item">
               <label>Started:</label>
-              <input type="date" {...register("started")} id="started" />
+              {!showSubmit ? (
+                <p>
+                  {DateTime.fromISO(currentProject?.addedDate)
+                    .setLocale("uk")
+                    .toLocaleString({
+                      timeZoneName: "short",
+                    })}
+                </p>
+              ) : (
+                <input
+                  className={!showSubmit ? "disabled" : ""}
+                  disabled={!showSubmit ? true : false}
+                  defaultValue={currentProject?.startedDate}
+                  type="date"
+                  {...register("startedDate")}
+                  id="started"
+                />
+              )}
             </div>
             <div className="input-item">
               <label>Completed:</label>
-              <input type="date" {...register("completed")} id="completed" />
+              {!showSubmit ? (
+                <p>
+                  {DateTime.fromISO(currentProject?.addedDate)
+                    .setLocale("uk")
+                    .toLocaleString({
+                      timeZoneName: "short",
+                    })}
+                </p>
+              ) : (
+                <input
+                  className={!showSubmit ? "disabled" : ""}
+                  disabled={!showSubmit ? true : false}
+                  defaultValue={currentProject?.completedDate}
+                  type="date"
+                  {...register("completedDate")}
+                  id="completed"
+                />
+              )}
             </div>
           </div>
+          {/* {showSubmit ? <button type="submit">Submit</button> : ""} */}
 
-          {/* <h4>Libraries:</h4>
-        {project.libraries.map((l) => (
-          <p key={uuidv4()}>{l}</p>
-          ))}
-          <h4>Packages:</h4>
-        {project.packages.map((p) => (
-          <p key={uuidv4()}>{p}</p>
-          ))}
-          <h4>Technologies:</h4>
-          {project.technologies.map((t) => (
-            <p key={uuidv4()}>{t}</p>
-          ))} */}
+          <div className="footer">
+            <div className="stepNav">
+              <div className="arrowBox">
+                {currentStep > 1 ? (
+                  <FaArrowCircleLeft
+                    className="nav-buttons"
+                    onClick={() => {
+                      //handleStep(getValues());
+                      handleSaveStep(getValues());
+                      previousStep();
+                    }}
+                  />
+                ) : (
+                  ""
+                )}
+              </div>
+              <div className="progress">
+                <progress
+                  id="progress"
+                  value={currentStep}
+                  max={totalSteps}
+                ></progress>
+              </div>
+              <div className="arrowBox">
+                {currentStep < totalSteps ? (
+                  <FaArrowCircleRight
+                    className="nav-buttons"
+                    onClick={() => {
+                      handleSaveStep(getValues());
+                      nextStep();
+                    }}
+                  />
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+          </div>
         </form>
-      </div>
-      <div className="footer">
-        <div className="stepNav">
-          <div className="arrowBox">
-            {currentStep > 1 ? (
-              <FaArrowCircleLeft
-                className="nav-buttons"
-                onClick={previousStep}
-              />
-            ) : (
-              ""
-            )}
-          </div>
-          <div className="progress">
-            <progress
-              id="progress"
-              value={currentStep}
-              max={totalSteps}
-            ></progress>
-          </div>
-          <div className="arrowBox">
-            {currentStep < totalSteps ? (
-              <FaArrowCircleRight className="nav-buttons" onClick={nextStep} />
-            ) : (
-              ""
-            )}
-          </div>
-        </div>
       </div>
     </StyledStep>
   );
@@ -176,16 +283,19 @@ const StyledStep = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 3rem;
+  justify-content: space-evenly;
+  padding: 0rem 3rem 0rem 3rem;
   width: 100%;
-  height: 90vh;
+  height: 80vh;
   color: #0c395e;
   .form-information {
-    height: 85%;
+    height: 100%;
     width: 100%;
-    padding: 2rem;
+    //border: 1px solid red;
     form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
       .address-item {
         display: flex;
         gap: 0.5rem;
@@ -199,9 +309,6 @@ const StyledStep = styled.div`
         display: flex;
         flex-direction: column;
       }
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
       label {
         font-weight: bold;
         font-size: 12pt;
