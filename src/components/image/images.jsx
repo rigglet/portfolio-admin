@@ -3,12 +3,14 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
 import { RiAddCircleLine } from "react-icons/ri";
+import { ImImages } from "react-icons/im";
 //message components
 import { ToastContainer, toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 //components
 import ImageList from "./imageList";
 import ImageAdd from "./imageAddViewEdit";
+import ImagesView from "./imagesView";
 //data
 import { getData, deleteData, postData, updateData } from "../../api/api";
 
@@ -18,6 +20,7 @@ function Images({ auth }) {
   const [viewViewImage, setViewViewImage] = useState(false);
   const [viewAddImage, setViewAddImage] = useState(false);
   const [viewEditImage, setViewEditImage] = useState(false);
+  const [viewAllImages, setViewAllImages] = useState(false);
 
   const notify = (type, status, id) => {
     switch (type) {
@@ -125,8 +128,14 @@ function Images({ auth }) {
       />
 
       {
+        //view ALL IMAGEs modal
+        viewAllImages && (
+          <ImagesView openingHookSetter={setViewAllImages} images={images} />
+        )
+      }
+      {
         //view ADD IMAGE modal
-        viewAddImage ? (
+        viewAddImage && (
           <ImageAdd
             openingHookSetter={setViewAddImage}
             handleSaveImage={handleSaveImage}
@@ -134,8 +143,6 @@ function Images({ auth }) {
             showSubmit={true}
             formType={"NEW"}
           />
-        ) : (
-          ""
         )
       }
 
@@ -172,6 +179,7 @@ function Images({ auth }) {
       <div className="header">
         <h1>Images</h1>
         <div className="imagebar">
+          <ImImages className="h-icon" onClick={() => setViewAllImages(true)} />
           <RiAddCircleLine
             className="h-icon"
             onClick={() => setViewAddImage(true)}

@@ -15,7 +15,7 @@ import organise from "../images/organise.svg";
 import profile from "../images/profile.svg";
 
 //auth
-import { signin } from "../api/auth";
+import { signin } from "../api/api";
 
 function Login({ setAuth }) {
   const history = useHistory();

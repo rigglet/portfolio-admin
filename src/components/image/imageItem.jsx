@@ -51,7 +51,9 @@ function ImageItem({
               setViewEditImage(true);
             }}
           />
-          <FaTrash className="icon" onClick={() => setViewDelete(true)} />
+          {image.category !== "profile" && (
+            <FaTrash className="icon" onClick={() => setViewDelete(true)} />
+          )}
         </div>
       </div>
     </StyledImageItem>

@@ -1,14 +1,31 @@
 import axios from "axios";
+import serverBaseURL from "../config/config";
+
+//AUTH - signin
+export const signin = async (data) => {
+  try {
+    const response = await axios.post(
+      `${serverBaseURL()}/api/auth/signin`,
+      data
+    );
+    if (response.status === 200) {
+      return response;
+    }
+  } catch (error) {
+    return error;
+  }
+};
 
 export const getUserData = async (auth) => {
+  //const baseUrl = baseURL;
   const { id, token } = auth;
-  const projects = `http://localhost:8081/api/users/${id}/projects`;
-  const links = `http://localhost:8081/api/users/${id}/links`;
-  const technologies = `http://localhost:8081/api/users/${id}/technologies`;
-  const libraries = `http://localhost:8081/api/users/${id}/libraries`;
-  const packages = `http://localhost:8081/api/users/${id}/packages`;
-  const tools = `http://localhost:8081/api/users/${id}/tools`;
-  const images = `http://localhost:8081/api/users/${id}/images`;
+  const projects = `${serverBaseURL()}/api/users/${id}/projects`;
+  const links = `${serverBaseURL()}/api/users/${id}/links`;
+  const technologies = `${serverBaseURL()}/api/users/${id}/technologies`;
+  const libraries = `${serverBaseURL()}/api/users/${id}/libraries`;
+  const packages = `${serverBaseURL()}/api/users/${id}/packages`;
+  const tools = `${serverBaseURL()}/api/users/${id}/tools`;
+  const images = `${serverBaseURL()}/api/users/${id}/images`;
 
   const headers = {
     headers: {
@@ -51,7 +68,7 @@ export const getData = async (auth, datatype) => {
   try {
     //axios.headers.Authorization = { bearer: token };
     const response = await axios.get(
-      `http://localhost:8081/api/users/${id}/${datatype}`,
+      `${serverBaseURL()}/api/users/${id}/${datatype}`,
       {
         headers: {
           Authorization: `bearer ${token}`,
@@ -73,7 +90,7 @@ export const updateData = async (auth, datatype, data) => {
   try {
     //axios.headers.Authorization = { bearer: token };
     const response = await axios.put(
-      `http://localhost:8081/api/users/${id}/${datatype}/${data._id}`,
+      `${serverBaseURL()}/api/users/${id}/${datatype}/${data._id}`,
       data,
       {
         headers: {
@@ -96,7 +113,7 @@ export const postData = async (auth, datatype, data) => {
   try {
     //axios.headers.Authorization = { bearer: token };
     const response = await axios.post(
-      `http://localhost:8081/api/users/${id}/${datatype}`,
+      `${serverBaseURL()}/api/users/${id}/${datatype}`,
       data,
       {
         headers: {
@@ -119,7 +136,7 @@ export const deleteData = async (auth, datatype, delete_id) => {
   try {
     //axios.headers.Authorization = { bearer: token };
     const response = await axios.delete(
-      `http://localhost:8081/api/users/${id}/${datatype}/${delete_id}`,
+      `${serverBaseURL()}/api/users/${id}/${datatype}/${delete_id}`,
       {
         headers: {
           Authorization: `bearer ${token}`,
@@ -140,7 +157,7 @@ export const updateUser = async (auth, data, option) => {
   const { id, token } = auth;
   try {
     const response = await axios.put(
-      `http://localhost:8081/api/users/${id}?profile_option=${option}`,
+      `${serverBaseURL()}/api/users/${id}?profile_option=${option}`,
       //to test
       //`https://httpbin.org/anything`,
       data,
