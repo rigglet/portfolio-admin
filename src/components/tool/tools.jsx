@@ -35,20 +35,16 @@ function Tools({ auth }) {
     }
   };
 
-  useEffect(
-    () => {
-      async function getTable() {
-        return await getData(auth, "tools");
+  useEffect(() => {
+    async function getTable() {
+      return await getData(auth, "tools");
+    }
+    getTable().then((result) => {
+      if (result.status === 200) {
+        setTools(result.data);
       }
-      getTable().then((result) => {
-        if (result.status === 200) {
-          setTools(result.data);
-        }
-      });
-    },
-    // eslint-disable-next-line
-    []
-  );
+    });
+  }, []);
 
   //HANDLE ADD/EDIT SUBMIT
   const handleSaveTool = async (data) => {

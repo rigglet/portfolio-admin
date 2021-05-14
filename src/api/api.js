@@ -86,7 +86,7 @@ export const getData = async (auth, datatype) => {
 
 export const updateData = async (auth, datatype, data) => {
   const { id, token } = auth;
-
+  console.log("data: ", data);
   try {
     //axios.headers.Authorization = { bearer: token };
     const response = await axios.put(

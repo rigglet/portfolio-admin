@@ -5,14 +5,25 @@ import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 //icons
 import { ImImages } from "react-icons/im";
-import { FaTools } from "react-icons/fa";
+import { FaTools, FaMapSigns } from "react-icons/fa";
 import { HiChevronRight, HiChevronDown, HiCode, HiLink } from "react-icons/hi";
 import { MdWeb } from "react-icons/md";
-import { IoLibraryOutline } from "react-icons/io5";
+import { IoLibraryOutline, IoText } from "react-icons/io5";
 import { GoPackage } from "react-icons/go";
 
-function Nav({ projectNo, linkNo, techNo, libNo, packageNo, imageNo, toolNo }) {
-  const [chevron, setChevron] = useState(true);
+function Nav({
+  projectNo,
+  linkNo,
+  techNo,
+  libNo,
+  packageNo,
+  imageNo,
+  toolNo,
+  roadmapNo,
+  copyNo,
+}) {
+  const [projectChevron, setProjectChevron] = useState(true);
+  const [siteChevron, setSiteChevron] = useState(true);
   const location = useLocation();
   const path = location.pathname.split("/")[2];
 
@@ -46,20 +57,23 @@ function Nav({ projectNo, linkNo, techNo, libNo, packageNo, imageNo, toolNo }) {
   return (
     <StyledNav>
       <div className="nav-heading">
-        <h3>Navigation</h3>
-        {chevron ? (
+        <h3>Projects</h3>
+        {projectChevron ? (
           <HiChevronDown
-            onClick={() => setChevron(!chevron)}
+            onClick={() => setProjectChevron(!projectChevron)}
             className="nav-chev"
           />
         ) : (
           <HiChevronRight
-            onClick={() => setChevron(!chevron)}
+            onClick={() => setProjectChevron(!projectChevron)}
             className="nav-chev"
           />
         )}
       </div>
-      <motion.ul animate={chevron ? "open" : "closed"} variants={container}>
+      <motion.ul
+        animate={projectChevron ? "open" : "closed"}
+        variants={container}
+      >
         <motion.li
           variants={item}
           className={path === "projects" ? "selected" : ""}
@@ -75,23 +89,6 @@ function Nav({ projectNo, linkNo, techNo, libNo, packageNo, imageNo, toolNo }) {
           </div>
           <div className="link-amount">
             <h4>{projectNo}</h4>
-          </div>
-        </motion.li>
-        <motion.li
-          variants={item}
-          className={path === "links" ? "selected" : ""}
-        >
-          <div className="link-info">
-            <HiLink className="nav-icon" />
-            <Link
-              className={path === "links" ? "selected" : ""}
-              to="/admin/links"
-            >
-              Links
-            </Link>
-          </div>
-          <div className="link-amount">
-            <h4>{linkNo}</h4>
           </div>
         </motion.li>
         <motion.li
@@ -147,6 +144,39 @@ function Nav({ projectNo, linkNo, techNo, libNo, packageNo, imageNo, toolNo }) {
         </motion.li>
         <motion.li
           variants={item}
+          className={path === "images" ? "selected" : ""}
+        >
+          <div className="link-info">
+            <ImImages className="nav-icon" />
+            <Link
+              className={path === "images" ? "selected" : ""}
+              to="/admin/images"
+            >
+              Images
+            </Link>
+          </div>
+          <div className="link-amount">
+            <h4>{imageNo}</h4>
+          </div>
+        </motion.li>
+      </motion.ul>
+      <div className="nav-heading">
+        <h3>Site</h3>
+        {siteChevron ? (
+          <HiChevronDown
+            onClick={() => setSiteChevron(!siteChevron)}
+            className="nav-chev"
+          />
+        ) : (
+          <HiChevronRight
+            onClick={() => setSiteChevron(!siteChevron)}
+            className="nav-chev"
+          />
+        )}
+      </div>
+      <motion.ul animate={siteChevron ? "open" : "closed"} variants={container}>
+        <motion.li
+          variants={item}
           className={path === "tools" ? "selected" : ""}
         >
           <div className="link-info">
@@ -164,19 +194,53 @@ function Nav({ projectNo, linkNo, techNo, libNo, packageNo, imageNo, toolNo }) {
         </motion.li>
         <motion.li
           variants={item}
-          className={path === "images" ? "selected" : ""}
+          className={path === "links" ? "selected" : ""}
         >
           <div className="link-info">
-            <ImImages className="nav-icon" />
+            <HiLink className="nav-icon" />
             <Link
-              className={path === "images" ? "selected" : ""}
-              to="/admin/images"
+              className={path === "links" ? "selected" : ""}
+              to="/admin/links"
             >
-              Images
+              Links
             </Link>
           </div>
           <div className="link-amount">
-            <h4>{imageNo}</h4>
+            <h4>{linkNo}</h4>
+          </div>
+        </motion.li>
+        <motion.li
+          variants={item}
+          className={path === "roadmap" ? "selected" : ""}
+        >
+          <div className="link-info">
+            <FaMapSigns className="nav-icon" />
+            <Link
+              className={path === "roadmap" ? "selected" : ""}
+              to="/admin/roadmap"
+            >
+              Roadmap
+            </Link>
+          </div>
+          <div className="link-amount">
+            <h4>{roadmapNo}</h4>
+          </div>
+        </motion.li>
+        <motion.li
+          variants={item}
+          className={path === "copy" ? "selected" : ""}
+        >
+          <div className="link-info">
+            <IoText className="nav-icon" />
+            <Link
+              className={path === "roadmap" ? "selected" : ""}
+              to="/admin/copy"
+            >
+              Copy
+            </Link>
+          </div>
+          <div className="link-amount">
+            <h4>{copyNo}</h4>
           </div>
         </motion.li>
       </motion.ul>
@@ -207,10 +271,12 @@ const StyledNav = styled(motion.div)`
     align-items: center;
     justify-content: space-between;
     transition: all 0.5s ease-in;
+
     h3 {
       width: 100%;
       padding: 0.5rem 0 0 1rem;
       font-weight: 400;
+      font-size: 12pt;
     }
     .nav-chev {
       cursor: pointer;
@@ -227,7 +293,7 @@ const StyledNav = styled(motion.div)`
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1rem;
+      padding: 0.75rem;
       cursor: pointer;
       &.selected {
         background-color: #ebebeb;

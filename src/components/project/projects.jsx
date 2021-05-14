@@ -42,20 +42,16 @@ function Projects({ auth }) {
     }
   };
 
-  useEffect(
-    () => {
-      async function getTable() {
-        return await getData(auth, "projects");
+  useEffect(() => {
+    async function getTable() {
+      return await getData(auth, "projects");
+    }
+    getTable().then((result) => {
+      if (result.status === 200) {
+        setProjects(result.data);
       }
-      getTable().then((result) => {
-        if (result.status === 200) {
-          setProjects(result.data);
-        }
-      });
-    },
-    // eslint-disable-next-line
-    []
-  );
+    });
+  }, []);
 
   //HANDLE LIST EDIT
   const handleSaveList = async (project) => {

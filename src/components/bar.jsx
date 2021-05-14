@@ -11,6 +11,8 @@ import { FiLogOut, FiSettings } from "react-icons/fi";
 import { BiUser } from "react-icons/bi";
 //components
 import Profile from "./profile";
+//server base url
+import SERVER_BASE_URL from "../config/config";
 
 function Bar({ auth, setAuth }) {
   const [menu, toggleMenu] = useState(false);
@@ -18,7 +20,7 @@ function Bar({ auth, setAuth }) {
   const { username } = auth;
   const profileImageUrl = auth.profileImageUrl?.fileName || null;
   const [selectedFile, setSelectedFile] = useState(profileImageUrl);
-  const baseURL = `http://localhost:8081/public/uploads/`;
+  const baseURL = `${SERVER_BASE_URL()}/public/uploads/`;
 
   //console.log(auth);
   useEffect(() => {

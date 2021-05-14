@@ -16,54 +16,76 @@ import { getData, deleteData, postData, updateData } from "../../api/api";
 
 function Images({ auth }) {
   const [images, setImages] = useState({});
-  const [currentImage, setCurrentImage] = useState(null);
+  const [currentImage, setCurrentImage] = useState({
+    name: "",
+    description: "",
+  });
   const [viewViewImage, setViewViewImage] = useState(false);
   const [viewAddImage, setViewAddImage] = useState(false);
   const [viewEditImage, setViewEditImage] = useState(false);
   const [viewAllImages, setViewAllImages] = useState(false);
 
-  const notify = (type, status, id) => {
+  const notify = (type, status) => {
     switch (type) {
+      case "SERVER_ERR":
+        toast.warning(`Internal Server error: Project not saved.`);
+        break;
       case "EDITED":
-        toast.dark(`Status: ${status} => Image EDITED successfully`);
+        toast.dark(`Project SAVED`);
         break;
       case "ADDED":
-        toast.dark(`Status: ${status} => Image ${id} ADDED successfully`);
+        toast.dark(`Project image ADDED successfully`);
+        break;
+      case "NOIMAGE":
+        toast.dark(`Please select a project image!`);
         break;
       case "DELETED":
-        toast.dark(`Status: ${status} => Image ${id} DELETED successfully`);
+        toast.dark(`Project image DELETED successfully`);
         break;
       default:
         toast.dark("Nothing to report");
     }
   };
 
-  useEffect(
-    () => {
-      async function getTable() {
-        return await getData(auth, "images");
+  useEffect(() => {
+    async function getTable() {
+      return await getData(auth, "images");
+    }
+    getTable().then((result) => {
+      if (result.status === 200) {
+        setImages(result.data);
       }
-      getTable().then((result) => {
-        if (result.status === 200) {
-          setImages(result.data);
-        }
-      });
-    },
-    // eslint-disable-next-line
-    []
-  );
+    });
+  }, []);
 
   //HANDLE ADD/EDIT SUBMIT
-  const handleSaveImage = async (data) => {
+  const handleSaveImage = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    if (currentImage.formType === "NEW") {
+      //append form data
+      formData.append("_id", currentImage._id);
+      formData.append("name", currentImage.name);
+      formData.append("description", currentImage.description);
+      formData.append("category", "project");
+      formData.append(
+        "projectImage",
+        currentImage.file,
+        currentImage.file.name
+      );
+    }
+
     const editImage = async () => {
-      return await updateData(auth, "images", data);
+      return await updateData(auth, "images", currentImage);
     };
 
     const addImage = async () => {
-      return await postData(auth, "images", data);
+      return await postData(auth, "images", formData);
     };
-
-    data?.formtype === "EDIT"
+    console.log(currentImage?.formType);
+    currentImage?.formType !== "NEW"
       ? editImage()
           .then((result) => {
             //Toast message
@@ -71,7 +93,10 @@ function Images({ auth }) {
             return result;
           })
           .then(() => {
-            setImages([...images.filter((t) => t._id !== data._id), data]);
+            setImages([
+              ...images.filter((t) => t._id !== currentImage._id),
+              currentImage,
+            ]);
           })
           .then(() => {
             setViewEditImage(false);
@@ -141,7 +166,11 @@ function Images({ auth }) {
             handleSaveImage={handleSaveImage}
             title="Add new image"
             showSubmit={true}
-            formType={"NEW"}
+            currentImage={{
+              ...currentImage,
+              formType: "NEW",
+            }}
+            setCurrentImage={setCurrentImage}
           />
         )
       }
@@ -152,10 +181,10 @@ function Images({ auth }) {
           <ImageAdd
             openingHookSetter={setViewEditImage}
             handleSaveImage={handleSaveImage}
-            currentImage={currentImage}
-            title="Edit image"
+            title="Edit image details"
             showSubmit={true}
-            formType={"EDIT"}
+            currentImage={{ ...currentImage, formType: "EDIT" }}
+            setCurrentImage={setCurrentImage}
           />
         ) : (
           ""
@@ -166,11 +195,10 @@ function Images({ auth }) {
         viewViewImage ? (
           <ImageAdd
             openingHookSetter={setViewViewImage}
-            setViewViewImage={setViewViewImage}
             title="View image"
             showSubmit={false}
-            currentImage={currentImage}
-            formType={"VIEW"}
+            currentImage={{ ...currentImage, formType: "VIEW" }}
+            setCurrentImage={setCurrentImage}
           />
         ) : (
           ""

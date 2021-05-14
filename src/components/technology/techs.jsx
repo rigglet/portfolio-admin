@@ -37,20 +37,16 @@ function Techs({ auth }) {
     }
   };
 
-  useEffect(
-    () => {
-      async function getTable() {
-        return await getData(auth, "technologies");
+  useEffect(() => {
+    async function getTable() {
+      return await getData(auth, "technologies");
+    }
+    getTable().then((result) => {
+      if (result.status === 200) {
+        setTechs(result.data);
       }
-      getTable().then((result) => {
-        if (result.status === 200) {
-          setTechs(result.data);
-        }
-      });
-    },
-    // eslint-disable-next-line
-    []
-  );
+    });
+  }, []);
 
   //HANDLE ADD/EDIT SUBMIT
   const handleSaveTech = async (data) => {

@@ -36,20 +36,16 @@ function Packages({ auth }) {
     }
   };
 
-  useEffect(
-    () => {
-      async function getTable() {
-        return await getData(auth, "packages");
+  useEffect(() => {
+    async function getTable() {
+      return await getData(auth, "packages");
+    }
+    getTable().then((result) => {
+      if (result.status === 200) {
+        setPackages(result.data);
       }
-      getTable().then((result) => {
-        if (result.status === 200) {
-          setPackages(result.data);
-        }
-      });
-    },
-    // eslint-disable-next-line
-    []
-  );
+    });
+  }, []);
 
   //HANDLE ADD/EDIT SUBMIT
   const handleSavePackage = async (data) => {

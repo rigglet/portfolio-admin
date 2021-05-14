@@ -19,17 +19,16 @@ const ImagesView = function ({ openingHookSetter, images }) {
         <button className="close" onClick={() => openingHookSetter(false)}>
           &#10008;
         </button>
-        <div className="images">
-          <ImageGallery
-            items={imageArray}
-            showPlayButton={false}
-            thumbnailPosition={"bottom"}
-            //showIndex={true}
-            //autoPlay={true}
-            showBullets={true}
-            showNav={false}
-          />
-        </div>
+        <ImageGallery
+          items={imageArray}
+          showPlayButton={false}
+          thumbnailPosition={"bottom"}
+          //showIndex={true}
+          //autoPlay={true}
+          showBullets={true}
+          showNav={false}
+        />
+        {/* <div className="images"></div> */}
       </div>
     </StyledImagesView>
   );
@@ -51,18 +50,28 @@ const StyledImagesView = styled(motion.div)`
   .container {
     width: 90vw;
     height: 90vh;
-    padding-top: 3rem;
     background-color: #ebebeb;
     font-size: 12pt;
     border: 0.05rem #689ed0 solid;
     position: relative;
     box-shadow: 0 0 20px 10px #689ed0;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-    .images {
-      width: 60%;
-      height: 60%;
+
+    .image-gallery {
+      max-width: 50%;
+    }
+
+    .image-gallery-slide img {
+      object-fit: contain;
+      resize: both;
+      overflow: hidden;
+      object-position: center center;
+    }
+
+    .fullscreen .image-gallery-slide img {
+      max-height: 100vh;
     }
   }
 `;

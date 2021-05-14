@@ -30,15 +30,11 @@ const ToolAddViewEdit = function ({
             <input
               type="hidden"
               {...register("formtype")}
-              autoComplete="off"
-              size="40"
               defaultValue={formType}
             />
             <input
               type="hidden"
               {...register("_id")}
-              autoComplete="off"
-              size="40"
               defaultValue={currentTool?._id}
             />
             <div className="name-v">

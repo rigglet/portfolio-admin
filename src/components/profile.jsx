@@ -16,6 +16,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
 //data
 import { updateUser } from "../api/api";
+//server URL
+import SERVER_BASE_URL from "../config/config";
 
 function Profile({
   auth,
@@ -24,11 +26,12 @@ function Profile({
   selectedFile,
   setSelectedFile,
 }) {
-  const baseURL = `http://localhost:8081/public/uploads/`;
+  const baseURL = `${SERVER_BASE_URL}/public/uploads/`;
   const fileRef = useRef(null);
   const { register, handleSubmit } = useForm({
     defaultValues: { username: `${auth.username}` },
   });
+  //TODO: Need this? Should be using formType no?
   const [editing, setEditing] = useState(false);
   const [clearingImage, setClearingImage] = useState(false);
   const profileImageUrl = auth.profileImageUrl?.fileName || null;
@@ -329,14 +332,14 @@ const StyledProfile = styled(motion.div)`
         column-gap: 0.5rem;
         display: flex;
         align-items: center;
-        p{
+        p {
           cursor: pointer;
         }
-      .h-icon {
-        cursor: pointer;
-        width: 1.6rem;
-        height: 1.6rem;
-      }
+        .h-icon {
+          cursor: pointer;
+          width: 1.6rem;
+          height: 1.6rem;
+        }
       }
     }
     .form-information {
@@ -358,7 +361,7 @@ const StyledProfile = styled(motion.div)`
         .profile-box-inactive {
           pointer-events: none;
           box-shadow: 0 0 5px 5px #688297;
-          border:none;
+          border: none;
         }
         .profile-box-edit {
           z-index: 5;
@@ -370,21 +373,25 @@ const StyledProfile = styled(motion.div)`
           align-items: center;
           cursor: pointer;
           border-radius: 50%;
-          overflow:hidden;
-            
-          .showFileIcon{display: flex;}
-          .hideFileIcon{display: none;} 
-          .profile-add-container{
-              position: absolute;
-              top: 0;
-              left: 0;
-              height: 100%;
-              width: 100%;
-              //display: flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: center;
-              row-gap: 0.25rem;
+          overflow: hidden;
+
+          .showFileIcon {
+            display: flex;
+          }
+          .hideFileIcon {
+            display: none;
+          }
+          .profile-add-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            //display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            row-gap: 0.25rem;
 
             .add-file-icon {
               pointer-events: none;
@@ -419,67 +426,66 @@ const StyledProfile = styled(motion.div)`
             display: none;
           }
         }
-    }
+      }
 
-        input[type="text"] {
-          color: #0c395e;
-          padding: 0.25rem;
-          font-size: 24pt;
-          text-align: center;
-          //font-family: "Roboto Condensed", sans-serif;
-          font-family: "Lobster Two", cursive;
-          outline: solid 3px transparent;
+      input[type="text"] {
+        color: #0c395e;
+        padding: 0.25rem;
+        font-size: 24pt;
+        text-align: center;
+        //font-family: "Roboto Condensed", sans-serif;
+        font-family: "Lobster Two", cursive;
+        outline: solid 3px transparent;
+        border: solid 1px transparent;
+        background-color: #ebebeb;
+        &:focus {
+          outline: solid 3px #688297;
+        }
+        &.editing {
+          border: dashed 3px #313131;
+          border-radius: 4px;
+        }
+        &:focus.editing {
           border: solid 1px transparent;
-          background-color: #ebebeb;
-          &:focus {
-            outline: solid 3px #688297;
-          }
-          &.editing {
-            border: dashed 3px #313131;
-            border-radius: 4px;
-          }
-          &:focus.editing {
-            border: solid 1px transparent;
-          }
         }
+      }
 
-        .input-item {
-          display: flex;
-          flex-direction: column;
-          width: 60%;
-          label {
-            font-weight: bold;
-            font-size: 14pt;
-            font-variant-caps: all-small-caps;
-            margin-bottom: 0.5rem;
-          }
+      .input-item {
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+        label {
+          font-weight: bold;
+          font-size: 14pt;
+          font-variant-caps: all-small-caps;
+          margin-bottom: 0.5rem;
         }
+      }
 
-        .buttons {
+      .buttons {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        column-gap: 1rem;
+        button {
           display: flex;
-          justify-content: space-between;
-          width: 100%;
           column-gap: 1rem;
-          button {
-            display: flex;
-            column-gap: 1rem;
-            align-items: center;
-            justify-content: center;
-            color: #0c395e;
-            border: 2px solid #0c395e;
-            padding: 0.25rem;
-            font-size: 14pt;
-            font-variant-caps: all-small-caps;
-            outline: solid 3px transparent;
-            width: 100px;
-            height: 40px;
-            cursor: pointer;
-          }
-          button:hover {
-            color: white;
-            background-color: #0c395e;
-            transition: 0.3s;
-          }
+          align-items: center;
+          justify-content: center;
+          color: #0c395e;
+          border: 2px solid #0c395e;
+          padding: 0.25rem;
+          font-size: 14pt;
+          font-variant-caps: all-small-caps;
+          outline: solid 3px transparent;
+          width: 100px;
+          height: 40px;
+          cursor: pointer;
+        }
+        button:hover {
+          color: white;
+          background-color: #0c395e;
+          transition: 0.3s;
         }
       }
     }

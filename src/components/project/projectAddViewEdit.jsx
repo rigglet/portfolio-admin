@@ -13,6 +13,7 @@ import { default as StepInfo } from "../wizard/step1";
 import { default as StepLibraries } from "../wizard/step2";
 import { default as StepPackages } from "../wizard/step3";
 import { default as StepTechnologies } from "../wizard/step4";
+import { default as StepImages } from "../wizard/step5";
 
 const ProjectAddViewEdit = function ({
   openingHookSetter,
@@ -66,6 +67,13 @@ const ProjectAddViewEdit = function ({
               formType={formType}
             />
             <StepTechnologies
+              auth={auth}
+              showSubmit={showSubmit}
+              currentProject={currentProject}
+              handleSaveStep={handleSaveStep}
+              formType={formType}
+            />
+            <StepImages
               auth={auth}
               showSubmit={showSubmit}
               currentProject={currentProject}

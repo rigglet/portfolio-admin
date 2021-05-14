@@ -31,7 +31,8 @@ function ImageItem({
         )
       }
 
-      <div className="data-item long-cell">{image._id}</div>
+      <div className="data-item name-cell">{image.name || "profile"}</div>
+      <div className="data-item short-cell">{image.description}</div>
       <div className="data-item long-cell">{image.fileName}</div>
       <div className="data-item short-cell">{image.category}</div>
 
@@ -44,15 +45,17 @@ function ImageItem({
               setViewViewImage(true);
             }}
           />
-          <FaEdit
-            className="icon"
-            onClick={() => {
-              handleViewEditRecord(image);
-              setViewEditImage(true);
-            }}
-          />
           {image.category !== "profile" && (
-            <FaTrash className="icon" onClick={() => setViewDelete(true)} />
+            <>
+              <FaEdit
+                className="icon"
+                onClick={() => {
+                  handleViewEditRecord(image);
+                  setViewEditImage(true);
+                }}
+              />
+              <FaTrash className="icon" onClick={() => setViewDelete(true)} />
+            </>
           )}
         </div>
       </div>
