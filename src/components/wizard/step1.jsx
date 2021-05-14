@@ -147,7 +147,7 @@ const Step1 = function (props) {
                 className={!showSubmit ? "disabled" : ""}
                 disabled={!showSubmit ? true : false}
                 defaultValue={currentProject?.shortDescription}
-                type=""
+                type="text"
                 {...register("shortDescription")}
                 autoComplete="off"
                 cols="50"

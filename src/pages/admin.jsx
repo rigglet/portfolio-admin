@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import Projects from "../components/project/projects";
 import Packages from "../components/package/packages";
 import Links from "../components/link/links";
+import Texts from "../components/text/texts";
 import Technologies from "../components/technology/techs";
 import Libraries from "../components/library/libs";
 import Tools from "../components/tool/tools";
@@ -23,6 +24,7 @@ function Admin({ auth, setAuth }) {
 
   const [projects, setProjects] = useState({});
   const [links, setLinks] = useState({});
+  const [texts, setTexts] = useState({});
   const [technologies, setTechnologies] = useState({});
   const [libraries, setLibraries] = useState({});
   const [packages, setPackages] = useState({});
@@ -36,22 +38,19 @@ function Admin({ auth, setAuth }) {
     }
   }
 
-  useEffect(
-    () => {
-      async function getData() {
-        setProjects(await fetchdata("projects"));
-        setLinks(await fetchdata("links"));
-        setTechnologies(await fetchdata("technologies"));
-        setPackages(await fetchdata("packages"));
-        setLibraries(await fetchdata("libraries"));
-        setTools(await fetchdata("tools"));
-        setImages(await fetchdata("images"));
-      }
-      getData();
-    },
-    //eslint-disable-next-line
-    []
-  );
+  useEffect(() => {
+    async function getData() {
+      setProjects(await fetchdata("projects"));
+      setLinks(await fetchdata("links"));
+      setTexts(await fetchdata("texts"));
+      setTechnologies(await fetchdata("technologies"));
+      setPackages(await fetchdata("packages"));
+      setLibraries(await fetchdata("libraries"));
+      setTools(await fetchdata("tools"));
+      setImages(await fetchdata("images"));
+    }
+    getData();
+  }, []);
 
   const data = () => {
     switch (path) {
@@ -61,6 +60,8 @@ function Admin({ auth, setAuth }) {
         return <Packages auth={auth} />;
       case "/admin/links":
         return <Links auth={auth} />;
+      case "/admin/texts":
+        return <Texts auth={auth} />;
       case "/admin/tech":
         return <Technologies auth={auth} />;
       case "/admin/libraries":
@@ -80,6 +81,7 @@ function Admin({ auth, setAuth }) {
       <Nav
         projectNo={projects?.length ? projects.length : 0}
         linkNo={links?.length ? links.length : 0}
+        textNo={texts?.length ? texts.length : 0}
         techNo={technologies?.length ? technologies.length : 0}
         libNo={libraries?.length ? libraries.length : 0}
         packageNo={packages?.length ? packages.length : 0}

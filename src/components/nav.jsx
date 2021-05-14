@@ -20,7 +20,7 @@ function Nav({
   imageNo,
   toolNo,
   roadmapNo,
-  copyNo,
+  textNo,
 }) {
   const [projectChevron, setProjectChevron] = useState(true);
   const [siteChevron, setSiteChevron] = useState(true);
@@ -217,7 +217,7 @@ function Nav({
             <FaMapSigns className="nav-icon" />
             <Link
               className={path === "roadmap" ? "selected" : ""}
-              to="/admin/roadmap"
+              to="/admin/roadmaps"
             >
               Roadmap
             </Link>
@@ -228,19 +228,19 @@ function Nav({
         </motion.li>
         <motion.li
           variants={item}
-          className={path === "copy" ? "selected" : ""}
+          className={path === "text" ? "selected" : ""}
         >
           <div className="link-info">
             <IoText className="nav-icon" />
             <Link
-              className={path === "roadmap" ? "selected" : ""}
-              to="/admin/copy"
+              className={path === "text" ? "selected" : ""}
+              to="/admin/texts"
             >
-              Copy
+              Text
             </Link>
           </div>
           <div className="link-amount">
-            <h4>{copyNo}</h4>
+            <h4>{textNo}</h4>
           </div>
         </motion.li>
       </motion.ul>
