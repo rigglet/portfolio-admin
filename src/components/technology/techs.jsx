@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
@@ -10,10 +10,9 @@ import "react-toastify/dist/ReactToastify.css";
 import TechList from "./techList";
 import TechAdd from "./techAddViewEdit";
 //data
-import { getData, deleteData, postData, updateData } from "../../api/api";
+import { deleteData, postData, updateData } from "../../api/api";
 
-function Techs({ auth }) {
-  const [techs, setTechs] = useState({});
+function Techs({ auth, techs, setTechs }) {
   const [currentTech, setCurrentTech] = useState(null);
   const [viewViewTech, setViewViewTech] = useState(false);
   const [viewAddTech, setViewAddTech] = useState(false);
@@ -36,17 +35,6 @@ function Techs({ auth }) {
         toast.dark("Nothing to report");
     }
   };
-
-  useEffect(() => {
-    async function getTable() {
-      return await getData(auth, "technologies");
-    }
-    getTable().then((result) => {
-      if (result.status === 200) {
-        setTechs(result.data);
-      }
-    });
-  }, []);
 
   //HANDLE ADD/EDIT SUBMIT
   const handleSaveTech = async (data) => {

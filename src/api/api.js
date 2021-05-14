@@ -25,6 +25,7 @@ export const getUserData = async (auth) => {
   const libraries = `${serverBaseURL()}/api/users/${id}/libraries`;
   const packages = `${serverBaseURL()}/api/users/${id}/packages`;
   const tools = `${serverBaseURL()}/api/users/${id}/tools`;
+  const texts = `${serverBaseURL()}/api/users/${id}/texts`;
   const images = `${serverBaseURL()}/api/users/${id}/images`;
 
   const headers = {
@@ -39,10 +40,11 @@ export const getUserData = async (auth) => {
   const requestLinks = await axios.get(links, headers);
   const requestTechnologies = await axios.get(technologies, headers);
   const requestTools = await axios.get(tools, headers);
+  const requestTexts = await axios.get(texts, headers);
   const requestImages = await axios.get(images, headers);
 
   try {
-    axios
+    return axios
       .all([
         requestProjects,
         requestLinks,
@@ -51,9 +53,11 @@ export const getUserData = async (auth) => {
         requestPackages,
         requestTools,
         requestImages,
+        requestTexts,
       ])
       .then(
         axios.spread((...responses) => {
+          //console.log(...responses);
           return responses;
         })
       );

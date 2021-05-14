@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //data
-import { getData, deleteData, postData, updateData } from "../../api/api";
+import { deleteData, postData, updateData } from "../../api/api";
 //UUID inique ID generator
 //import { v4 as uuidv4 } from "uuid";
 //icons
@@ -19,8 +19,8 @@ import ProjectAddViewEdit from "./projectAddViewEdit";
 import { ToastContainer, toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function Projects({ auth }) {
-  const [projects, setProjects] = useState({});
+function Projects({ auth, projects, setProjects }) {
+  //const [projects, setProjects] = useState({});
   const [currentProject, setCurrentProject] = useState(null);
   const [viewViewProject, setViewViewProject] = useState(false);
   const [viewAddProject, setViewAddProject] = useState(false);
@@ -42,16 +42,16 @@ function Projects({ auth }) {
     }
   };
 
-  useEffect(() => {
-    async function getTable() {
-      return await getData(auth, "projects");
-    }
-    getTable().then((result) => {
-      if (result.status === 200) {
-        setProjects(result.data);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   async function getTable() {
+  //     return await getData(auth, "projects");
+  //   }
+  //   getTable().then((result) => {
+  //     if (result.status === 200) {
+  //       setProjects(result.data);
+  //     }
+  //   });
+  // }, []);
 
   //HANDLE LIST EDIT
   const handleSaveList = async (project) => {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
@@ -11,9 +11,9 @@ import LibList from "./libList";
 import LibAdd from "./libAddViewEdit";
 //import DeleteConfirmation from "../DeleteConfirmation";
 //data
-import { getData, deleteData, postData, updateData } from "../../api/api";
+import { deleteData, postData, updateData } from "../../api/api";
 
-function Libs({ auth }) {
+function Libs({ auth, libraries, setLibraries }) {
   const [libs, setLibs] = useState({});
   const [currentLib, setCurrentLib] = useState(null);
   const [viewViewLib, setViewViewLib] = useState(false);
@@ -36,21 +36,6 @@ function Libs({ auth }) {
     }
   };
 
-  useEffect(
-    () => {
-      async function getTable() {
-        return await getData(auth, "libraries");
-      }
-      getTable().then((result) => {
-        if (result.status === 200) {
-          setLibs(result.data);
-        }
-      });
-    },
-    // eslint-disable-next-line
-    []
-  );
-
   //HANDLE ADD/EDIT SUBMIT
   const handleSaveLib = async (data) => {
     const editLib = async () => {
@@ -69,7 +54,10 @@ function Libs({ auth }) {
             return result;
           })
           .then((result) => {
-            setLibs([...libs.filter((p) => p._id !== data._id), data]);
+            setLibraries([
+              ...libraries.filter((p) => p._id !== data._id),
+              data,
+            ]);
           })
           .then(() => {
             setViewEditLib(false);
@@ -81,7 +69,7 @@ function Libs({ auth }) {
             return result;
           })
           .then((result) => {
-            setLibs([...libs, result.data]);
+            setLibraries([...libraries, result.data]);
           })
           .then(() => {
             setViewAddLib(false);
@@ -100,7 +88,7 @@ function Libs({ auth }) {
         notify("DELETED", result.status, result.data._id);
       })
       .then(() => {
-        setLibs([...libs.filter((p) => p._id !== id)]);
+        setLibraries([...libraries.filter((p) => p._id !== id)]);
       });
   };
 
@@ -127,7 +115,7 @@ function Libs({ auth }) {
 
       {
         //view ADD LIB modal
-        viewAddLib ? (
+        viewAddLib && (
           <LibAdd
             openingHookSetter={setViewAddLib}
             handleSaveLib={handleSaveLib}
@@ -135,14 +123,12 @@ function Libs({ auth }) {
             showSubmit={true}
             formType={"NEW"}
           />
-        ) : (
-          ""
         )
       }
 
       {
         //view EDIT LIB modal
-        viewEditLib ? (
+        viewEditLib && (
           <LibAdd
             openingHookSetter={setViewEditLib}
             handleSaveLib={handleSaveLib}
@@ -151,13 +137,11 @@ function Libs({ auth }) {
             showSubmit={true}
             formType={"EDIT"}
           />
-        ) : (
-          ""
         )
       }
       {
         //view VIEW LIB modal
-        viewViewLib ? (
+        viewViewLib && (
           <LibAdd
             openingHookSetter={setViewViewLib}
             lib={currentLib}
@@ -167,8 +151,6 @@ function Libs({ auth }) {
             currentLib={currentLib}
             formType={"VIEW"}
           />
-        ) : (
-          ""
         )
       }
       <div className="header">
@@ -180,9 +162,9 @@ function Libs({ auth }) {
           />
         </div>
       </div>
-      {libs.length > 0 ? (
+      {libraries.length > 0 ? (
         <LibList
-          libs={libs}
+          libraries={libraries}
           acceptFnc={handleDeleteRecord}
           handleViewEditRecord={handleViewEditRecord}
           setViewEditLib={setViewEditLib}

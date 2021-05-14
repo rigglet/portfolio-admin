@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
@@ -10,10 +10,9 @@ import "react-toastify/dist/ReactToastify.css";
 import ToolList from "./toolList";
 import ToolAdd from "./toolAddViewEdit";
 //data
-import { getData, deleteData, postData, updateData } from "../../api/api";
+import { deleteData, postData, updateData } from "../../api/api";
 
-function Tools({ auth }) {
-  const [tools, setTools] = useState({});
+function Tools({ auth, tools, setTools }) {
   const [currentTool, setCurrentTool] = useState(null);
   const [viewViewTool, setViewViewTool] = useState(false);
   const [viewAddTool, setViewAddTool] = useState(false);
@@ -34,17 +33,6 @@ function Tools({ auth }) {
         toast.dark("Nothing to report");
     }
   };
-
-  useEffect(() => {
-    async function getTable() {
-      return await getData(auth, "tools");
-    }
-    getTable().then((result) => {
-      if (result.status === 200) {
-        setTools(result.data);
-      }
-    });
-  }, []);
 
   //HANDLE ADD/EDIT SUBMIT
   const handleSaveTool = async (data) => {

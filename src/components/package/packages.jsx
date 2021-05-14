@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
@@ -11,10 +11,9 @@ import PackageList from "./packageList";
 import PackageAdd from "./packageAddViewEdit";
 //import DeleteConfirmation from "../DeleteConfirmation";
 //data
-import { getData, deleteData, postData, updateData } from "../../api/api";
+import { deleteData, postData, updateData } from "../../api/api";
 
-function Packages({ auth }) {
-  const [packages, setPackages] = useState({});
+function Packages({ auth, packages, setPackages }) {
   const [currentPackage, setCurrentPackage] = useState(null);
   const [viewViewPackage, setViewViewPackage] = useState(false);
   const [viewAddPackage, setViewAddPackage] = useState(false);
@@ -35,17 +34,6 @@ function Packages({ auth }) {
         toast.dark("Nothing to report");
     }
   };
-
-  useEffect(() => {
-    async function getTable() {
-      return await getData(auth, "packages");
-    }
-    getTable().then((result) => {
-      if (result.status === 200) {
-        setPackages(result.data);
-      }
-    });
-  }, []);
 
   //HANDLE ADD/EDIT SUBMIT
   const handleSavePackage = async (data) => {

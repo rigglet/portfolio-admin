@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
@@ -12,10 +12,9 @@ import ImageList from "./imageList";
 import ImageAdd from "./imageAddViewEdit";
 import ImagesView from "./imagesView";
 //data
-import { getData, deleteData, postData, updateData } from "../../api/api";
+import { deleteData, postData, updateData } from "../../api/api";
 
-function Images({ auth }) {
-  const [images, setImages] = useState({});
+function Images({ auth, images, setImages }) {
   const [currentImage, setCurrentImage] = useState({
     name: "",
     description: "",
@@ -46,17 +45,6 @@ function Images({ auth }) {
         toast.dark("Nothing to report");
     }
   };
-
-  useEffect(() => {
-    async function getTable() {
-      return await getData(auth, "images");
-    }
-    getTable().then((result) => {
-      if (result.status === 200) {
-        setImages(result.data);
-      }
-    });
-  }, []);
 
   //HANDLE ADD/EDIT SUBMIT
   const handleSaveImage = async (e) => {

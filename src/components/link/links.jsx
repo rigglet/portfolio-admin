@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
@@ -10,10 +10,10 @@ import "react-toastify/dist/ReactToastify.css";
 import LinkList from "./linkList";
 import LinkAdd from "./linkAddViewEdit";
 //data
-import { getData, deleteData, postData, updateData } from "../../api/api";
+import { deleteData, postData, updateData } from "../../api/api";
 
-function Links({ auth }) {
-  const [links, setLinks] = useState({});
+function Links({ auth, links, setLinks }) {
+  //const [links, setLinks] = useState({});
   const [currentLink, setCurrentLink] = useState(null);
   const [viewViewLink, setViewViewLink] = useState(false);
   const [viewAddLink, setViewAddLink] = useState(false);
@@ -35,20 +35,20 @@ function Links({ auth }) {
     }
   };
 
-  useEffect(
-    () => {
-      async function getTable() {
-        return await getData(auth, "links");
-      }
-      getTable().then((result) => {
-        if (result.status === 200) {
-          setLinks(result.data);
-        }
-      });
-    },
-    // eslint-disable-next-line
-    []
-  );
+  // useEffect(
+  //   () => {
+  //     async function getTable() {
+  //       return await getData(auth, "links");
+  //     }
+  //     getTable().then((result) => {
+  //       if (result.status === 200) {
+  //         setLinks(result.data);
+  //       }
+  //     });
+  //   },
+  //   // eslint-disable-next-line
+  //   []
+  // );
 
   //HANDLE ADD/EDIT SUBMIT
   const handleSaveLink = async (data) => {

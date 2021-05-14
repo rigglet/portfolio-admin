@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import LibItem from "./libItem";
 
 function LibList({
-  libs,
+  libraries,
   setViewEditLib,
   setViewViewLib,
   declineFnc,
@@ -15,7 +15,7 @@ function LibList({
 }) {
   return (
     <StyledLibList>
-      {libs.length > 0 ? (
+      {libraries.length > 0 ? (
         <ul>
           <li key={uuidv4()} className="headers">
             <h4 className="name-header">Name</h4>
@@ -23,7 +23,7 @@ function LibList({
             <h4 className="long-header">Description</h4>
             <h4 className="short-header">Actions</h4>
           </li>
-          {libs
+          {libraries
             .sort((a, b) => (a.libName > b.libName ? 1 : -1))
             .map((lib) => {
               return (

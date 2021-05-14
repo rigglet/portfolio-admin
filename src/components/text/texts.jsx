@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
@@ -10,10 +10,9 @@ import "react-toastify/dist/ReactToastify.css";
 import TextList from "./textList";
 import TextAdd from "./textAddViewEdit";
 //data
-import { getData, deleteData, postData, updateData } from "../../api/api";
+import { deleteData, postData, updateData } from "../../api/api";
 
-function Texts({ auth }) {
-  const [texts, setTexts] = useState({});
+function Texts({ auth, texts, setTexts }) {
   const [currentText, setCurrentText] = useState(null);
   const [viewViewText, setViewViewText] = useState(false);
   const [viewAddText, setViewAddText] = useState(false);
@@ -34,17 +33,6 @@ function Texts({ auth }) {
         toast.dark("Nothing to report");
     }
   };
-
-  useEffect(() => {
-    async function getTable() {
-      return await getData(auth, "texts");
-    }
-    getTable().then((result) => {
-      if (result.status === 200) {
-        setTexts(result.data);
-      }
-    });
-  }, []);
 
   //HANDLE ADD/EDIT SUBMIT
   const handleSaveText = async (data) => {
