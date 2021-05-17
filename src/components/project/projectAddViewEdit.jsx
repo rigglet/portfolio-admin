@@ -1,12 +1,5 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-//forms
-import { useForm } from "react-hook-form";
-//UUID inique ID generator
-//import { v4 as uuidv4 } from "uuid";
-//icons
-//import { TiTick, TiTimes } from "react-icons/ti";
 //components
 import StepWizard from "react-step-wizard";
 import { default as StepInfo } from "../wizard/step1";
@@ -19,27 +12,28 @@ const ProjectAddViewEdit = function ({
   openingHookSetter,
   handleSaveProject,
   title,
-  showSubmit,
   currentProject,
+  setCurrentProject,
   formType,
-  auth,
+  images,
+  setImages,
+  techs,
+  setTechs,
+  packages,
+  setPackages,
+  libraries,
+  setLibraries,
 }) {
-  const [formData, setFormData] = useState({});
-
-  const handleSaveStep = (data) => {
-    setFormData({ ...formData, ...data });
-    console.log(formData);
-  };
-
-  // const handleStep = (data) => {
-  //   setFormData({ ...formData, ...data });
-  //   console.log(formData);
-  // };
-
   return (
     <StyledProjectAddViewEdit>
       <div className="container">
-        <button className="close" onClick={() => openingHookSetter(false)}>
+        <button
+          className="close"
+          onClick={() => {
+            openingHookSetter(false);
+            setCurrentProject({});
+          }}
+        >
           &#10008;
         </button>
         <div className="form-information">
@@ -47,39 +41,38 @@ const ProjectAddViewEdit = function ({
           <h5>{currentProject?._id}</h5>
           <StepWizard>
             <StepInfo
-              showSubmit={showSubmit}
-              currentProject={currentProject}
-              handleSaveStep={handleSaveStep}
               formType={formType}
+              currentProject={currentProject}
+              setCurrentProject={setCurrentProject}
             />
             <StepLibraries
-              auth={auth}
-              showSubmit={showSubmit}
-              currentProject={currentProject}
-              handleSaveStep={handleSaveStep}
               formType={formType}
+              currentProject={currentProject}
+              setCurrentProject={setCurrentProject}
+              libraries={libraries}
+              setLibraries={setLibraries}
             />
             <StepPackages
-              auth={auth}
-              showSubmit={showSubmit}
-              currentProject={currentProject}
-              handleSaveStep={handleSaveStep}
               formType={formType}
+              currentProject={currentProject}
+              setCurrentProject={setCurrentProject}
+              packages={packages}
+              setPackages={setPackages}
             />
             <StepTechnologies
-              auth={auth}
-              showSubmit={showSubmit}
-              currentProject={currentProject}
-              handleSaveStep={handleSaveStep}
               formType={formType}
+              currentProject={currentProject}
+              setCurrentProject={setCurrentProject}
+              techs={techs}
+              setTechs={setTechs}
             />
             <StepImages
-              auth={auth}
-              showSubmit={showSubmit}
-              currentProject={currentProject}
-              handleSaveStep={handleSaveStep}
               formType={formType}
+              currentProject={currentProject}
+              setCurrentProject={setCurrentProject}
               handleSaveProject={handleSaveProject}
+              images={images}
+              setImages={setImages}
             />
           </StepWizard>
         </div>
@@ -116,35 +109,8 @@ const StyledProjectAddViewEdit = styled(motion.div)`
       h1 {
         font-size: 16pt;
         font-weight: 600;
-        //margin-bottom: 0.5rem;
-      }
-      .icon {
-        cursor: pointer;
-        width: 1.2rem;
-        height: 1.2rem;
-        color: #888888;
-      }
-      .tick {
-        color: green;
-        //cursor: default;
-      }
-      .cross {
-        color: red;
-        //cursor: default;
       }
     }
-    /* .image-gallery {
-      display: flex;
-      justify-content: space-between;
-      .main {
-        width: 60%;
-        height: 50%;
-      }
-      .screenshots {
-        width: 60%;
-        height: 50%;
-      }
-    } */
   }
 `;
 

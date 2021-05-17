@@ -211,23 +211,6 @@ function Nav({
         </motion.li>
         <motion.li
           variants={item}
-          className={path === "roadmap" ? "selected" : ""}
-        >
-          <div className="link-info">
-            <FaMapSigns className="nav-icon" />
-            <Link
-              className={path === "roadmap" ? "selected" : ""}
-              to="/admin/roadmaps"
-            >
-              Roadmap
-            </Link>
-          </div>
-          <div className="link-amount">
-            <h4>{roadmapNo}</h4>
-          </div>
-        </motion.li>
-        <motion.li
-          variants={item}
           className={path === "text" ? "selected" : ""}
         >
           <div className="link-info">
@@ -241,6 +224,23 @@ function Nav({
           </div>
           <div className="link-amount">
             <h4>{textNo}</h4>
+          </div>
+        </motion.li>
+        <motion.li
+          variants={item}
+          className={path === "roadmap" ? "selected" : ""}
+        >
+          <div className="link-info">
+            <FaMapSigns className="nav-icon" />
+            <Link
+              className={path === "roadmap" ? "selected" : ""}
+              to="/admin/roadmaps"
+            >
+              Roadmap
+            </Link>
+          </div>
+          <div className="link-amount">
+            <h4>{roadmapNo}</h4>
           </div>
         </motion.li>
       </motion.ul>

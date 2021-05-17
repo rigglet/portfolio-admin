@@ -9,7 +9,6 @@ import "react-toastify/dist/ReactToastify.css";
 //components
 import PackageList from "./packageList";
 import PackageAdd from "./packageAddViewEdit";
-//import DeleteConfirmation from "../DeleteConfirmation";
 //data
 import { deleteData, postData, updateData } from "../../api/api";
 
@@ -19,16 +18,16 @@ function Packages({ auth, packages, setPackages }) {
   const [viewAddPackage, setViewAddPackage] = useState(false);
   const [viewEditPackage, setViewEditPackage] = useState(false);
 
-  const notify = (type, status, id) => {
+  const notify = (type, id) => {
     switch (type) {
       case "EDITED":
-        toast.dark(`Status: ${status} => Package EDITED successfully`);
+        toast.dark(`Package EDITED successfully`);
         break;
       case "ADDED":
-        toast.dark(`Status: ${status} => Package ${id} ADDED successfully`);
+        toast.dark(`Package ${id} ADDED successfully`);
         break;
       case "DELETED":
-        toast.dark(`Status: ${status} => Package ${id} DELETED successfully`);
+        toast.dark(`Package ${id} DELETED successfully`);
         break;
       default:
         toast.dark("Nothing to report");

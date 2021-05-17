@@ -19,36 +19,21 @@ function Links({ auth, links, setLinks }) {
   const [viewAddLink, setViewAddLink] = useState(false);
   const [viewEditLink, setViewEditLink] = useState(false);
 
-  const notify = (type, status, id) => {
+  const notify = (type, id) => {
     switch (type) {
       case "EDITED":
-        toast.dark(`Status: ${status} => Link EDITED successfully`);
+        toast.dark(`Link EDITED successfully`);
         break;
       case "ADDED":
-        toast.dark(`Status: ${status} => Link ${id} ADDED successfully`);
+        toast.dark(`Link ${id} ADDED successfully`);
         break;
       case "DELETED":
-        toast.dark(`Status: ${status} => Link ${id} DELETED successfully`);
+        toast.dark(`Link ${id} DELETED successfully`);
         break;
       default:
         toast.dark("Nothing to report");
     }
   };
-
-  // useEffect(
-  //   () => {
-  //     async function getTable() {
-  //       return await getData(auth, "links");
-  //     }
-  //     getTable().then((result) => {
-  //       if (result.status === 200) {
-  //         setLinks(result.data);
-  //       }
-  //     });
-  //   },
-  //   // eslint-disable-next-line
-  //   []
-  // );
 
   //HANDLE ADD/EDIT SUBMIT
   const handleSaveLink = async (data) => {

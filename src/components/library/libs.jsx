@@ -14,7 +14,6 @@ import LibAdd from "./libAddViewEdit";
 import { deleteData, postData, updateData } from "../../api/api";
 
 function Libs({ auth, libraries, setLibraries }) {
-  const [libs, setLibs] = useState({});
   const [currentLib, setCurrentLib] = useState(null);
   const [viewViewLib, setViewViewLib] = useState(false);
   const [viewAddLib, setViewAddLib] = useState(false);
@@ -23,13 +22,13 @@ function Libs({ auth, libraries, setLibraries }) {
   const notify = (type, status, id) => {
     switch (type) {
       case "EDITED":
-        toast.dark(`Status: ${status} => Library EDITED successfully`);
+        toast.dark(`Library EDITED successfully`);
         break;
       case "ADDED":
-        toast.dark(`Status: ${status} => Library ${id} ADDED successfully`);
+        toast.dark(`Library ${id} ADDED successfully`);
         break;
       case "DELETED":
-        toast.dark(`Status: ${status} => Library ${id} DELETED successfully`);
+        toast.dark(`Library ${id} DELETED successfully`);
         break;
       default:
         toast.dark("Nothing to report");

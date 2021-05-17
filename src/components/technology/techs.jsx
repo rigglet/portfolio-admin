@@ -13,64 +13,72 @@ import TechAdd from "./techAddViewEdit";
 import { deleteData, postData, updateData } from "../../api/api";
 
 function Techs({ auth, techs, setTechs }) {
-  const [currentTech, setCurrentTech] = useState(null);
+  const [currentTech, setCurrentTech] = useState({
+    name: "",
+    type: "",
+    address: "",
+  });
   const [viewViewTech, setViewViewTech] = useState(false);
   const [viewAddTech, setViewAddTech] = useState(false);
   const [viewEditTech, setViewEditTech] = useState(false);
 
-  const notify = (type, status, id) => {
+  const notify = (type) => {
     switch (type) {
       case "EDITED":
-        toast.dark(`Status: ${status} => Technology EDITED successfully`);
+        toast.dark(`Technology EDITED successfully`);
         break;
       case "ADDED":
-        toast.dark(`Status: ${status} => Technology ${id} ADDED successfully`);
+        toast.dark(`Technology ADDED successfully`);
         break;
       case "DELETED":
-        toast.dark(
-          `Status: ${status} => Technology ${id} DELETED successfully`
-        );
+        toast.dark(`Technology DELETED successfully`);
         break;
       default:
         toast.dark("Nothing to report");
     }
   };
 
-  //HANDLE ADD/EDIT SUBMIT
-  const handleSaveTech = async (data) => {
-    const editTech = async () => {
-      return await updateData(auth, "technologies", data);
-    };
-
+  //HANDLE ADD TECHNOLOGY
+  const handleSaveTech = async () => {
     const addTech = async () => {
-      return await postData(auth, "technologies", data);
+      return await postData(auth, "technologies", currentTech);
     };
 
-    data?.formtype === "EDIT"
-      ? editTech()
-          .then((result) => {
-            //Toast message
-            notify("EDITED", result.status, result._id);
-            return result;
-          })
-          .then(() => {
-            setTechs([...techs.filter((t) => t._id !== data._id), data]);
-          })
-          .then(() => {
-            setViewEditTech(false);
-          })
-      : addTech()
-          .then((result) => {
-            //Toast message
-            notify("ADDED", result.status, result.data._id);
-            return result;
-          })
-          .then((result) => {
-            setTechs([...techs, result.data]);
-          })
-          .then(() => {
-            setViewAddTech(false);
-          });
+    addTech()
+      .then((result) => {
+        //Toast message
+        notify("ADDED", result.status, result.data._id);
+        return result;
+      })
+      .then((result) => {
+        setTechs([...techs, result.data]);
+      })
+      .then(() => {
+        setViewAddTech(false);
+      });
+  };
+
+  //HANDLE EDIT TECHNOLOGY
+  const handleEditTech = async () => {
+    const editTech = async () => {
+      return await updateData(auth, "technologies", currentTech);
+    };
+
+    editTech()
+      .then((result) => {
+        //Toast message
+        notify("EDITED");
+        return result;
+      })
+      .then(() => {
+        setTechs([
+          ...techs.filter((t) => t._id !== currentTech._id),
+          currentTech,
+        ]);
+      })
+      .then(() => {
+        setViewEditTech(false);
+      });
   };
 
   //HANDLE DELETE RECORD
@@ -82,7 +90,7 @@ function Techs({ auth, techs, setTechs }) {
     deleteTech()
       .then((result) => {
         //Toast message
-        notify("DELETED", result.status, result.data._id);
+        notify("DELETED");
       })
       .then(() => {
         setTechs([...techs.filter((t) => t._id !== id)]);
@@ -112,49 +120,47 @@ function Techs({ auth, techs, setTechs }) {
 
       {
         //view ADD TECH modal
-        viewAddTech ? (
+        viewAddTech && (
           <TechAdd
             openingHookSetter={setViewAddTech}
+            currentTech={currentTech}
+            setCurrentTech={setCurrentTech}
             handleSaveTech={handleSaveTech}
+            handleEditTech={handleEditTech}
             title="Add new technology"
-            showSubmit={true}
             formType={"NEW"}
           />
-        ) : (
-          ""
         )
       }
 
       {
         //view EDIT TECH modal
-        viewEditTech ? (
+        viewEditTech && (
           <TechAdd
             openingHookSetter={setViewEditTech}
+            handleEditTech={handleEditTech}
             handleSaveTech={handleSaveTech}
             currentTech={currentTech}
+            setCurrentTech={setCurrentTech}
             title="Edit technology"
-            showSubmit={true}
             formType={"EDIT"}
           />
-        ) : (
-          ""
         )
       }
+
       {
         //view VIEW TECH modal
-        viewViewTech ? (
+        viewViewTech && (
           <TechAdd
             openingHookSetter={setViewViewTech}
             setViewViewTech={setViewViewTech}
             title="View technology"
-            showSubmit={false}
             currentTech={currentTech}
             formType={"VIEW"}
           />
-        ) : (
-          ""
         )
       }
+
       <div className="header">
         <h1>Technologies</h1>
         <div className="toolbar">

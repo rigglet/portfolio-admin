@@ -5,7 +5,9 @@ const ListItem = (props) => {
 
   return (
     <StyledListItem onClick={() => handleItemClick(children)}>
-      {children.name}
+      <h4>{children.name}</h4>
+      <p>{children.description}</p>
+      <p>{children.type}</p>
     </StyledListItem>
   );
 };
@@ -13,8 +15,12 @@ const ListItem = (props) => {
 export default ListItem;
 
 const StyledListItem = styled.div`
+  border: 1px solid #313131;
   width: 100%;
-  border: 1px solid #0c395e;
+  //height: 10%;
   padding: 0.25rem;
+  border-radius: 4px;
+  background-color: white;
+  color: #313131;
   cursor: pointer;
 `;

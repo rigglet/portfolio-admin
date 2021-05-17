@@ -17,7 +17,7 @@ import Images from "../components/image/images";
 import Nav from "../components/nav";
 import Bar from "../components/bar";
 //data
-import { getUserData, getData } from "../api/api";
+import { getUserData } from "../api/api";
 
 function Admin({ auth, setAuth }) {
   const location = useLocation();
@@ -34,11 +34,10 @@ function Admin({ auth, setAuth }) {
   const [maps, setMaps] = useState({});
 
   useEffect(() => {
-    async function getStuff() {
+    async function getApplicationData() {
       return await getUserData(auth);
     }
-    getStuff().then((result) => {
-      console.log(result);
+    getApplicationData().then((result) => {
       setProjects(result[0].data);
       setLinks(result[1].data);
       setTechs(result[2].data);
@@ -54,7 +53,19 @@ function Admin({ auth, setAuth }) {
     switch (path) {
       case "/admin/projects":
         return (
-          <Projects auth={auth} projects={projects} setProjects={setProjects} />
+          <Projects
+            auth={auth}
+            projects={projects}
+            setProjects={setProjects}
+            images={images}
+            setImages={setImages}
+            techs={techs}
+            setTechs={setTechs}
+            packages={packages}
+            setPackages={setPackages}
+            libraries={libraries}
+            setLibraries={setLibraries}
+          />
         );
       case "/admin/packages":
         return (

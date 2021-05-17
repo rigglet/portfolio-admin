@@ -35,7 +35,7 @@ const ImageAddViewEdit = function ({
       ...currentImage,
       [e.target.name]: e.target.value,
     });
-  console.log("form Image: ", currentImage);
+
   return (
     <StyledImageAddViewEdit>
       <div className="container">
