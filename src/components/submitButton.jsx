@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FaRegSave } from "react-icons/fa";
 
 export default function submitButton(props) {
   let handleClickFunction = {};
@@ -10,12 +11,14 @@ export default function submitButton(props) {
       type="button"
       className="submitBut"
       onClick={handleClickFunction}
-      value="Save"
-    />
+    >
+      <FaRegSave />
+      Save
+    </StyledSubmit>
   );
 }
 
-const StyledSubmit = styled.input`
+const StyledSubmit = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;

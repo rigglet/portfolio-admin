@@ -18,13 +18,14 @@ function Images({ auth, images, setImages }) {
   const [currentImage, setCurrentImage] = useState({
     name: "",
     description: "",
+    file: {},
   });
   const [viewViewImage, setViewViewImage] = useState(false);
   const [viewAddImage, setViewAddImage] = useState(false);
   const [viewEditImage, setViewEditImage] = useState(false);
   const [viewAllImages, setViewAllImages] = useState(false);
 
-  const notify = (type, status) => {
+  const notify = (type) => {
     switch (type) {
       case "SERVER_ERR":
         toast.warning(`Internal Server error: Project not saved.`);
@@ -46,61 +47,56 @@ function Images({ auth, images, setImages }) {
     }
   };
 
-  //HANDLE ADD/EDIT SUBMIT
-  const handleSaveImage = async (e) => {
-    e.preventDefault();
-
+  //HANDLE ADD IMAGE
+  const handleSaveImage = async () => {
     const formData = new FormData();
 
-    if (currentImage.formType === "NEW") {
-      //append form data
-      formData.append("_id", currentImage._id);
-      formData.append("name", currentImage.name);
-      formData.append("description", currentImage.description);
-      formData.append("category", "project");
-      formData.append(
-        "projectImage",
-        currentImage.file,
-        currentImage.file.name
-      );
-    }
-
-    const editImage = async () => {
-      return await updateData(auth, "images", currentImage);
-    };
+    //append form data
+    formData.append("_id", currentImage._id);
+    formData.append("name", currentImage.name);
+    formData.append("description", currentImage.description);
+    formData.append("category", "project");
+    formData.append("projectImage", currentImage.file, currentImage.file.name);
 
     const addImage = async () => {
       return await postData(auth, "images", formData);
     };
-    console.log(currentImage?.formType);
-    currentImage?.formType !== "NEW"
-      ? editImage()
-          .then((result) => {
-            //Toast message
-            notify("EDITED", result.status, result._id);
-            return result;
-          })
-          .then(() => {
-            setImages([
-              ...images.filter((t) => t._id !== currentImage._id),
-              currentImage,
-            ]);
-          })
-          .then(() => {
-            setViewEditImage(false);
-          })
-      : addImage()
-          .then((result) => {
-            //Toast message
-            notify("ADDED", result.status, result.data._id);
-            return result;
-          })
-          .then((result) => {
-            setImages([...images, result.data]);
-          })
-          .then(() => {
-            setViewAddImage(false);
-          });
+
+    addImage()
+      .then((result) => {
+        //Toast message
+        notify("ADDED", result.status, result.data._id);
+        return result;
+      })
+      .then((result) => {
+        setImages([...images, result.data]);
+      })
+      .then(() => {
+        setViewAddImage(false);
+      });
+  };
+
+  //HANDLE EDIT IMAGE
+  const handleEditImage = async () => {
+    const editImage = async () => {
+      return await updateData(auth, "images", currentImage);
+    };
+
+    editImage()
+      .then((result) => {
+        //Toast message
+        notify("EDITED", result.status, result._id);
+        return result;
+      })
+      .then(() => {
+        setImages([
+          ...images.filter((t) => t._id !== currentImage._id),
+          currentImage,
+        ]);
+      })
+      .then(() => {
+        setViewEditImage(false);
+      });
   };
 
   //HANDLE DELETE RECORD
@@ -151,47 +147,45 @@ function Images({ auth, images, setImages }) {
         viewAddImage && (
           <ImageAdd
             openingHookSetter={setViewAddImage}
-            handleSaveImage={handleSaveImage}
-            title="Add new image"
-            showSubmit={true}
-            currentImage={{
-              ...currentImage,
-              formType: "NEW",
-            }}
+            currentImage={currentImage}
             setCurrentImage={setCurrentImage}
+            handleSaveImage={handleSaveImage}
+            handleEditImage={handleEditImage}
+            title="Add new image"
+            formType={"NEW"}
           />
         )
       }
 
       {
         //view EDIT IMAGE modal
-        viewEditImage ? (
+        viewEditImage && (
           <ImageAdd
             openingHookSetter={setViewEditImage}
-            handleSaveImage={handleSaveImage}
-            title="Edit image details"
-            showSubmit={true}
-            currentImage={{ ...currentImage, formType: "EDIT" }}
+            currentImage={currentImage}
             setCurrentImage={setCurrentImage}
+            handleSaveImage={handleSaveImage}
+            handleEditImage={handleEditImage}
+            title="Edit image details"
+            formType={"EDIT"}
           />
-        ) : (
-          ""
         )
       }
       {
         //view VIEW IMAGE modal
-        viewViewImage ? (
+        viewViewImage && (
           <ImageAdd
             openingHookSetter={setViewViewImage}
-            title="View image"
-            showSubmit={false}
-            currentImage={{ ...currentImage, formType: "VIEW" }}
+            currentImage={currentImage}
             setCurrentImage={setCurrentImage}
+            handleSaveImage={handleSaveImage}
+            handleEditImage={handleEditImage}
+            title="View image"
+            formType={"VIEW"}
           />
-        ) : (
-          ""
         )
       }
+
       <div className="header">
         <h1>Images</h1>
         <div className="imagebar">

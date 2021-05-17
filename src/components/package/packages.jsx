@@ -26,7 +26,7 @@ function Packages({ auth, packages, setPackages }) {
   const [viewAddPackage, setViewAddPackage] = useState(false);
   const [viewEditPackage, setViewEditPackage] = useState(false);
 
-  const notify = (type, id) => {
+  const notify = (type) => {
     switch (type) {
       case "EDITED":
         toast.dark(`Package EDITED successfully`);

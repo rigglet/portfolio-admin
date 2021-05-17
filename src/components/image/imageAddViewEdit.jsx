@@ -5,17 +5,20 @@ import { motion } from "framer-motion";
 import placeholderImage from "../../images/organise_bg.svg";
 //icons
 import { BiArrowBack } from "react-icons/bi";
-import { FaRegSave, FaFileUpload } from "react-icons/fa";
+import { FaFileUpload } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 import SERVER_BASE_URL from "../../config/config";
+//components
+import SubmitButton from "../submitButton";
 
 const ImageAddViewEdit = function ({
   openingHookSetter,
   handleSaveImage,
+  handleEditImage,
   title,
-  showSubmit,
   currentImage,
   setCurrentImage,
+  formType,
 }) {
   const fileRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -43,7 +46,7 @@ const ImageAddViewEdit = function ({
           className="close"
           onClick={() => {
             openingHookSetter(false);
-            setCurrentImage({});
+            setCurrentImage({ name: "", description: "", file: {} });
           }}
         >
           &#10008;
@@ -54,7 +57,7 @@ const ImageAddViewEdit = function ({
         <div className="inner-container">
           <form onSubmit={handleSaveImage} encType="multipart/form-data">
             <div className="image-information">
-              {currentImage.formType !== "NEW" ? (
+              {formType !== "NEW" ? (
                 <img src={imageURL} alt={currentImage?.description} />
               ) : (
                 <div
@@ -99,8 +102,7 @@ const ImageAddViewEdit = function ({
                     <div className="input-item">
                       <label htmlFor="name">Image name:</label>
                       <input
-                        className={!showSubmit ? "disabled" : ""}
-                        disabled={!showSubmit ? true : false}
+                        disabled={formType === "VIEW" ? true : false}
                         type="text"
                         name="name"
                         value={currentImage?.name}
@@ -112,8 +114,7 @@ const ImageAddViewEdit = function ({
                     <div className="input-item">
                       <label htmlFor="description">Image description:</label>
                       <input
-                        className={!showSubmit ? "disabled" : ""}
-                        disabled={!showSubmit ? true : false}
+                        disabled={formType === "VIEW" ? true : false}
                         type="text"
                         name="description"
                         value={currentImage?.description}
@@ -125,13 +126,12 @@ const ImageAddViewEdit = function ({
                   </>
                 )}
 
-                {currentImage.formType === "VIEW" && (
+                {formType === "VIEW" && (
                   <>
                     <div className="input-item">
                       <label htmlFor="fileName">File name:</label>
                       <input
-                        className={!showSubmit ? "disabled" : ""}
-                        disabled={!showSubmit ? true : false}
+                        disabled={formType === "VIEW" ? true : false}
                         type="text"
                         name="fileName"
                         value={currentImage?.fileName}
@@ -143,8 +143,7 @@ const ImageAddViewEdit = function ({
                     <div className="input-item">
                       <label htmlFor="category">Category:</label>
                       <input
-                        className={!showSubmit ? "disabled" : ""}
-                        disabled={!showSubmit ? true : false}
+                        disabled={formType === "VIEW" ? true : false}
                         type="text"
                         name="category"
                         value={currentImage?.category}
@@ -156,23 +155,24 @@ const ImageAddViewEdit = function ({
                 )}
               </div>
 
-              {currentImage.formType !== "VIEW" && (
+              {formType !== "VIEW" && (
                 <div className="buttons">
                   <button
                     type="button"
                     onClick={() => {
                       openingHookSetter(false);
-                      setCurrentImage({});
+                      setCurrentImage({ name: "", description: "", file: {} });
                     }}
                   >
                     <BiArrowBack />
                     Exit
                   </button>
 
-                  <button type="submit">
-                    <FaRegSave />
-                    Save
-                  </button>
+                  <SubmitButton
+                    type={formType}
+                    editFunction={handleEditImage}
+                    saveFunction={handleSaveImage}
+                  />
                 </div>
               )}
             </div>
