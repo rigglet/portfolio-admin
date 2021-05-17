@@ -13,63 +13,82 @@ import LinkAdd from "./linkAddViewEdit";
 import { deleteData, postData, updateData } from "../../api/api";
 
 function Links({ auth, links, setLinks }) {
-  //const [links, setLinks] = useState({});
-  const [currentLink, setCurrentLink] = useState(null);
+  const [currentLink, setCurrentLink] = useState({
+    name: "",
+    type: "",
+    address: "",
+  });
   const [viewViewLink, setViewViewLink] = useState(false);
   const [viewAddLink, setViewAddLink] = useState(false);
   const [viewEditLink, setViewEditLink] = useState(false);
 
-  const notify = (type, id) => {
+  const notify = (type) => {
     switch (type) {
       case "EDITED":
         toast.dark(`Link EDITED successfully`);
         break;
       case "ADDED":
-        toast.dark(`Link ${id} ADDED successfully`);
+        toast.dark(`Link ADDED successfully`);
         break;
       case "DELETED":
-        toast.dark(`Link ${id} DELETED successfully`);
+        toast.dark(`Link DELETED successfully`);
         break;
       default:
         toast.dark("Nothing to report");
     }
   };
 
-  //HANDLE ADD/EDIT SUBMIT
-  const handleSaveLink = async (data) => {
-    const editLink = async () => {
-      return await updateData(auth, "links", data);
-    };
-
+  //HANDLE SAVE LINK
+  const handleSaveLink = async () => {
     const addLink = async () => {
-      return await postData(auth, "links", data);
+      return await postData(auth, "links", currentLink);
     };
 
-    data?.formtype === "EDIT"
-      ? editLink()
-          .then((result) => {
-            //Toast message
-            notify("EDITED", result.status, result._id);
-            return result;
-          })
-          .then((result) => {
-            setLinks([...links.filter((p) => p._id !== data._id), data]);
-          })
-          .then(() => {
-            setViewEditLink(false);
-          })
-      : addLink()
-          .then((result) => {
-            //Toast message
-            notify("ADDED", result.status, result.data._id);
-            return result;
-          })
-          .then((result) => {
-            setLinks([...links, result.data]);
-          })
-          .then(() => {
-            setViewAddLink(false);
-          });
+    addLink()
+      .then((result) => {
+        //Toast message
+        notify("ADDED", result.status, result.data._id);
+        return result;
+      })
+      .then((result) => {
+        setLinks([...links, result.data]);
+      })
+      .then(() => {
+        setViewAddLink(false);
+        setCurrentLink({
+          name: "",
+          type: "",
+          address: "",
+        });
+      });
+  };
+
+  //HANDLE EDIT LINK
+  const handleEditLink = async (data) => {
+    const editLink = async () => {
+      return await updateData(auth, "links", currentLink);
+    };
+
+    editLink()
+      .then((result) => {
+        //Toast message
+        notify("EDITED", result.status, result._id);
+        return result;
+      })
+      .then((result) => {
+        setLinks([
+          ...links.filter((p) => p._id !== currentLink._id),
+          currentLink,
+        ]);
+      })
+      .then(() => {
+        setViewEditLink(false);
+        setCurrentLink({
+          name: "",
+          type: "",
+          address: "",
+        });
+      });
   };
 
   //HANDLE DELETE RECORD
@@ -111,48 +130,45 @@ function Links({ auth, links, setLinks }) {
 
       {
         //view ADD LINK modal
-        viewAddLink ? (
+        viewAddLink && (
           <LinkAdd
             openingHookSetter={setViewAddLink}
+            currentLink={currentLink}
+            setCurrentLink={setCurrentLink}
             handleSaveLink={handleSaveLink}
+            handleEditLink={handleEditLink}
             title="Add new link"
-            showSubmit={true}
             formType={"NEW"}
           />
-        ) : (
-          ""
         )
       }
 
       {
         //view EDIT LINK modal
-        viewEditLink ? (
+        viewEditLink && (
           <LinkAdd
             openingHookSetter={setViewEditLink}
-            handleSaveLink={handleSaveLink}
             currentLink={currentLink}
+            setCurrentLink={setCurrentLink}
+            handleSaveLink={handleSaveLink}
+            handleEditLink={handleEditLink}
             title="Edit link"
-            showSubmit={true}
             formType={"EDIT"}
           />
-        ) : (
-          ""
         )
       }
       {
         //view VIEW LINK modal
-        viewViewLink ? (
+        viewViewLink && (
           <LinkAdd
             openingHookSetter={setViewViewLink}
-            link={currentLink}
-            setViewViewLink={setViewViewLink}
-            title="View link"
-            showSubmit={false}
             currentLink={currentLink}
+            setCurrentLink={setCurrentLink}
+            handleSaveLink={handleSaveLink}
+            handleEditLink={handleEditLink}
+            title="View link"
             formType={"VIEW"}
           />
-        ) : (
-          ""
         )
       }
       <div className="header">
