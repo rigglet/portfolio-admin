@@ -11,64 +11,73 @@ import TextList from "./textList";
 import TextAdd from "./textAddViewEdit";
 //data
 import { deleteData, postData, updateData } from "../../api/api";
+import { set } from "react-hook-form";
 
 function Texts({ auth, texts, setTexts }) {
-  const [currentText, setCurrentText] = useState(null);
+  const [currentText, setCurrentText] = useState({ name: "", content: "" });
   const [viewViewText, setViewViewText] = useState(false);
   const [viewAddText, setViewAddText] = useState(false);
   const [viewEditText, setViewEditText] = useState(false);
 
-  const notify = (type, status, id) => {
+  const notify = (type) => {
     switch (type) {
       case "EDITED":
-        toast.dark(`Status: ${status} => Text EDITED successfully`);
+        toast.dark(`Text EDITED successfully`);
         break;
       case "ADDED":
-        toast.dark(`Status: ${status} => Text ${id} ADDED successfully`);
+        toast.dark(`Text ADDED successfully`);
         break;
       case "DELETED":
-        toast.dark(`Status: ${status} => Text ${id} DELETED successfully`);
+        toast.dark(`TextDELETED successfully`);
         break;
       default:
         toast.dark("Nothing to report");
     }
   };
 
-  //HANDLE ADD/EDIT SUBMIT
-  const handleSaveText = async (data) => {
-    const editText = async () => {
-      return await updateData(auth, "texts", data);
-    };
-
+  //HANDLE ADD TEXT
+  const handleSaveText = async () => {
     const addText = async () => {
-      return await postData(auth, "texts", data);
+      return await postData(auth, "texts", currentText);
     };
 
-    data?.formtype === "EDIT"
-      ? editText()
-          .then((result) => {
-            //Toast message
-            notify("EDITED", result.status, result._id);
-            return result;
-          })
-          .then((result) => {
-            setTexts([...texts.filter((p) => p._id !== data._id), data]);
-          })
-          .then(() => {
-            setViewEditText(false);
-          })
-      : addText()
-          .then((result) => {
-            //Toast message
-            notify("ADDED", result.status, result.data._id);
-            return result;
-          })
-          .then((result) => {
-            setTexts([...texts, result.data]);
-          })
-          .then(() => {
-            setViewAddText(false);
-          });
+    addText()
+      .then((result) => {
+        //Toast message
+        notify("ADDED", result.status, result.data._id);
+        return result;
+      })
+      .then((result) => {
+        setTexts([...texts, result.data]);
+      })
+      .then(() => {
+        setViewAddText(false);
+        setCurrentText({ name: "", content: "" });
+      });
+  };
+
+  //HANDLE ADD TEXT
+  const handleEditText = async () => {
+    const editText = async () => {
+      return await updateData(auth, "texts", currentText);
+    };
+
+    editText()
+      .then((result) => {
+        //Toast message
+        notify("EDITED", result.status, result._id);
+        return result;
+      })
+      .then((result) => {
+        setTexts([
+          ...texts.filter((p) => p._id !== currentText._id),
+          currentText,
+        ]);
+      })
+      .then(() => {
+        setViewEditText(false);
+        setCurrentText({ name: "", content: "" });
+      });
   };
 
   //HANDLE DELETE RECORD
@@ -110,16 +119,16 @@ function Texts({ auth, texts, setTexts }) {
 
       {
         //view ADD TEXT modal
-        viewAddText ? (
+        viewAddText && (
           <TextAdd
             openingHookSetter={setViewAddText}
+            currentText={currentText}
+            setCurrentText={setCurrentText}
             handleSaveText={handleSaveText}
+            handleEditText={handleEditText}
             title="Add new text"
-            showSubmit={true}
             formType={"NEW"}
           />
-        ) : (
-          ""
         )
       }
 
@@ -128,10 +137,11 @@ function Texts({ auth, texts, setTexts }) {
         viewEditText && (
           <TextAdd
             openingHookSetter={setViewEditText}
-            handleSaveText={handleSaveText}
             currentText={currentText}
+            setCurrentText={setCurrentText}
+            handleSaveText={handleSaveText}
+            handleEditText={handleEditText}
             title="Edit text"
-            showSubmit={true}
             formType={"EDIT"}
           />
         )
@@ -141,11 +151,11 @@ function Texts({ auth, texts, setTexts }) {
         viewViewText && (
           <TextAdd
             openingHookSetter={setViewViewText}
-            text={currentText}
-            setViewViewText={setViewViewText}
-            title="View text"
-            showSubmit={false}
             currentText={currentText}
+            setCurrentText={setCurrentText}
+            handleSaveText={handleSaveText}
+            handleEditText={handleEditText}
+            title="View text"
             formType={"VIEW"}
           />
         )

@@ -1,74 +1,80 @@
 //import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-//forms
-import { useForm } from "react-hook-form";
+//components
+import SubmitButton from "../submitButton";
 
 const TextAddViewEdit = function ({
   openingHookSetter,
   handleSaveText,
+  handleEditText,
   title,
-  showSubmit,
   currentText,
+  setCurrentText,
   formType,
 }) {
-  const { register, handleSubmit } = useForm();
-
   return (
     <StyledTextAddViewEdit>
       <div className="container">
-        <button className="close" onClick={() => openingHookSetter(false)}>
+        <button
+          className="close"
+          onClick={() => {
+            openingHookSetter(false);
+            setCurrentText({ name: "", content: "" });
+          }}
+        >
           &#10008;
         </button>
         <div className="form-information">
           <h1>{title}</h1>
           <h5>{currentText?._id}</h5>
-          <form onSubmit={handleSubmit(handleSaveText)}>
-            <input
-              type="hidden"
-              {...register("formtype")}
-              autoComplete="off"
-              size="40"
-              defaultValue={formType}
-            />
-            <input
-              type="hidden"
-              {...register("_id")}
-              autoComplete="off"
-              size="40"
-              defaultValue={currentText?._id}
-            />
-            <div className="form-fields">
-              <div className="input-item">
-                <label htmlFor="name">Text name:</label>
-                <input
-                  className={!showSubmit ? "disabled" : ""}
-                  disabled={!showSubmit ? true : false}
-                  type="text"
-                  {...register("name")}
-                  autoComplete="off"
-                  size="40"
-                  defaultValue={currentText?.name}
-                />
-              </div>
 
-              <div className="input-item">
-                <label htmlFor="content">Content:</label>
-                <textarea
-                  className={!showSubmit ? "disabled" : ""}
-                  disabled={!showSubmit ? true : false}
-                  type="text"
-                  cols="100"
-                  rows="10"
-                  {...register("content")}
-                  autoComplete="off"
-                  defaultValue={currentText?.content}
-                />
-              </div>
+          <div className="form-fields">
+            <div className="input-item">
+              <label htmlFor="name">Text name:</label>
+              <input
+                disabled={formType === "VIEW" ? true : false}
+                type="text"
+                name="name"
+                autoComplete="off"
+                size="40"
+                value={currentText?.name}
+                onChange={(e) =>
+                  setCurrentText({
+                    ...currentText,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
             </div>
 
-            {showSubmit ? <button type="submit">Submit</button> : ""}
-          </form>
+            <div className="input-item">
+              <label htmlFor="content">Content:</label>
+              <textarea
+                disabled={formType === "VIEW" ? true : false}
+                type="text"
+                cols="100"
+                rows="10"
+                name="content"
+                autoComplete="off"
+                value={currentText?.content}
+                onChange={(e) =>
+                  setCurrentText({
+                    ...currentText,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </div>
+
+          {formType !== "VIEW" && (
+            <SubmitButton
+              type={formType}
+              editFunction={handleEditText}
+              saveFunction={handleSaveText}
+            />
+          )}
         </div>
       </div>
     </StyledTextAddViewEdit>
@@ -98,9 +104,13 @@ const StyledTextAddViewEdit = styled(motion.div)`
     box-shadow: 0 0 20px 10px #689ed0;
 
     .form-information {
-      height: 85%;
+      height: 100%;
       width: 100%;
       padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      row-gap: 1rem;
+
       h1 {
         font-size: 16pt;
         font-weight: 600;
@@ -109,75 +119,42 @@ const StyledTextAddViewEdit = styled(motion.div)`
       h5 {
         margin-bottom: 1.5rem;
       }
-      form {
+
+      .address-item {
+        display: flex;
+        column-gap: 0.25rem;
+        align-items: center;
+        .address-icon {
+          width: 2rem;
+          height: 2rem;
+        }
+      }
+      .input-item {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-        .address-item {
-          display: flex;
-          column-gap: 0.25rem;
-          align-items: center;
-          .address-icon {
-            width: 2rem;
-            height: 2rem;
-          }
-        }
-        .input-item {
-          display: flex;
-          flex-direction: column;
-        }
-        label {
-          font-weight: bold;
-          font-size: 12pt;
-          font-variant-caps: all-small-caps;
-          margin-bottom: 0.5rem;
-        }
+      }
+      label {
+        font-weight: bold;
+        font-size: 12pt;
+        font-variant-caps: all-small-caps;
+        margin-bottom: 0.5rem;
+      }
 
-        textarea {
-          overflow-y: scroll;
-        }
-        input,
-        textarea {
-          color: #0c395e;
-          padding: 0.25rem;
-          font-size: 14pt;
-          font-family: "Roboto Condensed", sans-serif;
-          resize: none;
-          outline: solid 3px transparent;
-        }
-        input:focus,
-        textarea:focus {
-          outline: solid 3px #688297;
-          border-color: transparent;
-          &.disabled {
-            outline: solid 3px transparent;
-            background-color: red;
-          }
-        }
-        button[type="submit"] {
-          color: #0c395e;
-          border: 2px solid #0c395e;
-          padding: 0.25rem;
-          font-size: 14pt;
-          font-variant-caps: all-small-caps;
-          outline: solid 3px transparent;
-          width: 100px;
-          height: 40px;
-          cursor: pointer;
-          align-self: flex-end;
-        }
-        button[type="submit"]:hover {
-          color: white;
-          background-color: #0c395e;
-          transition: 0.3s;
-        }
+      input[type="text"],
+      textarea {
+        width: 100%;
+        color: #0c395e;
+        padding: 0.25rem;
+        font-size: 14pt;
+        font-family: "Roboto Condensed", sans-serif;
+        resize: none;
+        outline: solid 3px transparent;
+      }
 
-        .form-fields {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-        }
+      input[type="text"]:focus,
+      textarea:focus {
+        outline: solid 3px #688297;
+        border-color: transparent;
       }
     }
   }
