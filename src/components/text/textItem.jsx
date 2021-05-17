@@ -25,6 +25,7 @@ function TextItem({
             acceptFnc={acceptFnc}
             setViewDelete={setViewDelete}
             id={text._id}
+            referringType="SITE"
           />
         ) : (
           ""

@@ -9,12 +9,18 @@ import "react-toastify/dist/ReactToastify.css";
 //components
 import LibList from "./libList";
 import LibAdd from "./libAddViewEdit";
-//import DeleteConfirmation from "../DeleteConfirmation";
 //data
 import { deleteData, postData, updateData } from "../../api/api";
 
 function Libs({ auth, libraries, setLibraries }) {
-  const [currentLib, setCurrentLib] = useState(null);
+  const [currentLib, setCurrentLib] = useState({
+    name: "",
+    version: "",
+    description: "",
+    npmaddress: "",
+    githubrepo: "",
+    homepage: "",
+  });
   const [viewViewLib, setViewViewLib] = useState(false);
   const [viewAddLib, setViewAddLib] = useState(false);
   const [viewEditLib, setViewEditLib] = useState(false);
@@ -25,54 +31,57 @@ function Libs({ auth, libraries, setLibraries }) {
         toast.dark(`Library EDITED successfully`);
         break;
       case "ADDED":
-        toast.dark(`Library ${id} ADDED successfully`);
+        toast.dark(`Library ADDED successfully`);
         break;
       case "DELETED":
-        toast.dark(`Library ${id} DELETED successfully`);
+        toast.dark(`Library DELETED successfully`);
         break;
       default:
         toast.dark("Nothing to report");
     }
   };
 
-  //HANDLE ADD/EDIT SUBMIT
-  const handleSaveLib = async (data) => {
-    const editLib = async () => {
-      return await updateData(auth, "libraries", data);
-    };
-
+  //HANDLE ADD LIBRARY
+  const handleSaveLib = async () => {
     const addLib = async () => {
-      return await postData(auth, "libraries", data);
+      return await postData(auth, "libraries", currentLib);
     };
 
-    data?.formtype === "EDIT"
-      ? editLib()
-          .then((result) => {
-            //Toast message
-            notify("EDITED", result.status, result._id);
-            return result;
-          })
-          .then((result) => {
-            setLibraries([
-              ...libraries.filter((p) => p._id !== data._id),
-              data,
-            ]);
-          })
-          .then(() => {
-            setViewEditLib(false);
-          })
-      : addLib()
-          .then((result) => {
-            //Toast message
-            notify("ADDED", result.status, result.data._id);
-            return result;
-          })
-          .then((result) => {
-            setLibraries([...libraries, result.data]);
-          })
-          .then(() => {
-            setViewAddLib(false);
-          });
+    addLib()
+      .then((result) => {
+        //Toast message
+        notify("ADDED", result.status, result.data._id);
+        return result;
+      })
+      .then((result) => {
+        setLibraries([...libraries, result.data]);
+      })
+      .then(() => {
+        setViewAddLib(false);
+      });
+  };
+
+  //HANDLE EDIT LIBRARY
+  const handleEditLib = async () => {
+    const editLib = async () => {
+      return await updateData(auth, "libraries", currentLib);
+    };
+
+    editLib()
+      .then((result) => {
+        //Toast message
+        notify("EDITED", result.status, result._id);
+        return result;
+      })
+      .then((result) => {
+        setLibraries([
+          ...libraries.filter((p) => p._id !== currentLib._id),
+          currentLib,
+        ]);
+      })
+      .then(() => {
+        setViewEditLib(false);
+      });
   };
 
   //HANDLE DELETE RECORD
@@ -117,9 +126,11 @@ function Libs({ auth, libraries, setLibraries }) {
         viewAddLib && (
           <LibAdd
             openingHookSetter={setViewAddLib}
+            currentLib={currentLib}
+            setCurrentLib={setCurrentLib}
             handleSaveLib={handleSaveLib}
+            handleEditLib={handleEditLib}
             title="Add new library"
-            showSubmit={true}
             formType={"NEW"}
           />
         )
@@ -130,10 +141,11 @@ function Libs({ auth, libraries, setLibraries }) {
         viewEditLib && (
           <LibAdd
             openingHookSetter={setViewEditLib}
-            handleSaveLib={handleSaveLib}
             currentLib={currentLib}
+            setCurrentLib={setCurrentLib}
+            handleEditLib={handleEditLib}
+            handleSaveLib={handleSaveLib}
             title="Edit library"
-            showSubmit={true}
             formType={"EDIT"}
           />
         )
@@ -143,11 +155,10 @@ function Libs({ auth, libraries, setLibraries }) {
         viewViewLib && (
           <LibAdd
             openingHookSetter={setViewViewLib}
-            lib={currentLib}
             setViewViewLib={setViewViewLib}
             title="View library"
-            showSubmit={false}
             currentLib={currentLib}
+            setCurrentLib={setCurrentLib}
             formType={"VIEW"}
           />
         )

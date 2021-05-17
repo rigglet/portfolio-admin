@@ -13,7 +13,15 @@ import PackageAdd from "./packageAddViewEdit";
 import { deleteData, postData, updateData } from "../../api/api";
 
 function Packages({ auth, packages, setPackages }) {
-  const [currentPackage, setCurrentPackage] = useState(null);
+  const [currentPackage, setCurrentPackage] = useState({
+    name: "",
+    version: "",
+    description: "",
+    npmaddress: "",
+    githubrepo: "",
+    homepage: "",
+  });
+
   const [viewViewPackage, setViewViewPackage] = useState(false);
   const [viewAddPackage, setViewAddPackage] = useState(false);
   const [viewEditPackage, setViewEditPackage] = useState(false);
@@ -24,51 +32,73 @@ function Packages({ auth, packages, setPackages }) {
         toast.dark(`Package EDITED successfully`);
         break;
       case "ADDED":
-        toast.dark(`Package ${id} ADDED successfully`);
+        toast.dark(`Package ADDED successfully`);
         break;
       case "DELETED":
-        toast.dark(`Package ${id} DELETED successfully`);
+        toast.dark(`Package DELETED successfully`);
         break;
       default:
         toast.dark("Nothing to report");
     }
   };
 
-  //HANDLE ADD/EDIT SUBMIT
-  const handleSavePackage = async (data) => {
-    const editPackage = async () => {
-      return await updateData(auth, "packages", data);
-    };
-
+  //HANDLE ADD PACKAGE
+  const handleSavePackage = async () => {
     const addPackage = async () => {
-      return await postData(auth, "packages", data);
+      return await postData(auth, "packages", currentPackage);
     };
 
-    data?.formtype === "EDIT"
-      ? editPackage()
-          .then((result) => {
-            //Toast message
-            notify("EDITED", result.status, result._id);
-            return result;
-          })
-          .then((result) => {
-            setPackages([...packages.filter((p) => p._id !== data._id), data]);
-          })
-          .then(() => {
-            setViewEditPackage(false);
-          })
-      : addPackage()
-          .then((result) => {
-            //Toast message
-            notify("ADDED", result.status, result.data._id);
-            return result;
-          })
-          .then((result) => {
-            setPackages([...packages, result.data]);
-          })
-          .then(() => {
-            setViewAddPackage(false);
-          });
+    addPackage()
+      .then((result) => {
+        //Toast message
+        notify("ADDED", result.status, result.data._id);
+        return result;
+      })
+      .then((result) => {
+        setPackages([...packages, result.data]);
+      })
+      .then(() => {
+        setCurrentPackage({
+          name: "",
+          version: "",
+          description: "",
+          npmaddress: "",
+          githubrepo: "",
+          homepage: "",
+        });
+        setViewAddPackage(false);
+      });
+  };
+
+  //HANDLE EDIT PACKAGE
+  const handleEditPackage = async () => {
+    const editPackage = async () => {
+      return await updateData(auth, "packages", currentPackage);
+    };
+
+    editPackage()
+      .then((result) => {
+        //Toast message
+        notify("EDITED");
+        return result;
+      })
+      .then((result) => {
+        setPackages([
+          ...packages.filter((p) => p._id !== currentPackage._id),
+          currentPackage,
+        ]);
+      })
+      .then(() => {
+        setCurrentPackage({
+          name: "",
+          version: "",
+          description: "",
+          npmaddress: "",
+          githubrepo: "",
+          homepage: "",
+        });
+        setViewEditPackage(false);
+      });
   };
 
   //HANDLE DELETE RECORD
@@ -110,48 +140,44 @@ function Packages({ auth, packages, setPackages }) {
 
       {
         //view ADD PACKAGE modal
-        viewAddPackage ? (
+        viewAddPackage && (
           <PackageAdd
             openingHookSetter={setViewAddPackage}
+            currentPackage={currentPackage}
+            setCurrentPackage={setCurrentPackage}
+            handleEditPackage={handleEditPackage}
             handleSavePackage={handleSavePackage}
             title="Add new package"
-            showSubmit={true}
             formType={"NEW"}
           />
-        ) : (
-          ""
         )
       }
 
       {
         //view EDIT PACKAGE modal
-        viewEditPackage ? (
+        viewEditPackage && (
           <PackageAdd
             openingHookSetter={setViewEditPackage}
-            handleSavePackage={handleSavePackage}
             currentPackage={currentPackage}
+            setCurrentPackage={setCurrentPackage}
+            handleEditPackage={handleEditPackage}
+            handleSavePackage={handleSavePackage}
             title="Edit package"
-            showSubmit={true}
             formType={"EDIT"}
           />
-        ) : (
-          ""
         )
       }
       {
         //view VIEW PACKAGE modal
-        viewViewPackage ? (
+        viewViewPackage && (
           <PackageAdd
             openingHookSetter={setViewViewPackage}
-            pack={currentPackage}
             setViewViewPackage={setViewViewPackage}
             title="View package"
-            showSubmit={false}
             currentPackage={currentPackage}
+            setCurrentPackage={setCurrentPackage}
             formType={"VIEW"}
           />
-        ) : (
-          ""
         )
       }
       <div className="header">

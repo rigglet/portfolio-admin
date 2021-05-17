@@ -25,6 +25,7 @@ function TechItem({
             acceptFnc={acceptFnc}
             setViewDelete={setViewDelete}
             id={tech._id}
+            referringType="PROJECT"
           />
         ) : (
           ""

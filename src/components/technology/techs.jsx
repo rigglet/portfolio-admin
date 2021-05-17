@@ -47,7 +47,7 @@ function Techs({ auth, techs, setTechs }) {
     addTech()
       .then((result) => {
         //Toast message
-        notify("ADDED", result.status, result.data._id);
+        notify("ADDED");
         return result;
       })
       .then((result) => {
@@ -55,6 +55,11 @@ function Techs({ auth, techs, setTechs }) {
       })
       .then(() => {
         setViewAddTech(false);
+        setCurrentTech({
+          name: "",
+          type: "",
+          address: "",
+        });
       });
   };
 
@@ -78,6 +83,11 @@ function Techs({ auth, techs, setTechs }) {
       })
       .then(() => {
         setViewEditTech(false);
+        setCurrentTech({
+          name: "",
+          type: "",
+          address: "",
+        });
       });
   };
 
@@ -156,6 +166,7 @@ function Techs({ auth, techs, setTechs }) {
             setViewViewTech={setViewViewTech}
             title="View technology"
             currentTech={currentTech}
+            setCurrentTech={setCurrentTech}
             formType={"VIEW"}
           />
         )

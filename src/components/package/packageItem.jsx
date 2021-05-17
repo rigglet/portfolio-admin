@@ -25,6 +25,7 @@ function PackageItem({
             acceptFnc={acceptFnc}
             setViewDelete={setViewDelete}
             id={pack._id}
+            referringType="PROJECT"
           />
         ) : (
           ""

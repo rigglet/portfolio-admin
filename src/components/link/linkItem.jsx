@@ -25,6 +25,7 @@ function LinkItem({
             acceptFnc={acceptFnc}
             setViewDelete={setViewDelete}
             id={link._id}
+            referringType="SITE"
           />
         ) : (
           ""

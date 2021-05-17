@@ -25,6 +25,7 @@ function ImageItem({
             acceptFnc={acceptFnc}
             setViewDelete={setViewDelete}
             id={image._id}
+            referringType="PROJECT"
           />
         ) : (
           ""

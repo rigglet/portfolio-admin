@@ -18,7 +18,17 @@ const TechAddViewEdit = function ({
   return (
     <StyledTechAddViewEdit>
       <div className="container">
-        <button className="close" onClick={() => openingHookSetter(false)}>
+        <button
+          className="close"
+          onClick={() => {
+            openingHookSetter(false);
+            setCurrentTech({
+              name: "",
+              type: "",
+              address: "",
+            });
+          }}
+        >
           &#10008;
         </button>
         <div className="form-information">
@@ -136,7 +146,6 @@ const StyledTechAddViewEdit = styled(motion.div)`
 
       .address-item {
         display: flex;
-        flex-grow: 1;
         column-gap: 0.25rem;
         align-items: center;
         .address-icon {

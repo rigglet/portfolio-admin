@@ -25,6 +25,7 @@ function ToolItem({
             acceptFnc={acceptFnc}
             setViewDelete={setViewDelete}
             id={tool._id}
+            referringType="SITE"
           />
         ) : (
           ""

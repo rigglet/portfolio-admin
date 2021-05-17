@@ -25,6 +25,7 @@ function LibItem({
             acceptFnc={acceptFnc}
             setViewDelete={setViewDelete}
             id={lib._id}
+            referringType="PROJECT"
           />
         ) : (
           ""

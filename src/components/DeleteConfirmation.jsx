@@ -1,12 +1,18 @@
 import styled from "styled-components";
 
 const DeleteConfirmation = (props) => {
-  const { declineFnc, acceptFnc, setViewDelete, id } = props;
+  const { declineFnc, acceptFnc, setViewDelete, id, referringType } = props;
 
   return (
     <StyledDeleteConfirmation onClick={() => setViewDelete(false)}>
       <div className="box">
         <div className="message">
+          {referringType === "PROJECT" && (
+            <p>
+              Warning: Deleting Project elements will remove them from active
+              projects!
+            </p>
+          )}
           <p>
             Delete <span>{id}</span>?
           </p>
