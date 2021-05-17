@@ -1,101 +1,124 @@
-//import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
 import { CgWebsite } from "react-icons/cg";
-import { AiOutlineGlobal } from "react-icons/ai";
-//forms
-import { useForm } from "react-hook-form";
+//components
+import SubmitButton from "../submitButton";
 
 const ToolAddViewEdit = function ({
   openingHookSetter,
   handleSaveTool,
+  handleEditTool,
   title,
-  showSubmit,
   currentTool,
+  setCurrentTool,
   formType,
 }) {
-  const { register, handleSubmit } = useForm();
-
   return (
     <StyledToolAddViewEdit>
       <div className="container">
-        <button className="close" onClick={() => openingHookSetter(false)}>
+        <button
+          className="close"
+          onClick={() => {
+            openingHookSetter(false);
+            setCurrentTool({
+              name: "",
+              type: "",
+              category: "",
+              address: "",
+            });
+          }}
+        >
           &#10008;
         </button>
         <div className="form-information">
           <h1>{title}</h1>
           <h5>{currentTool?._id}</h5>
-          <form onSubmit={handleSubmit(handleSaveTool)}>
-            <input
-              type="hidden"
-              {...register("formtype")}
-              defaultValue={formType}
-            />
-            <input
-              type="hidden"
-              {...register("_id")}
-              defaultValue={currentTool?._id}
-            />
-            <div className="name-v">
-              <div className="input-item">
-                <label htmlFor="name">Tool name:</label>
-                <input
-                  className={!showSubmit ? "disabled" : ""}
-                  disabled={!showSubmit ? true : false}
-                  type="text"
-                  {...register("name")}
-                  autoComplete="off"
-                  size="40"
-                  defaultValue={currentTool?.name}
-                />
-              </div>
-              <div className="input-item">
-                <label htmlFor="category">Category:</label>
-                <input
-                  className={!showSubmit ? "disabled" : ""}
-                  disabled={!showSubmit ? true : false}
-                  type="text"
-                  {...register("category")}
-                  autoComplete="off"
-                  size="40"
-                  defaultValue={currentTool?.category}
-                />
-              </div>
 
-              <div className="input-item">
-                <label htmlFor="type">Type:</label>
+          <div className="name-v">
+            <div className="input-item">
+              <label htmlFor="name">Tool name:</label>
+              <input
+                disabled={formType === "VIEW" ? true : false}
+                type="text"
+                name="name"
+                autoComplete="off"
+                size="40"
+                value={currentTool?.name}
+                onChange={(e) =>
+                  setCurrentTool({
+                    ...currentTool,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <div className="input-item">
+              <label htmlFor="category">Category:</label>
+              <input
+                disabled={formType === "VIEW" ? true : false}
+                type="text"
+                name="category"
+                autoComplete="off"
+                size="40"
+                value={currentTool?.category}
+                onChange={(e) =>
+                  setCurrentTool({
+                    ...currentTool,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </div>
+
+            <div className="input-item">
+              <label htmlFor="type">Type:</label>
+              <input
+                disabled={formType === "VIEW" ? true : false}
+                type="text"
+                name="type"
+                autoComplete="off"
+                size="40"
+                value={currentTool?.type}
+                onChange={(e) =>
+                  setCurrentTool({
+                    ...currentTool,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </div>
+          <div className="addresses">
+            <div className="input-item">
+              <label htmlFor="address">Address:</label>
+              <div className="address-item">
+                <CgWebsite className="address-icon" />
                 <input
-                  className={!showSubmit ? "disabled" : ""}
-                  disabled={!showSubmit ? true : false}
+                  disabled={formType === "VIEW" ? true : false}
                   type="text"
-                  {...register("type")}
+                  name="address"
                   autoComplete="off"
-                  size="40"
-                  defaultValue={currentTool?.type}
+                  size="50"
+                  value={currentTool?.address}
+                  onChange={(e) =>
+                    setCurrentTool({
+                      ...currentTool,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
                 />
               </div>
             </div>
-            <div className="addresses">
-              <div className="input-item">
-                <label htmlFor="address">Address:</label>
-                <div className="address-item">
-                  <CgWebsite className="address-icon" />
-                  <input
-                    className={!showSubmit ? "disabled" : ""}
-                    disabled={!showSubmit ? true : false}
-                    type="text"
-                    {...register("address")}
-                    autoComplete="off"
-                    size="50"
-                    defaultValue={currentTool?.address}
-                  />
-                </div>
-              </div>
-            </div>
+          </div>
 
-            {showSubmit ? <button type="submit">Submit</button> : ""}
-          </form>
+          {formType !== "VIEW" && (
+            <SubmitButton
+              type={formType}
+              editFunction={handleEditTool}
+              saveFunction={handleSaveTool}
+            />
+          )}
         </div>
       </div>
     </StyledToolAddViewEdit>
@@ -125,9 +148,13 @@ const StyledToolAddViewEdit = styled(motion.div)`
     box-shadow: 0 0 20px 10px #689ed0;
 
     .form-information {
-      height: 85%;
+      height: 100%;
       width: 100%;
       padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      row-gap: 1rem;
+
       h1 {
         font-size: 16pt;
         font-weight: 600;
@@ -136,75 +163,40 @@ const StyledToolAddViewEdit = styled(motion.div)`
       h5 {
         margin-bottom: 1.5rem;
       }
-      form {
+
+      .address-item {
+        display: flex;
+        column-gap: 0.25rem;
+        align-items: center;
+        .address-icon {
+          width: 2rem;
+          height: 2rem;
+        }
+      }
+      .input-item {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-        .address-item {
-          display: flex;
-          column-gap: 0.25rem;
-          align-items: center;
-          .address-icon {
-            width: 2rem;
-            height: 2rem;
-          }
-        }
-        .input-item {
-          display: flex;
-          flex-direction: column;
-        }
-        label {
-          font-weight: bold;
-          font-size: 12pt;
-          font-variant-caps: all-small-caps;
-          margin-bottom: 0.5rem;
-        }
+      }
+      label {
+        font-weight: bold;
+        font-size: 12pt;
+        font-variant-caps: all-small-caps;
+        margin-bottom: 0.5rem;
+      }
 
-        input,
-        textarea {
-          color: #0c395e;
-          padding: 0.25rem;
-          font-size: 14pt;
-          font-family: "Roboto Condensed", sans-serif;
-          resize: none;
-          outline: solid 3px transparent;
-        }
-        input:focus,
-        textarea:focus {
-          outline: solid 3px #688297;
-          border-color: transparent;
-          &.disabled {
-            outline: solid 3px transparent;
-            background-color: red;
-          }
-        }
-        button[type="submit"] {
-          color: #0c395e;
-          border: 2px solid #0c395e;
-          padding: 0.25rem;
-          font-size: 14pt;
-          font-variant-caps: all-small-caps;
-          outline: solid 3px transparent;
-          width: 100px;
-          height: 40px;
-          cursor: pointer;
-          align-self: flex-end;
-        }
-        button[type="submit"]:hover {
-          color: white;
-          background-color: #0c395e;
-          transition: 0.3s;
-        }
+      input[type="text"] {
+        width: 100%;
+        color: #0c395e;
+        padding: 0.25rem;
+        font-size: 14pt;
+        font-family: "Roboto Condensed", sans-serif;
+        resize: none;
+        outline: solid 3px transparent;
+      }
 
-        .name-v,
-        .addresses {
-          display: flex;
-          column-gap: 5rem;
-          row-gap: 1rem;
-          flex-wrap: wrap;
-          align-items: center;
-          justify-content: center;
-        }
+      input[type="text"]:focus {
+        outline: solid 3px #688297;
+        border-color: transparent;
       }
     }
   }

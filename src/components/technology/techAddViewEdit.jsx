@@ -177,10 +177,6 @@ const StyledTechAddViewEdit = styled(motion.div)`
       input[type="text"]:focus {
         outline: solid 3px #688297;
         border-color: transparent;
-        &.disabled {
-          outline: solid 3px transparent;
-          background-color: red;
-        }
       }
     }
   }

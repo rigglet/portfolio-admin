@@ -263,7 +263,6 @@ const StyledPackageAddViewEdit = styled(motion.div)`
         display: flex;
         column-gap: 3rem;
         row-gap: 1rem;
-        //flex-wrap: wrap;
         align-items: center;
         justify-content: space-evenly;
       }

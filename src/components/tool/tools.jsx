@@ -13,62 +13,85 @@ import ToolAdd from "./toolAddViewEdit";
 import { deleteData, postData, updateData } from "../../api/api";
 
 function Tools({ auth, tools, setTools }) {
-  const [currentTool, setCurrentTool] = useState(null);
+  const [currentTool, setCurrentTool] = useState({
+    name: "",
+    type: "",
+    category: "",
+    address: "",
+  });
   const [viewViewTool, setViewViewTool] = useState(false);
   const [viewAddTool, setViewAddTool] = useState(false);
   const [viewEditTool, setViewEditTool] = useState(false);
 
-  const notify = (type, status, id) => {
+  const notify = (type) => {
     switch (type) {
       case "EDITED":
-        toast.dark(`Status: ${status} => Tool EDITED successfully`);
+        toast.dark(`Tool EDITED successfully`);
         break;
       case "ADDED":
-        toast.dark(`Status: ${status} => Tool ${id} ADDED successfully`);
+        toast.dark(`Tool ADDED successfully`);
         break;
       case "DELETED":
-        toast.dark(`Status: ${status} => Tool ${id} DELETED successfully`);
+        toast.dark(`Tool DELETED successfully`);
         break;
       default:
         toast.dark("Nothing to report");
     }
   };
 
-  //HANDLE ADD/EDIT SUBMIT
-  const handleSaveTool = async (data) => {
-    const editTool = async () => {
-      return await updateData(auth, "tools", data);
-    };
-
+  //HANDLE ADD TOOL
+  const handleSaveTool = async () => {
     const addTool = async () => {
-      return await postData(auth, "tools", data);
+      return await postData(auth, "tools", currentTool);
     };
 
-    data?.formtype === "EDIT"
-      ? editTool()
-          .then((result) => {
-            //Toast message
-            notify("EDITED", result.status, result._id);
-            return result;
-          })
-          .then(() => {
-            setTools([...tools.filter((t) => t._id !== data._id), data]);
-          })
-          .then(() => {
-            setViewEditTool(false);
-          })
-      : addTool()
-          .then((result) => {
-            //Toast message
-            notify("ADDED", result.status, result.data._id);
-            return result;
-          })
-          .then((result) => {
-            setTools([...tools, result.data]);
-          })
-          .then(() => {
-            setViewAddTool(false);
-          });
+    addTool()
+      .then((result) => {
+        //Toast message
+        notify("ADDED", result.status, result.data._id);
+        return result;
+      })
+      .then((result) => {
+        setTools([...tools, result.data]);
+      })
+      .then(() => {
+        setViewAddTool(false);
+        setCurrentTool({
+          name: "",
+          type: "",
+          category: "",
+          address: "",
+        });
+      });
+  };
+
+  //HANDLE EDIT TOOL
+  const handleEditTool = async () => {
+    const editTool = async () => {
+      return await updateData(auth, "tools", currentTool);
+    };
+
+    editTool()
+      .then((result) => {
+        //Toast message
+        notify("EDITED", result.status, result._id);
+        return result;
+      })
+      .then(() => {
+        setTools([
+          ...tools.filter((t) => t._id !== currentTool._id),
+          currentTool,
+        ]);
+      })
+      .then(() => {
+        setViewEditTool(false);
+        setCurrentTool({
+          name: "",
+          type: "",
+          category: "",
+          address: "",
+        });
+      });
   };
 
   //HANDLE DELETE RECORD
@@ -110,49 +133,48 @@ function Tools({ auth, tools, setTools }) {
 
       {
         //view ADD TOOL modal
-        viewAddTool ? (
+        viewAddTool && (
           <ToolAdd
             openingHookSetter={setViewAddTool}
+            currentTool={currentTool}
+            setCurrentTool={setCurrentTool}
             handleSaveTool={handleSaveTool}
+            handleEditTool={handleEditTool}
             title="Add new tool"
-            showSubmit={true}
             formType={"NEW"}
           />
-        ) : (
-          ""
         )
       }
 
       {
         //view EDIT TOOL modal
-        viewEditTool ? (
+        viewEditTool && (
           <ToolAdd
             openingHookSetter={setViewEditTool}
-            handleSaveTool={handleSaveTool}
             currentTool={currentTool}
+            setCurrentTool={setCurrentTool}
+            handleSaveTool={handleSaveTool}
+            handleEditTool={handleEditTool}
             title="Edit tool"
-            showSubmit={true}
             formType={"EDIT"}
           />
-        ) : (
-          ""
         )
       }
       {
         //view VIEW TOOL modal
-        viewViewTool ? (
+        viewViewTool && (
           <ToolAdd
             openingHookSetter={setViewViewTool}
-            setViewViewTool={setViewViewTool}
-            title="View tool"
-            showSubmit={false}
             currentTool={currentTool}
+            setCurrentTool={setCurrentTool}
+            handleSaveTool={handleSaveTool}
+            handleEditTool={handleEditTool}
+            title="View tool"
             formType={"VIEW"}
           />
-        ) : (
-          ""
         )
       }
+
       <div className="header">
         <h1>Tools</h1>
         <div className="toolbar">
