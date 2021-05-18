@@ -19,7 +19,7 @@ function LibItem({
     <StyledLibItem>
       {
         //view deleteConfirmation
-        viewDelete ? (
+        viewDelete && (
           <DeleteConfirmation
             declineFnc={declineFnc}
             acceptFnc={acceptFnc}
@@ -27,12 +27,10 @@ function LibItem({
             id={lib._id}
             referringType="PROJECT"
           />
-        ) : (
-          ""
         )
       }
 
-      <div className="data-item name-cell">{lib.name}</div>
+      <div className="data-item name-cell upper">{lib.name}</div>
       <div className="data-item short-cell">{lib.version}</div>
       <div className="data-item long-cell">{lib.description}</div>
 

@@ -33,7 +33,7 @@ function ProjectItem({
           ""
         )
       }
-      <div className="data-item name-cell">{project.projectName}</div>
+      <div className="data-item name-cell upper">{project.projectName}</div>
       <div className="data-item long-cell">{project.projectDescription}</div>
       <div className="data-item short-cell">
         {project.featured ? (
@@ -106,7 +106,7 @@ const StyledProjectItem = styled(motion.li)`
   }
 
   .name-cell {
-    flex: 0 0 20%;
+    flex: 0 0 25%;
   }
   .actions-cell {
     display: flex;

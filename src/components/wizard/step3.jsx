@@ -7,19 +7,16 @@ import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa";
 //components
 import ListItem from "./listItem";
 
-const Step3 = function (props) {
-  const {
-    currentStep,
-    totalSteps,
-    previousStep,
-    nextStep,
-    formType,
-    currentProject,
-    setCurrentProject,
-    packages,
-    setPackages,
-  } = props;
-
+const Step3 = function ({
+  currentStep,
+  totalSteps,
+  previousStep,
+  nextStep,
+  currentProject,
+  setCurrentProject,
+  packages,
+  setPackages,
+}) {
   const [selectedPackages, setSelectedPackages] = useState([]);
 
   const handlePackItemClick = (pack) => {
@@ -44,24 +41,20 @@ const Step3 = function (props) {
     <StyledStep>
       <h2>Packages</h2>
       <div className="form-information">
-        {formType === "NEW" && (
-          <div className="available-container">
-            <h4>Available:</h4>
-            <div className="list">
-              {packages
-                .filter((p) => !selectedPackages.includes(p))
-                .sort((a, b) => (a.name > b.name ? 1 : -1))
-                .map((p) => (
-                  <ListItem
-                    key={uuidv4()}
-                    handleItemClick={handlePackItemClick}
-                  >
-                    {p}
-                  </ListItem>
-                ))}
-            </div>
+        <div className="available-container">
+          <h4>Available:</h4>
+          <div className="list">
+            {packages
+              .filter((p) => !selectedPackages.includes(p))
+              .sort((a, b) => (a.name > b.name ? 1 : -1))
+              .map((p) => (
+                <ListItem key={uuidv4()} handleItemClick={handlePackItemClick}>
+                  {p}
+                </ListItem>
+              ))}
           </div>
-        )}
+        </div>
+
         <div className="included-container">
           <h4>Included:</h4>
           <div className="list">

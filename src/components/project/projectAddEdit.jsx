@@ -8,9 +8,10 @@ import { default as StepPackages } from "../wizard/step3";
 import { default as StepTechnologies } from "../wizard/step4";
 import { default as StepImages } from "../wizard/step5";
 
-const ProjectAddViewEdit = function ({
+const ProjectAddEdit = function ({
   openingHookSetter,
   handleSaveProject,
+  handleEditProject,
   title,
   currentProject,
   setCurrentProject,
@@ -25,7 +26,7 @@ const ProjectAddViewEdit = function ({
   setLibraries,
 }) {
   return (
-    <StyledProjectAddViewEdit>
+    <StyledProjectAddEdit>
       <div className="container">
         <button
           className="close"
@@ -71,17 +72,18 @@ const ProjectAddViewEdit = function ({
               currentProject={currentProject}
               setCurrentProject={setCurrentProject}
               handleSaveProject={handleSaveProject}
+              handleEditProject={handleEditProject}
               images={images}
               setImages={setImages}
             />
           </StepWizard>
         </div>
       </div>
-    </StyledProjectAddViewEdit>
+    </StyledProjectAddEdit>
   );
 };
 
-const StyledProjectAddViewEdit = styled(motion.div)`
+const StyledProjectAddEdit = styled(motion.div)`
   width: 100vw;
   height: 100vh;
   z-index: 10;
@@ -114,4 +116,4 @@ const StyledProjectAddViewEdit = styled(motion.div)`
   }
 `;
 
-export default ProjectAddViewEdit;
+export default ProjectAddEdit;

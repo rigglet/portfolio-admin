@@ -96,6 +96,7 @@ function Packages({ auth, packages, setPackages }) {
           npmaddress: "",
           githubrepo: "",
           homepage: "",
+          //TODO: documentation: ""
         });
         setViewEditPackage(false);
       });

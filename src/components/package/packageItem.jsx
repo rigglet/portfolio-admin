@@ -19,7 +19,7 @@ function PackageItem({
     <StyledPackageItem>
       {
         //view deleteConfirmation
-        viewDelete ? (
+        viewDelete && (
           <DeleteConfirmation
             declineFnc={declineFnc}
             acceptFnc={acceptFnc}
@@ -27,12 +27,10 @@ function PackageItem({
             id={pack._id}
             referringType="PROJECT"
           />
-        ) : (
-          ""
         )
       }
 
-      <div className="data-item name-cell">{pack.name}</div>
+      <div className="data-item name-cell upper">{pack.name}</div>
       <div className="data-item short-cell">{pack.version}</div>
       <div className="data-item long-cell">{pack.description}</div>
 
@@ -105,14 +103,6 @@ const StyledPackageItem = styled(motion.li)`
     width: 1.2rem;
     height: 1.2rem;
     color: #888888;
-  }
-  .tick {
-    color: green;
-    //cursor: default;
-  }
-  .cross {
-    color: red;
-    //cursor: default;
   }
 `;
 

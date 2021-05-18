@@ -36,7 +36,7 @@ function ProjectList({
 
   return (
     <StyledProjectList>
-      {projects.length > 0 ? (
+      {projects.length > 0 && (
         <ul>
           <li key={uuidv4()} className="headers">
             <h4 className="name-header">Name</h4>
@@ -63,8 +63,6 @@ function ProjectList({
               );
             })}
         </ul>
-      ) : (
-        ""
       )}
     </StyledProjectList>
   );
@@ -73,9 +71,11 @@ function ProjectList({
 const StyledProjectList = styled(motion.div)`
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 
   ul {
-    width: 83vw;
+    width: auto;
+    height: 80vh;
     list-style: none;
   }
 
@@ -93,7 +93,7 @@ const StyledProjectList = styled(motion.div)`
     }
   }
   .name-header {
-    flex: 0 0 20%;
+    flex: 0 0 25%;
   }
   .short-header {
     flex: 0 0 10%;

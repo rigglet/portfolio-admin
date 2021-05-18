@@ -15,7 +15,7 @@ function PackageList({
 }) {
   return (
     <StyledPackageList>
-      {packages.length > 0 ? (
+      {packages.length > 0 && (
         <ul>
           <li key={uuidv4()} className="headers">
             <h4 className="name-header">Name</h4>
@@ -24,7 +24,7 @@ function PackageList({
             <h4 className="short-header">Actions</h4>
           </li>
           {packages
-            .sort((a, b) => (a.packageName > b.packageName ? 1 : -1))
+            .sort((a, b) => (a.name > b.name ? 1 : -1))
             .map((pack) => {
               return (
                 <PackageItem
@@ -39,8 +39,6 @@ function PackageList({
               );
             })}
         </ul>
-      ) : (
-        ""
       )}
     </StyledPackageList>
   );
@@ -49,9 +47,11 @@ function PackageList({
 const StyledPackageList = styled(motion.div)`
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 
   ul {
-    width: 83vw;
+    width: auto;
+    height: 80vh;
     list-style: none;
   }
 

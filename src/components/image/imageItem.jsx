@@ -19,7 +19,7 @@ function ImageItem({
     <StyledImageItem>
       {
         //view deleteConfirmation
-        viewDelete ? (
+        viewDelete && (
           <DeleteConfirmation
             declineFnc={declineFnc}
             acceptFnc={acceptFnc}
@@ -27,12 +27,10 @@ function ImageItem({
             id={image._id}
             referringType="PROJECT"
           />
-        ) : (
-          ""
         )
       }
 
-      <div className="data-item name-cell">{image.name || "profile"}</div>
+      <div className="data-item name-cell upper">{image.name || "profile"}</div>
       <div className="data-item short-cell">{image.description}</div>
       <div className="data-item long-cell">{image.fileName}</div>
       <div className="data-item short-cell">{image.category}</div>

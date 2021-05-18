@@ -19,7 +19,7 @@ function ToolItem({
     <StyledToolItem>
       {
         //view deleteConfirmation
-        viewDelete ? (
+        viewDelete && (
           <DeleteConfirmation
             declineFnc={declineFnc}
             acceptFnc={acceptFnc}
@@ -27,12 +27,10 @@ function ToolItem({
             id={tool._id}
             referringType="SITE"
           />
-        ) : (
-          ""
         )
       }
 
-      <div className="data-item name-cell">{tool.name}</div>
+      <div className="data-item name-cell upper">{tool.name}</div>
       <div className="data-item short-cell">{tool.category}</div>
       <div className="data-item short-cell">{tool.type}</div>
       <div className="data-item long-cell">{tool.address}</div>

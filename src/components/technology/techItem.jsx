@@ -19,7 +19,7 @@ function TechItem({
     <StyledTechItem>
       {
         //view deleteConfirmation
-        viewDelete ? (
+        viewDelete && (
           <DeleteConfirmation
             declineFnc={declineFnc}
             acceptFnc={acceptFnc}
@@ -27,12 +27,10 @@ function TechItem({
             id={tech._id}
             referringType="PROJECT"
           />
-        ) : (
-          ""
         )
       }
 
-      <div className="data-item name-cell">{tech.name}</div>
+      <div className="data-item name-cell upper">{tech.name}</div>
       <div className="data-item short-cell">{tech.type}</div>
       <div className="data-item long-cell">{tech.address}</div>
 

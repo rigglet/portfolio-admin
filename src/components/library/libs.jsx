@@ -20,6 +20,7 @@ function Libs({ auth, libraries, setLibraries }) {
     npmaddress: "",
     githubrepo: "",
     homepage: "",
+    //TODO: documentation: ""
   });
   const [viewViewLib, setViewViewLib] = useState(false);
   const [viewAddLib, setViewAddLib] = useState(false);

@@ -19,7 +19,7 @@ function TextItem({
     <StyledTextItem>
       {
         //view deleteConfirmation
-        viewDelete ? (
+        viewDelete && (
           <DeleteConfirmation
             declineFnc={declineFnc}
             acceptFnc={acceptFnc}
@@ -27,12 +27,10 @@ function TextItem({
             id={text._id}
             referringType="SITE"
           />
-        ) : (
-          ""
         )
       }
 
-      <div className="data-item name-cell">{text.name}</div>
+      <div className="data-item name-cell upper">{text.name}</div>
       <div className="data-item long-cell">{text.content}</div>
 
       <div className="data-item short-cell">

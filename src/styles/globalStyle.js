@@ -22,6 +22,10 @@ body {
     overflow-y: hidden;
 }
 
+.upper {
+    text-transform: capitalize;
+  }
+  
 //MODAL CLOSE BUTTON
 .close {
       z-index: 11;

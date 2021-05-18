@@ -17,6 +17,7 @@ function Techs({ auth, techs, setTechs }) {
     name: "",
     type: "",
     address: "",
+    //TODO: documentation: ""
   });
   const [viewViewTech, setViewViewTech] = useState(false);
   const [viewAddTech, setViewAddTech] = useState(false);

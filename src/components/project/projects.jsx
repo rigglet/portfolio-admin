@@ -10,7 +10,8 @@ import { DateTime } from "luxon";
 
 //components
 import ProjectList from "./projectList";
-import ProjectAddViewEdit from "./projectAddViewEdit";
+import ProjectAddEdit from "./projectAddEdit";
+import ProjectView from "./projectView";
 //message components
 import { ToastContainer, toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -39,28 +40,30 @@ function Projects({
     shortDescription: "",
     projectDescription: "",
     addedDate: DateTime.now(),
-    addedDate: DateTime.now().toFormat("yyyy-MM-dd"),
-    startedDate: DateTime.now().toFormat("yyyy-MM-dd"),
-    completedDate: DateTime.now().toFormat("yyyy-MM-dd"),
+    startedDate: DateTime.now(),
+    completedDate: DateTime.now(),
     libraries: [],
     packages: [],
     technologies: [],
     screenshots: [],
+    //TODO: features: [],
+    //TODO: highlights /proud of...
   });
+
   const [viewViewProject, setViewViewProject] = useState(false);
   const [viewAddProject, setViewAddProject] = useState(false);
   const [viewEditProject, setViewEditProject] = useState(false);
 
-  const notify = (type, status, id) => {
+  const notify = (type) => {
     switch (type) {
       case "EDITED":
         toast.dark(`Project EDITED successfully`);
         break;
       case "ADDED":
-        toast.dark(`Project ${id} ADDED successfully`);
+        toast.dark(`Project ADDED successfully`);
         break;
       case "DELETED":
-        toast.dark(`Project ${id} DELETED successfully`);
+        toast.dark(`Project DELETED successfully`);
         break;
       default:
         toast.dark("Nothing to report");
@@ -170,10 +173,10 @@ function Projects({
       {
         //view ADD PROJECT modal
         viewAddProject && (
-          <ProjectAddViewEdit
+          <ProjectAddEdit
+            openingHookSetter={setViewAddProject}
             currentProject={currentProject}
             setCurrentProject={setCurrentProject}
-            openingHookSetter={setViewAddProject}
             handleSaveProject={handleSaveProject}
             title="Add new project"
             formType="NEW"
@@ -192,11 +195,11 @@ function Projects({
       {
         //view EDIT PROJECT modal
         viewEditProject && (
-          <ProjectAddViewEdit
+          <ProjectAddEdit
             openingHookSetter={setViewEditProject}
-            handleEditProject={handleEditProject}
             currentProject={currentProject}
             setCurrentProject={setCurrentProject}
+            handleEditProject={handleEditProject}
             title="Edit project"
             formType="EDIT"
             images={images}
@@ -213,7 +216,7 @@ function Projects({
       {
         //view VIEW PROJECT modal
         viewViewProject && (
-          <ProjectAddViewEdit
+          <ProjectView
             openingHookSetter={setViewViewProject}
             currentProject={currentProject}
             setCurrentProject={setCurrentProject}
@@ -222,6 +225,7 @@ function Projects({
           />
         )
       }
+
       <div className="header">
         <h1>Projects</h1>
         <div className="toolbar">
@@ -231,6 +235,7 @@ function Projects({
           />
         </div>
       </div>
+
       {projects.length > 0 ? (
         <ProjectList
           projects={projects}

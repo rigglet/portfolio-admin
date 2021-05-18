@@ -15,7 +15,7 @@ function ToolList({
 }) {
   return (
     <StyledToolList>
-      {tools.length > 0 ? (
+      {tools.length > 0 && (
         <ul>
           <li key={uuidv4()} className="headers">
             <h4 className="name-header">Name</h4>
@@ -25,7 +25,7 @@ function ToolList({
             <h4 className="actions-header">Actions</h4>
           </li>
           {tools
-            .sort((a, b) => (a.toolName > b.toolName ? 1 : -1))
+            .sort((a, b) => (a.name > b.name ? 1 : -1))
             .map((tool) => {
               return (
                 <ToolItem
@@ -40,8 +40,6 @@ function ToolList({
               );
             })}
         </ul>
-      ) : (
-        ""
       )}
     </StyledToolList>
   );
@@ -50,9 +48,11 @@ function ToolList({
 const StyledToolList = styled(motion.div)`
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 
   ul {
-    width: 83vw;
+    width: auto;
+    height: 80vh;
     list-style: none;
   }
 

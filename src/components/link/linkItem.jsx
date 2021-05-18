@@ -19,7 +19,7 @@ function LinkItem({
     <StyledLinkItem>
       {
         //view deleteConfirmation
-        viewDelete ? (
+        viewDelete && (
           <DeleteConfirmation
             declineFnc={declineFnc}
             acceptFnc={acceptFnc}
@@ -27,12 +27,10 @@ function LinkItem({
             id={link._id}
             referringType="SITE"
           />
-        ) : (
-          ""
         )
       }
 
-      <div className="data-item name-cell">{link.name}</div>
+      <div className="data-item name-cell upper">{link.name}</div>
       <div className="data-item short-cell">{link.type}</div>
       <div className="data-item long-cell">{link.address}</div>
 

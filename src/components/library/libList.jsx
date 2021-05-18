@@ -15,7 +15,7 @@ function LibList({
 }) {
   return (
     <StyledLibList>
-      {libraries.length > 0 ? (
+      {libraries.length > 0 && (
         <ul>
           <li key={uuidv4()} className="headers">
             <h4 className="name-header">Name</h4>
@@ -24,7 +24,7 @@ function LibList({
             <h4 className="short-header">Actions</h4>
           </li>
           {libraries
-            .sort((a, b) => (a.libName > b.libName ? 1 : -1))
+            .sort((a, b) => (a.name > b.name ? 1 : -1))
             .map((lib) => {
               return (
                 <LibItem
@@ -39,8 +39,6 @@ function LibList({
               );
             })}
         </ul>
-      ) : (
-        ""
       )}
     </StyledLibList>
   );
@@ -49,9 +47,11 @@ function LibList({
 const StyledLibList = styled(motion.div)`
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 
   ul {
-    width: 83vw;
+    width: auto;
+    height: 80vh;
     list-style: none;
   }
 

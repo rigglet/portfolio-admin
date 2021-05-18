@@ -6,22 +6,22 @@ import { v4 as uuidv4 } from "uuid";
 import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa";
 //components
 import ImageItem from "./imageItem";
+//components
+import SubmitButton from "../submitButton";
 
-const Step5 = function (props) {
-  const {
-    currentStep,
-    totalSteps,
-    previousStep,
-    nextStep,
-    handleSaveProject,
-    handleEditProject,
-    formType,
-    currentProject,
-    setCurrentProject,
-    images,
-    setImages,
-  } = props;
-
+const Step5 = function ({
+  currentStep,
+  totalSteps,
+  previousStep,
+  nextStep,
+  handleSaveProject,
+  handleEditProject,
+  formType,
+  currentProject,
+  setCurrentProject,
+  images,
+  setImages,
+}) {
   const [selectedImages, setSelectedImages] = useState([]);
 
   const handleTechItemClick = (image) => {
@@ -42,70 +42,46 @@ const Step5 = function (props) {
     });
   };
 
-  const SubmitButton = (props) => {
-    if (props.type === "NEW")
-      return (
-        <input
-          type="button"
-          className="wizard-submit"
-          onClick={handleSaveProject}
-          value="Save"
-        />
-      );
-    else
-      return (
-        <input
-          type="button"
-          className="wizard-submit"
-          onClick={handleEditProject}
-          value="Save"
-        />
-      );
-  };
-
   return (
     <StyledStep>
       <h2>Screenshots</h2>
       <div className="form-information">
-        {formType !== "VIEW" && (
-          <>
-            <div className="available-container">
-              <h4>Available:</h4>
-              <div className="list">
-                {images
-                  .filter(
-                    (p) =>
-                      !selectedImages.includes(p) && p.category !== "profile"
-                  )
-                  .sort((a, b) => (a.name > b.name ? 1 : -1))
-                  .map((p) => (
-                    <ImageItem
-                      key={uuidv4()}
-                      handleItemClick={handleTechItemClick}
-                    >
-                      {p}
-                    </ImageItem>
-                  ))}
-              </div>
+        <>
+          <div className="available-container">
+            <h4>Available:</h4>
+            <div className="list">
+              {images
+                .filter(
+                  (p) => !selectedImages.includes(p) && p.category !== "profile"
+                )
+                .sort((a, b) => (a.name > b.name ? 1 : -1))
+                .map((p) => (
+                  <ImageItem
+                    key={uuidv4()}
+                    handleItemClick={handleTechItemClick}
+                  >
+                    {p}
+                  </ImageItem>
+                ))}
             </div>
-            <div className="included-container">
-              <h4>Included:</h4>
+          </div>
+          <div className="included-container">
+            <h4>Included:</h4>
 
-              <div className="list">
-                {selectedImages
-                  .sort((a, b) => (a.name > b.name ? 1 : -1))
-                  .map((p) => (
-                    <ImageItem
-                      key={uuidv4()}
-                      handleItemClick={handleSelectedItemClick}
-                    >
-                      {p}
-                    </ImageItem>
-                  ))}
-              </div>
+            <div className="list">
+              {selectedImages
+                .sort((a, b) => (a.name > b.name ? 1 : -1))
+                .map((p) => (
+                  <ImageItem
+                    key={uuidv4()}
+                    handleItemClick={handleSelectedItemClick}
+                  >
+                    {p}
+                  </ImageItem>
+                ))}
             </div>
-          </>
-        )}
+          </div>
+        </>
       </div>
 
       <div className="stepNav">
@@ -131,7 +107,11 @@ const Step5 = function (props) {
               onClick={() => nextStep()}
             />
           ) : (
-            formType !== "VIEW" && <SubmitButton type={formType} />
+            <SubmitButton
+              type={formType}
+              editFunction={handleEditProject}
+              saveFunction={handleSaveProject}
+            />
           )}
         </div>
       </div>

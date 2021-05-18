@@ -15,7 +15,7 @@ function TechList({
 }) {
   return (
     <StyledTechList>
-      {techs.length > 0 ? (
+      {techs.length > 0 && (
         <ul>
           <li key={uuidv4()} className="headers">
             <h4 className="name-header">Name</h4>
@@ -24,7 +24,7 @@ function TechList({
             <h4 className="actions-header">Actions</h4>
           </li>
           {techs
-            .sort((a, b) => (a.techName > b.techName ? 1 : -1))
+            .sort((a, b) => (a.name > b.name ? 1 : -1))
             .map((tech) => {
               return (
                 <TechItem
@@ -39,8 +39,6 @@ function TechList({
               );
             })}
         </ul>
-      ) : (
-        ""
       )}
     </StyledTechList>
   );
@@ -49,9 +47,11 @@ function TechList({
 const StyledTechList = styled(motion.div)`
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 
   ul {
-    width: 83vw;
+    width: auto;
+    height: 80vh;
     list-style: none;
   }
 

@@ -15,7 +15,7 @@ function ImageList({
 }) {
   return (
     <StyledImageList>
-      {images.length > 0 ? (
+      {images.length > 0 && (
         <ul>
           <li key={uuidv4()} className="headers">
             <h4 className="name-header">Name</h4>
@@ -25,7 +25,7 @@ function ImageList({
             <h4 className="actions-header">Actions</h4>
           </li>
           {images
-            .sort((a, b) => (a.imageName > b.imageName ? 1 : -1))
+            .sort((a, b) => (a.name > b.name ? 1 : -1))
             .map((image) => {
               return (
                 <ImageItem
@@ -40,8 +40,6 @@ function ImageList({
               );
             })}
         </ul>
-      ) : (
-        ""
       )}
     </StyledImageList>
   );
@@ -50,9 +48,11 @@ function ImageList({
 const StyledImageList = styled(motion.div)`
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 
   ul {
-    width: 83vw;
+    width: auto;
+    height: 80vh;
     list-style: none;
   }
 

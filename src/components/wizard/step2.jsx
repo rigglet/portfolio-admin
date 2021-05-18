@@ -7,19 +7,16 @@ import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa";
 //components
 import ListItem from "./listItem";
 
-const Step2 = function (props) {
-  const {
-    currentStep,
-    totalSteps,
-    previousStep,
-    nextStep,
-    formType,
-    currentProject,
-    setCurrentProject,
-    libraries,
-    setLibraries,
-  } = props;
-
+const Step2 = function ({
+  currentStep,
+  totalSteps,
+  previousStep,
+  nextStep,
+  currentProject,
+  setCurrentProject,
+  libraries,
+  setLibraries,
+}) {
   const [selectedLibraries, setSelectedLibraries] = useState([]);
 
   const handleLibItemClick = (library) => {
@@ -43,27 +40,24 @@ const Step2 = function (props) {
     });
   };
 
-  console.log(currentProject);
-
   return (
     <StyledStep>
       <h2>Libraries</h2>
       <div className="form-information">
-        {formType === "NEW" && (
-          <div className="available-container">
-            <h4>Available:</h4>
-            <div className="list">
-              {libraries
-                .filter((l) => !selectedLibraries.includes(l))
-                .sort((a, b) => (a.name > b.name ? 1 : -1))
-                .map((l) => (
-                  <ListItem key={uuidv4()} handleItemClick={handleLibItemClick}>
-                    {l}
-                  </ListItem>
-                ))}
-            </div>
+        <div className="available-container">
+          <h4>Available:</h4>
+          <div className="list">
+            {libraries
+              .filter((l) => !selectedLibraries.includes(l))
+              .sort((a, b) => (a.name > b.name ? 1 : -1))
+              .map((l) => (
+                <ListItem key={uuidv4()} handleItemClick={handleLibItemClick}>
+                  {l}
+                </ListItem>
+              ))}
           </div>
-        )}
+        </div>
+
         <div className="included-container">
           <h4>Included:</h4>
           <div className="list">

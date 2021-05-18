@@ -15,7 +15,7 @@ function LinkList({
 }) {
   return (
     <StyledLinkList>
-      {links.length > 0 ? (
+      {links.length > 0 && (
         <ul>
           <li key={uuidv4()} className="headers">
             <h4 className="name-header">Name</h4>
@@ -24,7 +24,7 @@ function LinkList({
             <h4 className="short-header">Actions</h4>
           </li>
           {links
-            .sort((a, b) => (a.linkName > b.linkName ? 1 : -1))
+            .sort((a, b) => (a.name > b.name ? 1 : -1))
             .map((link) => {
               return (
                 <LinkItem
@@ -39,8 +39,6 @@ function LinkList({
               );
             })}
         </ul>
-      ) : (
-        ""
       )}
     </StyledLinkList>
   );
@@ -49,9 +47,11 @@ function LinkList({
 const StyledLinkList = styled(motion.div)`
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 
   ul {
-    width: 83vw;
+    width: auto;
+    height: 80vh;
     list-style: none;
   }
 

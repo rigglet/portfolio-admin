@@ -7,19 +7,16 @@ import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa";
 //components
 import ListItem from "./listItem";
 
-const Step4 = function (props) {
-  const {
-    currentStep,
-    totalSteps,
-    previousStep,
-    nextStep,
-    formType,
-    currentProject,
-    setCurrentProject,
-    techs,
-    setTechs,
-  } = props;
-
+const Step4 = function ({
+  currentStep,
+  totalSteps,
+  previousStep,
+  nextStep,
+  currentProject,
+  setCurrentProject,
+  techs,
+  setTechs,
+}) {
   const [selectedTechs, setSelectedTechs] = useState([]);
 
   const handleTechItemClick = (tech) => {
@@ -45,24 +42,20 @@ const Step4 = function (props) {
       <h2>Technologies</h2>
 
       <div className="form-information">
-        {formType === "NEW" && (
-          <div className="available-container">
-            <h4>Available:</h4>
-            <div className="list">
-              {techs
-                .filter((p) => !selectedTechs.includes(p))
-                .sort((a, b) => (a.name > b.name ? 1 : -1))
-                .map((p) => (
-                  <ListItem
-                    key={uuidv4()}
-                    handleItemClick={handleTechItemClick}
-                  >
-                    {p}
-                  </ListItem>
-                ))}
-            </div>
+        <div className="available-container">
+          <h4>Available:</h4>
+          <div className="list">
+            {techs
+              .filter((p) => !selectedTechs.includes(p))
+              .sort((a, b) => (a.name > b.name ? 1 : -1))
+              .map((p) => (
+                <ListItem key={uuidv4()} handleItemClick={handleTechItemClick}>
+                  {p}
+                </ListItem>
+              ))}
           </div>
-        )}
+        </div>
+
         <div className="included-container">
           <h4>Included:</h4>
           <div className="list">

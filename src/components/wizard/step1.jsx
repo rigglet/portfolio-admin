@@ -10,46 +10,25 @@ import {
 } from "react-icons/fa";
 import { CgWebsite } from "react-icons/cg";
 
-const Step1 = function (props) {
-  const {
-    currentStep,
-    totalSteps,
-    previousStep,
-    nextStep,
-    formType,
-    currentProject,
-    setCurrentProject,
-  } = props;
-  //SERVER BASE URL
-  //import SERVER_BASE_URL from "../../config/config";
-  //const IMAGE_BASE_URL = `${SERVER_BASE_URL()}/public/uploads/`;
+const Step1 = function ({
+  currentStep,
+  totalSteps,
+  previousStep,
+  nextStep,
+  formType,
+  currentProject,
+  setCurrentProject,
+}) {
+  console.log("Added date: ", currentProject?.addedDate);
 
-  // {
-  //   formType === "VIEW" && (
-  //     <div className="view-container">
-  //       <div className="list">
-  //         {currentProject.screenshots
-  //           .sort((a, b) => (a.name > b.name ? 1 : -1))
-  //           .map((p) => (
-  //             //<ImageItem key={uuidv4()}>{p}</ImageItem>
-  //             <img key={uuidv4()} src={`${IMAGE_BASE_URL}${p.fileName}`} />
-  //           ))}
-  //       </div>
-  //     </div>
-  //   );
-  // }
   return (
     <StyledStep>
       <h2>Project information</h2>
       <div className="form-information">
         <div className="details">
-          <input type="hidden" name="formtype" value={formType} />
-          <input type="hidden" name="_id" value={currentProject?._id} />
-
           <div className="input-item">
             <label htmlFor="projectName">Project name:</label>
             <input
-              disabled={formType === "VIEW" ? true : false}
               value={currentProject?.projectName}
               type="text"
               name="projectName"
@@ -68,7 +47,6 @@ const Step1 = function (props) {
           <div className="input-item">
             <label htmlFor="version">Version:</label>
             <input
-              disabled={formType === "VIEW" ? true : false}
               type="text"
               name="version"
               id="version"
@@ -86,7 +64,6 @@ const Step1 = function (props) {
           <div className="input-item">
             <label htmlFor="author">Author:</label>
             <input
-              disabled={formType === "VIEW" ? true : false}
               name="author"
               id="author"
               value={currentProject?.author}
@@ -104,7 +81,6 @@ const Step1 = function (props) {
           <div className="input-item">
             <label htmlFor="featured">Featured:</label>
             <input
-              disabled={formType === "VIEW" ? true : false}
               checked={currentProject?.featured}
               type="checkbox"
               name="featured"
@@ -120,7 +96,6 @@ const Step1 = function (props) {
           <div className="input-item">
             <label htmlFor="included">Included:</label>
             <input
-              disabled={formType === "VIEW" ? true : false}
               checked={currentProject?.included}
               type="checkbox"
               name="included"
@@ -161,7 +136,6 @@ const Step1 = function (props) {
             <div className="address-item">
               <CgWebsite className="address-icon" />
               <input
-                disabled={formType === "VIEW" ? true : false}
                 value={currentProject?.website}
                 type="text"
                 id="text"
@@ -183,7 +157,6 @@ const Step1 = function (props) {
           <div className="input-item">
             <label htmlFor="short">Short description:</label>
             <textarea
-              disabled={formType === "VIEW" ? true : false}
               value={currentProject?.shortDescription}
               type="text"
               name="shortDescription"
@@ -202,7 +175,6 @@ const Step1 = function (props) {
           <div className="input-item">
             <label htmlFor="description">Description:</label>
             <textarea
-              disabled={formType === "VIEW" ? true : false}
               value={currentProject?.projectDescription}
               type="text"
               name="projectDescription"
@@ -222,81 +194,54 @@ const Step1 = function (props) {
         <div className="dates">
           <div className="input-item">
             <label htmlFor="added">Added:</label>
-            {formType === "VIEW" ? (
-              <p>
-                {DateTime.fromISO(currentProject?.addedDate)
-                  .setLocale("uk")
-                  .toLocaleString({
-                    timeZoneName: "short",
-                  })}
-              </p>
-            ) : (
-              <input
-                disabled={formType === "VIEW" ? true : false}
-                value={currentProject?.addedDate}
-                type="date"
-                name="addedDate"
-                id="added"
-                onChange={(e) =>
-                  setCurrentProject({
-                    ...currentProject,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-            )}
+            <input
+              value={DateTime.fromISO(currentProject?.addedDate).toFormat(
+                "yyyy-MM-dd"
+              )}
+              type="date"
+              name="addedDate"
+              id="added"
+              onChange={(e) =>
+                setCurrentProject({
+                  ...currentProject,
+                  [e.target.name]: e.target.value,
+                })
+              }
+            />
           </div>
           <div className="input-item">
             <label htmlFor="started">Started:</label>
-            {formType === "VIEW" ? (
-              <p>
-                {DateTime.fromISO(currentProject?.addedDate)
-                  .setLocale("uk")
-                  .toLocaleString({
-                    timeZoneName: "short",
-                  })}
-              </p>
-            ) : (
-              <input
-                disabled={formType === "VIEW" ? true : false}
-                value={currentProject?.startedDate}
-                type="date"
-                name="startedDate"
-                id="started"
-                onChange={(e) =>
-                  setCurrentProject({
-                    ...currentProject,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-            )}
+            <input
+              value={DateTime.fromISO(currentProject?.addedDate).toFormat(
+                "yyyy-MM-dd"
+              )}
+              type="date"
+              name="startedDate"
+              id="started"
+              onChange={(e) =>
+                setCurrentProject({
+                  ...currentProject,
+                  [e.target.name]: e.target.value,
+                })
+              }
+            />
           </div>
           <div className="input-item">
             <label>Completed:</label>
-            {formType === "VIEW" ? (
-              <p>
-                {DateTime.fromISO(currentProject?.addedDate)
-                  .setLocale("uk")
-                  .toLocaleString({
-                    timeZoneName: "short",
-                  })}
-              </p>
-            ) : (
-              <input
-                disabled={formType === "VIEW" ? true : false}
-                value={currentProject?.completedDate}
-                type="date"
-                name="completedDate"
-                id="completed"
-                onChange={(e) =>
-                  setCurrentProject({
-                    ...currentProject,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-            )}
+            <input
+              value={DateTime.fromISO(currentProject?.addedDate).toFormat(
+                "yyyy-MM-dd"
+              )}
+              type="date"
+              name="completedDate"
+              id="completed"
+              onChange={(e) =>
+                setCurrentProject({
+                  ...currentProject,
+                  [e.target.name]: e.target.value,
+                })
+              }
+            />
           </div>
         </div>
       </div>

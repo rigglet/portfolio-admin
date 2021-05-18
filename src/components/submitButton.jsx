@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { FaRegSave } from "react-icons/fa";
 
-export default function submitButton(props) {
+export default function submitButton({ type, saveFunction, editFunction }) {
   let handleClickFunction = {};
-  if (props.type === "NEW") handleClickFunction = props.saveFunction;
-  else handleClickFunction = props.editFunction;
+  if (type === "NEW") handleClickFunction = saveFunction;
+  else handleClickFunction = editFunction;
 
   return (
     <StyledSubmit

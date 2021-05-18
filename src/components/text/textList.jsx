@@ -15,7 +15,7 @@ function TextList({
 }) {
   return (
     <StyledTextList>
-      {texts.length > 0 ? (
+      {texts.length > 0 && (
         <ul>
           <li key={uuidv4()} className="headers">
             <h4 className="name-header">Name</h4>
@@ -23,7 +23,7 @@ function TextList({
             <h4 className="short-header">Actions</h4>
           </li>
           {texts
-            .sort((a, b) => (a.textName > b.textName ? 1 : -1))
+            .sort((a, b) => (a.name > b.name ? 1 : -1))
             .map((text) => {
               return (
                 <TextItem
@@ -38,8 +38,6 @@ function TextList({
               );
             })}
         </ul>
-      ) : (
-        ""
       )}
     </StyledTextList>
   );
