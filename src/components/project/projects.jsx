@@ -107,6 +107,24 @@ function Projects({
       })
       .then(() => {
         setViewAddProject(false);
+        setCurrentProject({
+          projectName: "",
+          version: "",
+          author: "",
+          featured: false,
+          included: false,
+          website: "",
+          githubLink: "",
+          shortDescription: "",
+          projectDescription: "",
+          addedDate: DateTime.now(),
+          startedDate: DateTime.now(),
+          completedDate: DateTime.now(),
+          libraries: [],
+          packages: [],
+          technologies: [],
+          screenshots: [],
+        });
       });
   };
 
@@ -130,6 +148,24 @@ function Projects({
       })
       .then(() => {
         setViewEditProject(false);
+        setCurrentProject({
+          projectName: "",
+          version: "",
+          author: "",
+          featured: false,
+          included: false,
+          website: "",
+          githubLink: "",
+          shortDescription: "",
+          projectDescription: "",
+          addedDate: DateTime.now(),
+          startedDate: DateTime.now(),
+          completedDate: DateTime.now(),
+          libraries: [],
+          packages: [],
+          technologies: [],
+          screenshots: [],
+        });
       });
   };
 

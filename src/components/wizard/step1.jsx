@@ -19,8 +19,6 @@ const Step1 = function ({
   currentProject,
   setCurrentProject,
 }) {
-  console.log("Added date: ", currentProject?.addedDate);
-
   return (
     <StyledStep>
       <h2>Project information</h2>
@@ -193,26 +191,9 @@ const Step1 = function ({
         </div>
         <div className="dates">
           <div className="input-item">
-            <label htmlFor="added">Added:</label>
-            <input
-              value={DateTime.fromISO(currentProject?.addedDate).toFormat(
-                "yyyy-MM-dd"
-              )}
-              type="date"
-              name="addedDate"
-              id="added"
-              onChange={(e) =>
-                setCurrentProject({
-                  ...currentProject,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
-          </div>
-          <div className="input-item">
             <label htmlFor="started">Started:</label>
             <input
-              value={DateTime.fromISO(currentProject?.addedDate).toFormat(
+              value={DateTime.fromISO(currentProject?.startedDate).toFormat(
                 "yyyy-MM-dd"
               )}
               type="date"
@@ -229,12 +210,29 @@ const Step1 = function ({
           <div className="input-item">
             <label>Completed:</label>
             <input
-              value={DateTime.fromISO(currentProject?.addedDate).toFormat(
+              value={DateTime.fromISO(currentProject?.completedDate).toFormat(
                 "yyyy-MM-dd"
               )}
               type="date"
               name="completedDate"
               id="completed"
+              onChange={(e) =>
+                setCurrentProject({
+                  ...currentProject,
+                  [e.target.name]: e.target.value,
+                })
+              }
+            />
+          </div>
+          <div className="input-item">
+            <label htmlFor="added">Added:</label>
+            <input
+              value={DateTime.fromISO(currentProject?.addedDate).toFormat(
+                "yyyy-MM-dd"
+              )}
+              type="date"
+              name="addedDate"
+              id="added"
               onChange={(e) =>
                 setCurrentProject({
                   ...currentProject,

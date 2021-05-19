@@ -22,12 +22,11 @@ function Bar({ auth, setAuth }) {
   const [selectedFile, setSelectedFile] = useState(profileImageUrl);
   const baseURL = `${SERVER_BASE_URL()}/public/uploads/`;
 
-  //console.log(auth);
   useEffect(() => {
     if (profileImageUrl !== null) {
       setSelectedFile(`${baseURL}${profileImageUrl}`);
     }
-  }, []);
+  }, [profileImageUrl, baseURL]);
 
   const logOut = () => {
     setAuth({});

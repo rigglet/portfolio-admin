@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa";
 //components
 import ListItem from "./listItem";
+//lodash
+let _ = require("lodash");
 
 const Step3 = function ({
   currentStep,
@@ -15,25 +17,44 @@ const Step3 = function ({
   currentProject,
   setCurrentProject,
   packages,
-  setPackages,
 }) {
-  const [selectedPackages, setSelectedPackages] = useState([]);
+  //If NEW package then selected packages should be empty - set in PackageAddViewEdit.jsx
+  //If EDIT package then selected packages should be loaded for specific project
+  const [selectedPackages, setSelectedPackages] = useState(
+    currentProject.packages
+  );
+
+  //If NEW package then available packages should show all packages
+  //If EDIT package then available packages should be ALL packages MINUS those that have been selected
+  const [availablePackages, setAvailablePackages] = useState(
+    _.differenceWith(packages, selectedPackages, _.isEqual)
+  );
 
   const handlePackItemClick = (pack) => {
-    setPackages(packages.filter((p) => p._id !== pack._id));
+    //remove clicked package from list of available packages
+    setAvailablePackages(availablePackages.filter((p) => p._id !== pack._id));
+
+    //add clicked package to list of selected packages
     setSelectedPackages([...selectedPackages, pack]);
+
+    //add clicked package to currentProject
     setCurrentProject({
       ...currentProject,
-      packages: [...currentProject?.packages, pack._id],
+      packages: [...selectedPackages, pack],
     });
   };
 
   const handleSelectedItemClick = (pack) => {
+    //remove clicked package from list of selected packages
     setSelectedPackages(selectedPackages.filter((p) => p._id !== pack._id));
-    setPackages([...packages, pack]);
+
+    //add clicked packages to list of available packages
+    setAvailablePackages([...availablePackages, pack]);
+
+    //remove clicked package from currentProject
     setCurrentProject({
       ...currentProject,
-      packages: currentProject?.packages.filter((p) => p !== pack._id),
+      packages: currentProject?.packages.filter((p) => p._id !== pack._id),
     });
   };
 
@@ -44,8 +65,7 @@ const Step3 = function ({
         <div className="available-container">
           <h4>Available:</h4>
           <div className="list">
-            {packages
-              .filter((p) => !selectedPackages.includes(p))
+            {availablePackages
               .sort((a, b) => (a.name > b.name ? 1 : -1))
               .map((p) => (
                 <ListItem key={uuidv4()} handleItemClick={handlePackItemClick}>

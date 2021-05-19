@@ -11,7 +11,6 @@ import TextList from "./textList";
 import TextAdd from "./textAddViewEdit";
 //data
 import { deleteData, postData, updateData } from "../../api/api";
-import { set } from "react-hook-form";
 
 function Texts({ auth, texts, setTexts }) {
   const [currentText, setCurrentText] = useState({ name: "", content: "" });

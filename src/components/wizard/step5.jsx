@@ -8,6 +8,8 @@ import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa";
 import ImageItem from "./imageItem";
 //components
 import SubmitButton from "../submitButton";
+//lodash
+let _ = require("lodash");
 
 const Step5 = function ({
   currentStep,
@@ -20,25 +22,49 @@ const Step5 = function ({
   currentProject,
   setCurrentProject,
   images,
-  setImages,
 }) {
-  const [selectedImages, setSelectedImages] = useState([]);
+  //If NEW image then selected technologies should be empty - set in ImageAddViewEdit.jsx
+  //If EDIT image then selected technologies should be loaded for specific project
+  const [selectedImages, setSelectedImages] = useState(
+    currentProject.screenshots
+  );
+
+  //get project images only
+  const projectImages = images.filter((image) => image.category !== "profile");
+  console.log(projectImages);
+  //If NEW tech then available techs should show all techs
+  //If EDIT tech then available techs should be ALL techs MINUS those that have been selected
+  const [availableImages, setAvailableImages] = useState(
+    _.differenceWith(projectImages, selectedImages, _.isEqual)
+  );
 
   const handleTechItemClick = (image) => {
-    setImages(images.filter((i) => i._id !== image._id));
+    //remove clicked image from list of available technologies
+    setAvailableImages(availableImages.filter((i) => i._id !== image._id));
+
+    //add clicked image to list of selected technologies
     setSelectedImages([...selectedImages, image]);
+
+    //add clicked image to currentProject
     setCurrentProject({
       ...currentProject,
-      screenshots: [...currentProject?.screenshots, image._id],
+      screenshots: [...currentProject?.screenshots, image],
     });
   };
 
   const handleSelectedItemClick = (image) => {
+    //remove clicked image from list of selected technologies
     setSelectedImages(selectedImages.filter((i) => i._id !== image._id));
-    setImages([...images, image]);
+
+    //add clicked technologies to list of available technologies
+    setAvailableImages([...availableImages, image]);
+
+    //remove clicked image from currentProject
     setCurrentProject({
       ...currentProject,
-      screenshots: currentProject?.screenshots.filter((i) => i !== image._id),
+      screenshots: currentProject?.screenshots.filter(
+        (i) => i._id !== image._id
+      ),
     });
   };
 
@@ -50,10 +76,7 @@ const Step5 = function ({
           <div className="available-container">
             <h4>Available:</h4>
             <div className="list">
-              {images
-                .filter(
-                  (p) => !selectedImages.includes(p) && p.category !== "profile"
-                )
+              {availableImages
                 .sort((a, b) => (a.name > b.name ? 1 : -1))
                 .map((p) => (
                   <ImageItem

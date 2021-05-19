@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
+//dates
+import { DateTime } from "luxon";
 //components
 import StepWizard from "react-step-wizard";
 import { default as StepInfo } from "../wizard/step1";
@@ -32,7 +34,24 @@ const ProjectAddEdit = function ({
           className="close"
           onClick={() => {
             openingHookSetter(false);
-            setCurrentProject({});
+            setCurrentProject({
+              projectName: "",
+              version: "",
+              author: "",
+              featured: false,
+              included: false,
+              website: "",
+              githubLink: "",
+              shortDescription: "",
+              projectDescription: "",
+              addedDate: DateTime.now(),
+              startedDate: DateTime.now(),
+              completedDate: DateTime.now(),
+              libraries: [],
+              packages: [],
+              technologies: [],
+              screenshots: [],
+            });
           }}
         >
           &#10008;
@@ -51,21 +70,18 @@ const ProjectAddEdit = function ({
               currentProject={currentProject}
               setCurrentProject={setCurrentProject}
               libraries={libraries}
-              setLibraries={setLibraries}
             />
             <StepPackages
               formType={formType}
               currentProject={currentProject}
               setCurrentProject={setCurrentProject}
               packages={packages}
-              setPackages={setPackages}
             />
             <StepTechnologies
               formType={formType}
               currentProject={currentProject}
               setCurrentProject={setCurrentProject}
               techs={techs}
-              setTechs={setTechs}
             />
             <StepImages
               formType={formType}
@@ -74,7 +90,6 @@ const ProjectAddEdit = function ({
               handleSaveProject={handleSaveProject}
               handleEditProject={handleEditProject}
               images={images}
-              setImages={setImages}
             />
           </StepWizard>
         </div>

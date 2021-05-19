@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa";
 //components
 import ListItem from "./listItem";
+//lodash
+let _ = require("lodash");
 
 const Step4 = function ({
   currentStep,
@@ -15,26 +17,51 @@ const Step4 = function ({
   currentProject,
   setCurrentProject,
   techs,
-  setTechs,
 }) {
-  const [selectedTechs, setSelectedTechs] = useState([]);
+  //If NEW technology then selected technologies should be empty - set in TechnologyAddViewEdit.jsx
+  //If EDIT technology then selected technologies should be loaded for specific project
+  const [selectedTechnologies, setSelectedTechnologies] = useState(
+    currentProject.technologies
+  );
+
+  //If NEW tech then available techs should show all techs
+  //If EDIT tech then available techs should be ALL techs MINUS those that have been selected
+  const [availableTechnologies, setAvailableTechnologies] = useState(
+    _.differenceWith(techs, selectedTechnologies, _.isEqual)
+  );
 
   const handleTechItemClick = (tech) => {
-    setTechs(techs.filter((t) => t._id !== tech._id));
-    setSelectedTechs([...selectedTechs, tech]);
-    setCurrentProject({
+    //remove clicked technology from list of available technologies
+    setAvailableTechnologies(
+      availableTechnologies.filter((t) => t._id !== tech._id)
+    );
+
+    //add clicked technology to list of selected technologies
+    setSelectedTechnologies(() => [...selectedTechnologies, tech]);
+
+    //add clicked technology to currentProject
+    setCurrentProject(() => ({
       ...currentProject,
-      technologies: [...currentProject?.technologies, tech._id],
-    });
+      technologies: [...selectedTechnologies, tech],
+    }));
   };
 
   const handleSelectedItemClick = (tech) => {
-    setSelectedTechs(selectedTechs.filter((t) => t._id !== tech._id));
-    setTechs([...techs, tech]);
-    setCurrentProject({
+    //remove clicked technology from list of selected technologies
+    setSelectedTechnologies(() =>
+      selectedTechnologies.filter((t) => t._id !== tech._id)
+    );
+
+    //add clicked technologies to list of available technologies
+    setAvailableTechnologies(() => [...availableTechnologies, tech]);
+
+    //remove clicked technology from currentProject
+    setCurrentProject(() => ({
       ...currentProject,
-      technologies: currentProject?.technologies.filter((t) => t !== tech._id),
-    });
+      technologies: currentProject?.technologies.filter(
+        (t) => t._id !== tech._id
+      ),
+    }));
   };
 
   return (
@@ -45,8 +72,7 @@ const Step4 = function ({
         <div className="available-container">
           <h4>Available:</h4>
           <div className="list">
-            {techs
-              .filter((p) => !selectedTechs.includes(p))
+            {availableTechnologies
               .sort((a, b) => (a.name > b.name ? 1 : -1))
               .map((p) => (
                 <ListItem key={uuidv4()} handleItemClick={handleTechItemClick}>
@@ -59,7 +85,7 @@ const Step4 = function ({
         <div className="included-container">
           <h4>Included:</h4>
           <div className="list">
-            {selectedTechs
+            {selectedTechnologies
               .sort((a, b) => (a.name > b.name ? 1 : -1))
               .map((p) => (
                 <ListItem

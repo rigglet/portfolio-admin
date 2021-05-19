@@ -31,7 +31,7 @@ function Admin({ auth, setAuth }) {
   const [packages, setPackages] = useState({});
   const [tools, setTools] = useState({});
   const [images, setImages] = useState({});
-  const [maps, setMaps] = useState({});
+  //const [maps, setMaps] = useState({});
 
   useEffect(() => {
     async function getApplicationData() {
@@ -47,7 +47,7 @@ function Admin({ auth, setAuth }) {
       setImages(result[6].data);
       setTexts(result[7].data);
     });
-  }, []);
+  }, [auth]);
 
   const data = () => {
     switch (path) {
@@ -107,8 +107,8 @@ function Admin({ auth, setAuth }) {
         imageNo={images?.length ? images.length : 0}
         toolNo={tools?.length ? tools.length : 0}
         linkNo={links?.length ? links.length : 0}
-        mapNo={maps?.length ? maps.length : 0}
         textNo={texts?.length ? texts.length : 0}
+        //mapNo={maps?.length ? maps.length : 0}
       />
       {data()}
     </StyledAdmin>

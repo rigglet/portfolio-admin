@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa";
 //components
 import ListItem from "./listItem";
+//lodash
+let _ = require("lodash");
 
 const Step2 = function ({
   currentStep,
@@ -15,28 +17,48 @@ const Step2 = function ({
   currentProject,
   setCurrentProject,
   libraries,
-  setLibraries,
 }) {
-  const [selectedLibraries, setSelectedLibraries] = useState([]);
+  //If NEW project then selected libraries should be empty - set in ProjectAddEdit.jsx
+  //If EDIT project then selected libraries should be loaded for specific project
+  const [selectedLibraries, setSelectedLibraries] = useState(
+    currentProject.libraries
+  );
+
+  //If NEW project then available libraries should show all libraries
+  //If EDIT project then available libraries should be ALL libraries MINUS those that have been selected
+  const [availableLibraries, setAvailableLibraries] = useState(
+    _.differenceWith(libraries, selectedLibraries, _.isEqual)
+  );
 
   const handleLibItemClick = (library) => {
-    setLibraries(libraries.filter((l) => l._id !== library._id));
+    //remove clicked library from list of available libraries
+    setAvailableLibraries(
+      availableLibraries.filter((l) => l._id !== library._id)
+    );
+
+    //add clicked library to list of selected libraries
     setSelectedLibraries([...selectedLibraries, library]);
 
+    //add clicked library to currentProject
     setCurrentProject({
       ...currentProject,
-      libraries: [...currentProject?.libraries, library._id],
+      libraries: [...selectedLibraries, library],
     });
   };
 
   const handleSelectedItemClick = (library) => {
+    //remove clicked library from list of selected libraries
     setSelectedLibraries(
       selectedLibraries.filter((l) => l._id !== library._id)
     );
-    setLibraries([...libraries, library]);
+
+    //add clicked library to list of available libraries
+    setAvailableLibraries([...availableLibraries, library]);
+
+    //remove clicked library from currentProject
     setCurrentProject({
       ...currentProject,
-      libraries: currentProject?.libraries.filter((l) => l !== library._id),
+      libraries: currentProject?.libraries.filter((l) => l._id !== library._id),
     });
   };
 
@@ -47,8 +69,7 @@ const Step2 = function ({
         <div className="available-container">
           <h4>Available:</h4>
           <div className="list">
-            {libraries
-              .filter((l) => !selectedLibraries.includes(l))
+            {availableLibraries
               .sort((a, b) => (a.name > b.name ? 1 : -1))
               .map((l) => (
                 <ListItem key={uuidv4()} handleItemClick={handleLibItemClick}>
