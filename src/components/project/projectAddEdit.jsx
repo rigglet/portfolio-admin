@@ -9,6 +9,8 @@ import { default as StepLibraries } from "../wizard/step2";
 import { default as StepPackages } from "../wizard/step3";
 import { default as StepTechnologies } from "../wizard/step4";
 import { default as StepImages } from "../wizard/step5";
+import CloseButton from "../closeButton";
+import { MdWeb } from "react-icons/md";
 
 const ProjectAddEdit = function ({
   openingHookSetter,
@@ -19,80 +21,71 @@ const ProjectAddEdit = function ({
   setCurrentProject,
   formType,
   images,
-  setImages,
   techs,
-  setTechs,
   packages,
-  setPackages,
   libraries,
-  setLibraries,
 }) {
   return (
     <StyledProjectAddEdit>
       <div className="container">
-        <button
-          className="close"
-          onClick={() => {
-            openingHookSetter(false);
-            setCurrentProject({
-              projectName: "",
-              version: "",
-              author: "",
-              featured: false,
-              included: false,
-              website: "",
-              githubLink: "",
-              shortDescription: "",
-              projectDescription: "",
-              addedDate: DateTime.now(),
-              startedDate: DateTime.now(),
-              completedDate: DateTime.now(),
-              libraries: [],
-              packages: [],
-              technologies: [],
-              screenshots: [],
-            });
+        <CloseButton
+          closeFunction={openingHookSetter}
+          resetFunction={setCurrentProject}
+          resetObject={{
+            projectName: "",
+            version: "",
+            author: "",
+            featured: false,
+            included: false,
+            website: "",
+            githubLink: "",
+            shortDescription: "",
+            projectDescription: "",
+            addedDate: DateTime.now(),
+            startedDate: DateTime.now(),
+            completedDate: DateTime.now(),
+            libraries: [],
+            packages: [],
+            technologies: [],
+            screenshots: [],
           }}
-        >
-          &#10008;
-        </button>
-        <div className="form-information">
-          <h1>{title}</h1>
-          <h5>{currentProject?._id}</h5>
-          <StepWizard>
-            <StepInfo
-              formType={formType}
-              currentProject={currentProject}
-              setCurrentProject={setCurrentProject}
-            />
-            <StepLibraries
-              formType={formType}
-              currentProject={currentProject}
-              setCurrentProject={setCurrentProject}
-              libraries={libraries}
-            />
-            <StepPackages
-              formType={formType}
-              currentProject={currentProject}
-              setCurrentProject={setCurrentProject}
-              packages={packages}
-            />
-            <StepTechnologies
-              formType={formType}
-              currentProject={currentProject}
-              setCurrentProject={setCurrentProject}
-              techs={techs}
-            />
-            <StepImages
-              formType={formType}
-              currentProject={currentProject}
-              setCurrentProject={setCurrentProject}
-              handleSaveProject={handleSaveProject}
-              handleEditProject={handleEditProject}
-              images={images}
-            />
-          </StepWizard>
+        />
+
+        <div className="titleHeader">
+          <MdWeb className="titleIcon" />
+          <h1>{title} </h1>
+          {formType !== "NEW" && <h5>{currentProject?._id}</h5>}
         </div>
+
+        <StepWizard>
+          <StepInfo
+            currentProject={currentProject}
+            setCurrentProject={setCurrentProject}
+          />
+          <StepLibraries
+            currentProject={currentProject}
+            setCurrentProject={setCurrentProject}
+            libraries={libraries}
+          />
+          <StepPackages
+            currentProject={currentProject}
+            setCurrentProject={setCurrentProject}
+            packages={packages}
+          />
+          <StepTechnologies
+            currentProject={currentProject}
+            setCurrentProject={setCurrentProject}
+            techs={techs}
+          />
+          <StepImages
+            formType={formType}
+            currentProject={currentProject}
+            setCurrentProject={setCurrentProject}
+            handleSaveProject={handleSaveProject}
+            handleEditProject={handleEditProject}
+            images={images}
+          />
+        </StepWizard>
       </div>
     </StyledProjectAddEdit>
   );
@@ -115,19 +108,9 @@ const StyledProjectAddEdit = styled(motion.div)`
     width: 90vw;
     height: 90vh;
     background-color: #ebebeb;
-    font-size: 12pt;
     border: 0.05rem #689ed0 solid;
     position: relative;
-
-    .form-information {
-      height: 85%;
-      width: 100%;
-      padding: 2rem;
-      h1 {
-        font-size: 16pt;
-        font-weight: 600;
-      }
-    }
+    padding: 2rem;
   }
 `;
 

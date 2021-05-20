@@ -2,8 +2,10 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
 import { CgWebsite } from "react-icons/cg";
+import { FaTools } from "react-icons/fa";
 //components
 import SubmitButton from "../submitButton";
+import CloseButton from "../closeButton";
 
 const ToolAddViewEdit = function ({
   openingHookSetter,
@@ -17,24 +19,24 @@ const ToolAddViewEdit = function ({
   return (
     <StyledToolAddViewEdit>
       <div className="container">
-        <button
-          className="close"
-          onClick={() => {
-            openingHookSetter(false);
-            setCurrentTool({
-              name: "",
-              type: "",
-              category: "",
-              address: "",
-            });
+        <CloseButton
+          closeFunction={openingHookSetter}
+          resetFunction={setCurrentTool}
+          resetObject={{
+            name: "",
+            type: "",
+            category: "",
+            address: "",
           }}
-        >
-          &#10008;
-        </button>
-        <div className="form-information">
-          <h1>{title}</h1>
-          <h5>{currentTool?._id}</h5>
+        />
 
+        <div className="titleHeader">
+          <FaTools className="titleIcon" />
+          <h1>{title} </h1>
+          {formType !== "NEW" && <h5>{currentTool?._id}</h5>}
+        </div>
+
+        <div className="form-information">
           <div className="name-v">
             <div className="input-item">
               <label htmlFor="name">Tool name:</label>
@@ -139,30 +141,20 @@ const StyledToolAddViewEdit = styled(motion.div)`
   background-color: rgba(256, 256, 256, 0.5);
 
   .container {
-    width: 80vw;
-    height: 80vh;
+    width: 60vw;
+    height: 60vh;
     background-color: #ebebeb;
-    font-size: 12pt;
     border: 0.05rem #689ed0 solid;
     position: relative;
     box-shadow: 0 0 20px 10px #689ed0;
+    padding: 2rem;
 
     .form-information {
       height: 100%;
       width: 100%;
-      padding: 2rem;
       display: flex;
       flex-direction: column;
-      row-gap: 1rem;
-
-      h1 {
-        font-size: 16pt;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-      }
-      h5 {
-        margin-bottom: 1.5rem;
-      }
+      row-gap: 2rem;
 
       .address-item {
         display: flex;
@@ -187,11 +179,14 @@ const StyledToolAddViewEdit = styled(motion.div)`
       input[type="text"] {
         width: 100%;
         color: #0c395e;
-        padding: 0.25rem;
-        font-size: 14pt;
-        font-family: "Roboto Condensed", sans-serif;
         resize: none;
         outline: solid 3px transparent;
+        border-radius: 4px;
+        padding: 0.25rem;
+        font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        font-size: 10pt;
+        border: 1px solid #313131;
       }
 
       input[type="text"]:focus {

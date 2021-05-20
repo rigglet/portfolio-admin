@@ -25,27 +25,32 @@ body {
 .upper {
     text-transform: capitalize;
   }
-  
-//MODAL CLOSE BUTTON
-.close {
-      z-index: 11;
+
+.titleHeader {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 2.2rem;
-      height: 2.2rem;
-      //padding-bottom: 0.5rem;
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      border: 0;
-      outline: 0;
-      cursor: pointer;
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #920000;
-      background-color: #ebebeb;
+      column-gap: 1rem;
+      margin-bottom: 1rem;
+      h1 {
+        font-size: 16pt;
+        font-weight: 600;
+        //margin-bottom: 0.5rem;
+      }
+      .titleIcon {
+        width: 30px;
+        height: 30px;
+      }
+      h5 {
+        border-radius: 4px;
+        padding: 0.25rem;
+        background-color: rgba(131, 169, 204, 0.5);
+        font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        font-size: 10pt;
+        //margin-bottom: 1.5rem;
+      }
     }
+
+
 
 //FORM SUBMIT
 input[type="submit"], .wizard-submit {

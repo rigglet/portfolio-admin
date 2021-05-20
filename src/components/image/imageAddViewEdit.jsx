@@ -4,12 +4,15 @@ import { motion } from "framer-motion";
 //placeholder image
 import placeholderImage from "../../images/organise_bg.svg";
 //icons
-import { BiArrowBack } from "react-icons/bi";
 import { FaFileUpload } from "react-icons/fa";
+import { ImImages } from "react-icons/im";
+//messages
 import "react-toastify/dist/ReactToastify.css";
+//server base url
 import SERVER_BASE_URL from "../../config/config";
 //components
 import SubmitButton from "../submitButton";
+import CloseButton from "../closeButton";
 
 const ImageAddViewEdit = function ({
   openingHookSetter,
@@ -42,17 +45,17 @@ const ImageAddViewEdit = function ({
   return (
     <StyledImageAddViewEdit>
       <div className="container">
-        <button
-          className="close"
-          onClick={() => {
-            openingHookSetter(false);
-            setCurrentImage({ name: "", description: "", file: {} });
-          }}
-        >
-          &#10008;
-        </button>
-        <h1>{title}</h1>
-        <h5>{currentImage?._id}</h5>
+        <CloseButton
+          closeFunction={openingHookSetter}
+          resetFunction={setCurrentImage}
+          resetObject={{ name: "", description: "", file: {} }}
+        />
+
+        <div className="titleHeader">
+          <ImImages className="titleIcon" />
+          <h1>{title} </h1>
+          {formType !== "NEW" && <h5>{currentImage?._id}</h5>}
+        </div>
 
         <div className="inner-container">
           <form onSubmit={handleSaveImage} encType="multipart/form-data">
@@ -157,7 +160,7 @@ const ImageAddViewEdit = function ({
 
               {formType !== "VIEW" && (
                 <div className="buttons">
-                  <button
+                  {/* <button
                     type="button"
                     onClick={() => {
                       openingHookSetter(false);
@@ -166,7 +169,7 @@ const ImageAddViewEdit = function ({
                   >
                     <BiArrowBack />
                     Exit
-                  </button>
+                  </button> */}
 
                   <SubmitButton
                     type={formType}
@@ -198,22 +201,13 @@ const StyledImageAddViewEdit = styled(motion.div)`
 
   .container {
     width: 80vw;
-    height: 80vh;
+    height: 60vh;
     background-color: #ebebeb;
     font-size: 12pt;
     border: 0.05rem #689ed0 solid;
     position: relative;
     box-shadow: 0 0 20px 10px #689ed0;
-    padding: 3rem;
-
-    h1 {
-      font-size: 16pt;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-    h5 {
-      margin-bottom: 1.5rem;
-    }
+    padding: 2rem;
 
     .toolbar {
       position: absolute;
@@ -265,7 +259,7 @@ const StyledImageAddViewEdit = styled(motion.div)`
             border: dashed 3px #313131;
             outline-offset: 5px;
             z-index: 5;
-            min-height: 400px;
+            //min-height: 400px;
             width: 100%;
             position: relative;
             display: flex;
@@ -340,29 +334,29 @@ const StyledImageAddViewEdit = styled(motion.div)`
             }
 
             input {
+              width: 100%;
               color: #0c395e;
-              padding: 0.25rem;
-              font-size: 14pt;
-              font-family: "Roboto Condensed", sans-serif;
               resize: none;
               outline: solid 3px transparent;
+              border-radius: 4px;
+              padding: 0.25rem;
+              font-family: "Poppins", sans-serif;
+              font-weight: 300;
+              font-size: 10pt;
+              border: 1px solid #313131;
             }
             input:focus {
               outline: solid 3px #688297;
               border-color: transparent;
-              &.disabled {
-                outline: solid 3px transparent;
-                //background-color: red;
-              }
             }
           }
           .buttons {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             width: 100%;
             column-gap: 1rem;
 
-            button {
+            /* button {
               display: flex;
               align-items: center;
               justify-content: center;
@@ -383,7 +377,7 @@ const StyledImageAddViewEdit = styled(motion.div)`
               color: white;
               background-color: #0c395e;
               transition: 0.3s;
-            }
+            } */
           }
         }
       }

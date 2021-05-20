@@ -64,7 +64,7 @@ const Step2 = function ({
 
   return (
     <StyledStep>
-      <h2>Libraries</h2>
+      <h3>Libraries</h3>
       <div className="form-information">
         <div className="available-container">
           <h4>Available:</h4>
@@ -132,13 +132,14 @@ const StyledStep = styled.div`
   height: 82vh;
   color: #313131;
 
-  h2 {
+  h3 {
     text-align: center;
+    margin-bottom: 1rem;
   }
 
   .form-information {
     display: flex;
-    height: 100%;
+    height: 90%;
     width: 100%;
     column-gap: 2rem;
     .included-container,

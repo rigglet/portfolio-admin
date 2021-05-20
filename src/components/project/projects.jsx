@@ -217,13 +217,9 @@ function Projects({
             title="Add new project"
             formType="NEW"
             images={images}
-            setImages={setImages}
             techs={techs}
-            setTechs={setTechs}
             packages={packages}
-            setPackages={setPackages}
             libraries={libraries}
-            setLibraries={setLibraries}
           />
         )
       }
@@ -239,13 +235,9 @@ function Projects({
             title="Edit project"
             formType="EDIT"
             images={images}
-            setImages={setImages}
             techs={techs}
-            setTechs={setTechs}
             packages={packages}
-            setPackages={setPackages}
             libraries={libraries}
-            setLibraries={setLibraries}
           />
         )
       }

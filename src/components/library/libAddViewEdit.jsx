@@ -3,8 +3,10 @@ import { motion } from "framer-motion";
 //icons
 import { FaGithub } from "react-icons/fa";
 import { CgWebsite, CgNpm } from "react-icons/cg";
+import { IoLibraryOutline } from "react-icons/io5";
 //components
 import SubmitButton from "../submitButton";
+import CloseButton from "../closeButton";
 
 const LibAddViewEdit = function ({
   openingHookSetter,
@@ -18,25 +20,26 @@ const LibAddViewEdit = function ({
   return (
     <StyledLibAddViewEdit>
       <div className="container">
-        <button
-          className="close"
-          onClick={() => {
-            openingHookSetter(false);
-            setCurrentLib({
-              name: "",
-              version: "",
-              description: "",
-              npmaddress: "",
-              githubrepo: "",
-              homepage: "",
-            });
+        <CloseButton
+          closeFunction={openingHookSetter}
+          resetFunction={setCurrentLib}
+          resetObject={{
+            name: "",
+            version: "",
+            description: "",
+            npmaddress: "",
+            githubrepo: "",
+            homepage: "",
           }}
-        >
-          &#10008;
-        </button>
+        />
+
+        <div className="titleHeader">
+          <IoLibraryOutline className="titleIcon" />
+          <h1>{title} </h1>
+          {formType !== "NEW" && <h5>{currentLib?._id}</h5>}
+        </div>
+
         <div className="form-information">
-          <h1>{title}</h1>
-          <h5>{currentLib?._id}</h5>
           <div className="nvb">
             <div className="name-version">
               <div className="input-item">
@@ -185,30 +188,20 @@ const StyledLibAddViewEdit = styled(motion.div)`
   background-color: rgba(256, 256, 256, 0.5);
 
   .container {
-    width: 80vw;
+    width: 60vw;
     height: 80vh;
     background-color: #ebebeb;
-    font-size: 12pt;
     border: 0.05rem #689ed0 solid;
     position: relative;
     box-shadow: 0 0 20px 10px #689ed0;
+    padding: 2rem;
 
     .form-information {
-      height: 85%;
+      height: 100%;
       width: 100%;
-      padding: 2rem;
       display: flex;
       flex-direction: column;
       row-gap: 2rem;
-
-      h1 {
-        font-size: 16pt;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-      }
-      h5 {
-        margin-bottom: 1.5rem;
-      }
 
       .address-item {
         display: flex;
@@ -234,11 +227,14 @@ const StyledLibAddViewEdit = styled(motion.div)`
       textarea {
         width: 100%;
         color: #0c395e;
-        padding: 0.25rem;
-        font-size: 14pt;
-        font-family: "Roboto Condensed", sans-serif;
         resize: none;
         outline: solid 3px transparent;
+        border-radius: 4px;
+        padding: 0.25rem;
+        font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        font-size: 10pt;
+        border: 1px solid #313131;
       }
       input[type="text"]:focus,
       textarea:focus {
@@ -260,11 +256,8 @@ const StyledLibAddViewEdit = styled(motion.div)`
       }
       .addresses {
         display: flex;
-        column-gap: 3rem;
+        flex-direction: column;
         row-gap: 1rem;
-        //flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-evenly;
       }
     }
   }

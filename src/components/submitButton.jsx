@@ -7,11 +7,7 @@ export default function submitButton({ type, saveFunction, editFunction }) {
   else handleClickFunction = editFunction;
 
   return (
-    <StyledSubmit
-      type="button"
-      className="submitBut"
-      onClick={handleClickFunction}
-    >
+    <StyledSubmit type="button" onClick={handleClickFunction}>
       <FaRegSave />
       Save
     </StyledSubmit>

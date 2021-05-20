@@ -31,7 +31,7 @@ const Step5 = function ({
 
   //get project images only
   const projectImages = images.filter((image) => image.category !== "profile");
-  console.log(projectImages);
+
   //If NEW tech then available techs should show all techs
   //If EDIT tech then available techs should be ALL techs MINUS those that have been selected
   const [availableImages, setAvailableImages] = useState(

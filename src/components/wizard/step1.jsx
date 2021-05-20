@@ -15,13 +15,12 @@ const Step1 = function ({
   totalSteps,
   previousStep,
   nextStep,
-  formType,
   currentProject,
   setCurrentProject,
 }) {
   return (
     <StyledStep>
-      <h2>Project information</h2>
+      <h3>Project information</h3>
       <div className="form-information">
         <div className="details">
           <div className="input-item">
@@ -113,7 +112,6 @@ const Step1 = function ({
             <div className="address-item">
               <FaGithub className="address-icon" />
               <input
-                disabled={formType === "VIEW" ? true : false}
                 value={currentProject?.githubLink}
                 type="text"
                 name="githubLink"
@@ -279,11 +277,10 @@ const StyledStep = styled.div`
   width: 100%;
   height: 82vh;
   color: #313131;
-
-  h2 {
+  h3 {
     text-align: center;
+    margin-bottom: 1rem;
   }
-
   .form-information {
     display: flex;
     flex-direction: column;
@@ -320,12 +317,16 @@ const StyledStep = styled.div`
     }
     input,
     textarea {
+      width: 100%;
       color: #0c395e;
-      padding: 0.25rem;
-      font-size: 14pt;
-      font-family: "Roboto Condensed", sans-serif;
       resize: none;
       outline: solid 3px transparent;
+      border-radius: 4px;
+      border: 1px solid #313131;
+      padding: 0.25rem;
+      font-family: "Poppins", sans-serif;
+      font-weight: 300;
+      font-size: 10pt;
     }
     input:focus,
     textarea:focus {
@@ -333,7 +334,7 @@ const StyledStep = styled.div`
       border-color: transparent;
     }
     input[type="date"] {
-      font-size: 11pt;
+      font-size: 10pt;
       color: #0c395e;
       ::-webkit-calendar-picker-indicator {
         color: #0c395e;

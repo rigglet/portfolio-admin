@@ -1,8 +1,11 @@
 //import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+//icons
+import { IoText } from "react-icons/io5";
 //components
 import SubmitButton from "../submitButton";
+import CloseButton from "../closeButton";
 
 const TextAddViewEdit = function ({
   openingHookSetter,
@@ -16,19 +19,22 @@ const TextAddViewEdit = function ({
   return (
     <StyledTextAddViewEdit>
       <div className="container">
-        <button
-          className="close"
-          onClick={() => {
-            openingHookSetter(false);
-            setCurrentText({ name: "", content: "" });
+        <CloseButton
+          closeFunction={openingHookSetter}
+          resetFunction={setCurrentText}
+          resetObject={{
+            name: "",
+            content: "",
           }}
-        >
-          &#10008;
-        </button>
-        <div className="form-information">
-          <h1>{title}</h1>
-          <h5>{currentText?._id}</h5>
+        />
 
+        <div className="titleHeader">
+          <IoText className="titleIcon" />
+          <h1>{title} </h1>
+          {formType !== "NEW" && <h5>{currentText?._id}</h5>}
+        </div>
+
+        <div className="form-information">
           <div className="form-fields">
             <div className="input-item">
               <label htmlFor="name">Text name:</label>
@@ -54,7 +60,7 @@ const TextAddViewEdit = function ({
                 disabled={formType === "VIEW" ? true : false}
                 type="text"
                 cols="100"
-                rows="10"
+                rows="6"
                 name="content"
                 autoComplete="off"
                 value={currentText?.content}
@@ -95,13 +101,13 @@ const StyledTextAddViewEdit = styled(motion.div)`
   background-color: rgba(256, 256, 256, 0.5);
 
   .container {
-    width: 80vw;
-    height: 80vh;
+    width: 60vw;
+    height: 60vh;
     background-color: #ebebeb;
-    font-size: 12pt;
     border: 0.05rem #689ed0 solid;
     position: relative;
     box-shadow: 0 0 20px 10px #689ed0;
+    padding: 2rem;
 
     .form-information {
       height: 100%;
@@ -110,15 +116,6 @@ const StyledTextAddViewEdit = styled(motion.div)`
       display: flex;
       flex-direction: column;
       row-gap: 1rem;
-
-      h1 {
-        font-size: 16pt;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-      }
-      h5 {
-        margin-bottom: 1.5rem;
-      }
 
       .address-item {
         display: flex;
@@ -144,11 +141,14 @@ const StyledTextAddViewEdit = styled(motion.div)`
       textarea {
         width: 100%;
         color: #0c395e;
-        padding: 0.25rem;
-        font-size: 14pt;
-        font-family: "Roboto Condensed", sans-serif;
         resize: none;
         outline: solid 3px transparent;
+        border-radius: 4px;
+        padding: 0.25rem;
+        font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        font-size: 10pt;
+        border: 1px solid #313131;
       }
 
       input[type="text"]:focus,

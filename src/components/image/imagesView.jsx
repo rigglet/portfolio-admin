@@ -3,6 +3,9 @@ import { motion } from "framer-motion";
 //image gallery
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
+//components
+import CloseButton from "../closeButton";
+//server base url
 import serverBaseURL from "../../config/config";
 
 const ImagesView = function ({ openingHookSetter, images }) {
@@ -16,9 +19,12 @@ const ImagesView = function ({ openingHookSetter, images }) {
   return (
     <StyledImagesView>
       <div className="container">
-        <button className="close" onClick={() => openingHookSetter(false)}>
-          &#10008;
-        </button>
+        <CloseButton
+          closeFunction={openingHookSetter}
+          resetFunction={null}
+          resetObject={null}
+        />
+
         <ImageGallery
           items={imageArray}
           showPlayButton={false}
@@ -48,19 +54,21 @@ const StyledImagesView = styled(motion.div)`
   background-color: rgba(256, 256, 256, 0.5);
 
   .container {
-    width: 90vw;
-    height: 90vh;
+    width: 70vw;
+    height: 70vh;
     background-color: #ebebeb;
-    font-size: 12pt;
     border: 0.05rem #689ed0 solid;
     position: relative;
     box-shadow: 0 0 20px 10px #689ed0;
     display: flex;
     align-items: center;
     justify-content: center;
+    /* object-fit: contain;
+    resize: both;
+    overflow: hidden; */
 
     .image-gallery {
-      max-width: 50%;
+      max-width: 60%;
     }
 
     .image-gallery-slide img {
