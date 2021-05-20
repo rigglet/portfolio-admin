@@ -4,41 +4,40 @@ import { motion } from "framer-motion";
 //images
 import profile from "../images/profile.svg";
 //icons
-//import { AiOutlineFileImage } from "react-icons/ai";
 import { BiArrowBack } from "react-icons/bi";
-import { FaRegSave, FaEdit, FaFileUpload } from "react-icons/fa";
+import { FaEdit, FaFileUpload } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { GrPowerReset } from "react-icons/gr";
+import { CgProfile } from "react-icons/cg";
 //message components
 import { ToastContainer, toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-//forms
-import { useForm } from "react-hook-form";
 //data
 import { updateUser } from "../api/api";
 //server URL
 import SERVER_BASE_URL from "../config/config";
+//components
+import SubmitButton from "./submitButton";
+import CloseButton from "./closeButton";
 
 function Profile({
   auth,
   setAuth,
-  setShowProfile,
+  openingHookSetter,
   selectedFile,
   setSelectedFile,
+  title,
+  formType,
 }) {
   const baseURL = `${SERVER_BASE_URL}/public/uploads/`;
   const fileRef = useRef(null);
-  const { register, handleSubmit } = useForm({
-    defaultValues: { username: `${auth.username}` },
-  });
-  //TODO: Need this? Should be using formType no?
-  const [editing, setEditing] = useState(false);
+  const [profile, setProfile] = useState({ username: `${auth.username}` });
   const [clearingImage, setClearingImage] = useState(false);
+  const [editing, setEditing] = useState(false);
+
   const profileImageUrl = auth.profileImageUrl?.fileName || null;
 
-  //console.log(auth);
-
-  const notify = (type, status) => {
+  const notify = (type) => {
     switch (type) {
       case "SERVER_ERR":
         toast.warning(`Internal Server error: Profile not saved.`);
@@ -47,13 +46,13 @@ function Profile({
         toast.dark(`Profile SAVED`);
         break;
       case "ADDED":
-        toast.dark(`Status: ${status} => Profile image ADDED successfully`);
+        toast.dark(`Profile image ADDED successfully`);
         break;
       case "NOIMAGE":
         toast.dark(`Please select a profile image!`);
         break;
       case "DELETED":
-        toast.dark(`Status: ${status} => Profile image DELETED successfully`);
+        toast.dark(`Profile image DELETED successfully`);
         break;
       default:
         toast.dark("Nothing to report");
@@ -74,7 +73,6 @@ function Profile({
 
   //restore profile image
   const restoreOriginal = () => {
-    console.log("Reset icon");
     fileRef.current.value = null;
 
     if (profileImageUrl !== null) {
@@ -85,9 +83,8 @@ function Profile({
     setClearingImage(false);
   };
 
-  //HANDLE ADD/EDIT SUBMIT
+  //HANDLE SAVE PROFILE
   const handleSaveProfile = (data) => {
-    //console.log("fileRef: ", fileRef.current.files);
     const formData = new FormData();
     //by default update name only
     let option = "NAME"; //OPTIONS: CLEAR / NEW / NAME
@@ -115,13 +112,7 @@ function Profile({
         fileRef.current.files[0].name
       );
       option = "NEW";
-    }
-    //else {
-    // console.log("No image selected");
-    // notify("NOIMAGE");
-    // return;
-    //}
-    else {
+    } else {
       if (clearingImage) {
         console.log("No file selected - clearing image");
         option = "CLEAR";
@@ -138,7 +129,7 @@ function Profile({
         if (result.status === 200) {
           //console.log("result: ", result);
           //Toast message
-          notify("EDITED", result.status, result.data._id);
+          notify("EDITED");
         } else {
           notify("SERVER_ERR");
           //throw new Error("Server ERROR");
@@ -147,7 +138,7 @@ function Profile({
       })
       .then((result) => {
         //setAuth triggers a rerender so no need to setShowProfile
-        console.log("result: ", result);
+        //console.log("result: ", result);
         setAuth({
           ...auth,
           profileImageUrl: result.data.profileImageUrl || null,
@@ -174,7 +165,7 @@ function Profile({
 
       <div className="container">
         <div className="toolbar">
-          {editing ? (
+          {formType === "EDIT" && (
             <>
               <div className="toolbarItem" onClick={() => clearImage()}>
                 <MdDelete className="h-icon" />
@@ -185,109 +176,124 @@ function Profile({
                 <p>Reset profile picture</p>
               </div>
             </>
-          ) : (
-            <div className="toolbarItem" onClick={() => setEditing(!editing)}>
-              <FaEdit className="h-icon" />
-              <p>Edit Profile</p>
-            </div>
           )}
         </div>
-        {!editing && (
-          <>
-            <button className="close" onClick={() => setShowProfile(false)}>
-              &#10008;
-            </button>
-          </>
-        )}
-        <h1>Profile</h1>
-        <div className="form-information">
-          <form onSubmit={handleSubmit(handleSaveProfile)}>
-            <>
-              <div
-                className={
-                  editing
-                    ? "profile-box-edit profile-box-active"
-                    : "profile-box-edit profile-box-inactive"
-                }
-                onClick={() => fileClickHandler()}
-              >
-                {/*uploaded profile image*/}
-                <img
-                  src={selectedFile ? selectedFile : profile}
-                  alt="profile"
-                  className={
-                    editing ? "profile-image-edit" : "profile-image-show"
-                  }
-                />
 
-                {/*upload icon */}
-                <div
-                  className={
-                    editing
-                      ? "profile-add-container showFileIcon"
-                      : "profile-add-container hideFileIcon"
-                  }
-                >
-                  <FaFileUpload className={"add-file-icon"} />
-                  <p>Upload picture</p>
-                </div>
-                <input
-                  type="file"
-                  accept="image/png, image/jpeg"
-                  {...register("profileFile")}
-                  ref={fileRef}
-                  onChange={() => {
-                    if (fileRef.current.files[0] !== undefined) {
-                      setSelectedFile(
-                        URL.createObjectURL(fileRef.current.files[0])
-                      );
-                    }
-                  }}
-                />
-              </div>
-              {/* {editing && (
-                <h4>{fileRef?.current?.files[0]?.name}</h4>
-              )} */}
-              {/*editing && <h4>{selectedFile}</h4>*/}
-            </>
+        <CloseButton
+          closeFunction={openingHookSetter}
+          resetFunction={setProfile}
+          resetObject={{ username: `${auth.username}` }}
+        />
 
-            <div className="input-item">
-              {editing ? <label htmlFor="username">Username:</label> : ""}
-              <input
-                className={editing ? "editing" : ""}
-                disabled={editing ? false : true}
-                type="text"
-                {...register("username")}
-                autoComplete="off"
-                size="40"
+        <div className="titleHeader">
+          <CgProfile className="titleIcon" />
+          <h1>{title} </h1>
+        </div>
+
+        {formType === "VIEW" && (
+          <div className="profile-view-container">
+            <div className="profile-img-container">
+              <img
+                src={selectedFile ? selectedFile : profile}
+                alt="profile"
+                className="selected-profile-image"
               />
             </div>
+            <h4>{auth.username}</h4>
+          </div>
+        )}
 
-            <div className="buttons">
-              {editing && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setEditing(!editing);
-                    if (profileImageUrl !== null) {
-                      setSelectedFile(`${baseURL}${profileImageUrl}`);
-                    } else {
-                      setSelectedFile(null);
-                    }
-                  }}
+        <div className="form-information">
+          {formType !== "VIEW" && (
+            <form>
+              <>
+                <div
+                  className={
+                    formType === "EDIT"
+                      ? "profile-box-edit profile-box-active"
+                      : "profile-box-edit profile-box-inactive"
+                  }
+                  onClick={() => fileClickHandler()}
                 >
-                  <BiArrowBack />
-                  Exit
-                </button>
-              )}
-              {editing && (
-                <button type="submit">
-                  <FaRegSave />
-                  Save
-                </button>
-              )}
-            </div>
-          </form>
+                  {/*uploaded profile image*/}
+                  <img
+                    src={selectedFile ? selectedFile : profile}
+                    alt="profile"
+                    className={
+                      formType === "EDIT"
+                        ? "profile-image-edit"
+                        : "profile-image-show"
+                    }
+                  />
+
+                  {/*upload icon */}
+                  <div
+                    className={
+                      formType === "EDIT"
+                        ? "profile-add-container showFileIcon"
+                        : "profile-add-container hideFileIcon"
+                    }
+                  >
+                    <FaFileUpload className={"add-file-icon"} />
+                    <p>Upload picture</p>
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/png, image/jpeg"
+                    name="profileFile"
+                    ref={fileRef}
+                    onChange={() => {
+                      if (fileRef.current.files[0] !== undefined) {
+                        setSelectedFile(
+                          URL.createObjectURL(fileRef.current.files[0])
+                        );
+                      }
+                    }}
+                  />
+                </div>
+              </>
+
+              <div className="input-item">
+                {formType === "EDIT" && (
+                  <label htmlFor="username">Username:</label>
+                )}
+                <input
+                  className={formType === "EDIT" ? "editing" : ""}
+                  disabled={formType === "EDIT" ? false : true}
+                  type="text"
+                  name="username"
+                  autoComplete="off"
+                  size="40"
+                />
+              </div>
+
+              <div className="buttons">
+                {formType === "EDIT" && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEditing(!editing);
+                      if (profileImageUrl !== null) {
+                        setSelectedFile(`${baseURL}${profileImageUrl}`);
+                      } else {
+                        setSelectedFile(null);
+                      }
+                    }}
+                  >
+                    <BiArrowBack />
+                    Exit
+                  </button>
+                )}
+                {formType === "EDIT" && (
+                  <SubmitButton
+                    type={formType}
+                    editFunction={handleSaveProfile}
+                    saveFunction={handleSaveProfile}
+                  />
+                )}
+              </div>
+            </form>
+          )}
         </div>
       </div>
     </StyledProfile>
@@ -311,16 +317,11 @@ const StyledProfile = styled(motion.div)`
     width: 60vw;
     height: 70vh;
     background-color: #ebebeb;
-    font-size: 12pt;
     border: 0.05rem #689ed0 solid;
     position: relative;
     padding: 2rem;
     box-shadow: 0 0 20px 10px #689ed0;
-    h1 {
-      font-size: 16pt;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
+
     .toolbar {
       position: absolute;
       top: 6rem;
@@ -342,10 +343,47 @@ const StyledProfile = styled(motion.div)`
         }
       }
     }
-    .form-information {
-      height: 100%;
+
+    .profile-view-container {
+      height: 90%;
       width: 100%;
-      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      row-gap: 1rem;
+      align-items: center;
+      justify-content: center;
+      .profile-img-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 20em;
+        height: 20em;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 0 20px 10px #689ed0;
+        object-position: 50% 50%;
+        object-fit: cover;
+
+        .selected-profile-image {
+          width: auto;
+          height: 20em;
+        }
+      }
+      h4 {
+        color: #0c395e;
+        font-size: 24pt;
+        text-align: center;
+        font-family: "Lobster Two", cursive;
+      }
+    }
+
+    .form-information {
+      height: 90%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      //border: 1px solid red;
 
       form {
         display: flex;
@@ -400,12 +438,6 @@ const StyledProfile = styled(motion.div)`
               width: 50%;
             }
           }
-          .profile-image-show {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            object-position: 50% 50%;
-          }
           .profile-image-edit {
             z-index: 2;
             width: 100%;
@@ -433,7 +465,6 @@ const StyledProfile = styled(motion.div)`
         padding: 0.25rem;
         font-size: 24pt;
         text-align: center;
-        //font-family: "Roboto Condensed", sans-serif;
         font-family: "Lobster Two", cursive;
         outline: solid 3px transparent;
         border: solid 1px transparent;

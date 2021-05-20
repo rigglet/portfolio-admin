@@ -16,10 +16,12 @@ import SERVER_BASE_URL from "../config/config";
 
 function Bar({ auth, setAuth }) {
   const [menu, toggleMenu] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);
+  const [showEditProfile, setShowEditProfile] = useState(false);
+  const [showViewProfile, setShowViewProfile] = useState(false);
   const { username } = auth;
   const profileImageUrl = auth.profileImageUrl?.fileName || null;
   const [selectedFile, setSelectedFile] = useState(profileImageUrl);
+
   const baseURL = `${SERVER_BASE_URL()}/public/uploads/`;
 
   useEffect(() => {
@@ -54,18 +56,30 @@ function Bar({ auth, setAuth }) {
 
   return (
     <StyledBar>
-      {showProfile ? (
+      {showEditProfile && (
         <Profile
           auth={auth}
           setAuth={setAuth}
-          setShowProfile={setShowProfile}
+          openingHookSetter={setShowEditProfile}
           selectedFile={selectedFile}
           setSelectedFile={setSelectedFile}
+          title={"Edit profile"}
+          formType={"EDIT"}
         />
-      ) : (
-        ""
       )}
-      {menu ? (
+      {showViewProfile && (
+        <Profile
+          auth={auth}
+          setAuth={setAuth}
+          openingHookSetter={setShowViewProfile}
+          selectedFile={selectedFile}
+          setSelectedFile={setSelectedFile}
+          title={"View profile"}
+          formType={"VIEW"}
+        />
+      )}
+
+      {menu && (
         <div className="bar-background" onClick={() => toggleMenu(!menu)}>
           <ul
             className="bar-menu"
@@ -78,11 +92,10 @@ function Bar({ auth, setAuth }) {
                 <h3
                   onClick={() => {
                     toggleMenu(!menu);
-                    setShowProfile(!showProfile);
-                    console.log("Profile...");
+                    setShowEditProfile(!showEditProfile);
                   }}
                 >
-                  Profile
+                  Edit Profile
                 </h3>
               </div>
             </li>
@@ -100,8 +113,6 @@ function Bar({ auth, setAuth }) {
             </li>
           </ul>
         </div>
-      ) : (
-        ""
       )}
 
       <div className="header-logo">
@@ -114,7 +125,8 @@ function Bar({ auth, setAuth }) {
           <img
             className="profileImg"
             src={selectedFile ? selectedFile : profile}
-            alt="profile"
+            alt="view profile"
+            onClick={() => setShowViewProfile(!showViewProfile)}
           />
         </div>
 
@@ -223,6 +235,7 @@ const StyledBar = styled(motion.div)`
       .profileImg {
         width: 45px;
         height: 45px;
+        cursor: pointer;
       }
     }
     .chevron {
