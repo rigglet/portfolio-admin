@@ -82,7 +82,6 @@ input[type="submit"], .wizard-submit {
   width: 100%;
   display: flex;
   align-items: center;
-  margin: 1rem 0;
   padding: 0 2rem;
   justify-content: space-between;
   .nav-buttons {

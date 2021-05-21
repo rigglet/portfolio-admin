@@ -160,17 +160,6 @@ const ImageAddViewEdit = function ({
 
               {formType !== "VIEW" && (
                 <div className="buttons">
-                  {/* <button
-                    type="button"
-                    onClick={() => {
-                      openingHookSetter(false);
-                      setCurrentImage({ name: "", description: "", file: {} });
-                    }}
-                  >
-                    <BiArrowBack />
-                    Exit
-                  </button> */}
-
                   <SubmitButton
                     type={formType}
                     editFunction={handleEditImage}
@@ -252,6 +241,7 @@ const StyledImageAddViewEdit = styled(motion.div)`
             object-fit: contain;
             resize: both;
             //overflow: none;
+            padding: 1rem;
           }
 
           .project-box-edit {

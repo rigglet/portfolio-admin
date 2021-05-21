@@ -1,13 +1,11 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //images
-import profile from "../images/profile.svg";
+import defaultProfile from "../images/profile.svg";
 //icons
-import { BiArrowBack } from "react-icons/bi";
-import { FaEdit, FaFileUpload } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
-import { GrPowerReset } from "react-icons/gr";
+import { FaFileUpload } from "react-icons/fa";
+import { MdDelete, MdRestore } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 //message components
 import { ToastContainer, toast, Zoom } from "react-toastify";
@@ -20,22 +18,32 @@ import SERVER_BASE_URL from "../config/config";
 import SubmitButton from "./submitButton";
 import CloseButton from "./closeButton";
 
-function Profile({
-  auth,
-  setAuth,
-  openingHookSetter,
-  selectedFile,
-  setSelectedFile,
-  title,
-  formType,
-}) {
-  const baseURL = `${SERVER_BASE_URL}/public/uploads/`;
-  const fileRef = useRef(null);
-  const [profile, setProfile] = useState({ username: `${auth.username}` });
-  const [clearingImage, setClearingImage] = useState(false);
-  const [editing, setEditing] = useState(false);
+function Profile({ auth, setAuth, openingHookSetter, title, formType }) {
+  //used by profile VIEW
+  const savedFilename = auth.profileImageUrl?.fileName || null;
 
-  const profileImageUrl = auth.profileImageUrl?.fileName || null;
+  //selected file is displayed in preview. If we have an unploaded file assign this to selectedFile
+  //Need this because we can't choose between saved image / default image / selected image in src
+
+  const fileRef = useRef(null);
+  const baseURL = `${SERVER_BASE_URL()}/public/uploads/`;
+  const [profileData, setProfileData] = useState({
+    username: auth.username,
+    filename: auth.profileImageUrl?.fileName,
+  });
+
+  const [previewImage, setPreviewImage] = useState(
+    `${baseURL}${savedFilename}`
+  );
+
+  //URL.createObjectURL(profileData.file)
+  useEffect(() => {
+    if (profileData.file !== undefined) {
+      setPreviewImage(URL.createObjectURL(profileData.file));
+    }
+  }, [profileData]);
+
+  const [clearingImage, setClearingImage] = useState(false);
 
   const notify = (type) => {
     switch (type) {
@@ -66,25 +74,32 @@ function Profile({
 
   //remove selected image - not permanent unless saved
   const clearImage = () => {
-    console.log("Clear Image");
-    setSelectedFile(null);
+    //setSelectedFile(null);
+    setProfileData({
+      username: auth.username,
+      filename: null,
+    });
+    setPreviewImage(null);
     setClearingImage(true);
   };
 
   //restore profile image
   const restoreOriginal = () => {
     fileRef.current.value = null;
+    setProfileData({
+      username: auth.username,
+      filename: savedFilename,
+      file: undefined,
+    });
+    setPreviewImage(`${baseURL}${savedFilename}`);
 
-    if (profileImageUrl !== null) {
-      setSelectedFile(`${baseURL}${profileImageUrl}`);
-    } else {
-      setSelectedFile(null);
-    }
     setClearingImage(false);
   };
 
   //HANDLE SAVE PROFILE
-  const handleSaveProfile = (data) => {
+  const handleSaveProfile = () => {
+    console.log("profileData: ", profileData);
+
     const formData = new FormData();
     //by default update name only
     let option = "NAME"; //OPTIONS: CLEAR / NEW / NAME
@@ -95,7 +110,7 @@ function Profile({
     };
 
     //append username
-    formData.append("username", data.username);
+    formData.append("username", profileData.username);
     formData.append("category", "profile");
 
     //if (!clearingImage) {
@@ -127,7 +142,7 @@ function Profile({
     editUser()
       .then((result) => {
         if (result.status === 200) {
-          //console.log("result: ", result);
+          console.log("result: ", result);
           //Toast message
           notify("EDITED");
         } else {
@@ -137,8 +152,7 @@ function Profile({
         return result;
       })
       .then((result) => {
-        //setAuth triggers a rerender so no need to setShowProfile
-        //console.log("result: ", result);
+        //setAuth triggers a rerender so no need to setShowProfile(false)
         setAuth({
           ...auth,
           profileImageUrl: result.data.profileImageUrl || null,
@@ -146,6 +160,8 @@ function Profile({
         });
       });
   };
+
+  console.log(previewImage);
 
   return (
     <StyledProfile>
@@ -164,25 +180,10 @@ function Profile({
       />
 
       <div className="container">
-        <div className="toolbar">
-          {formType === "EDIT" && (
-            <>
-              <div className="toolbarItem" onClick={() => clearImage()}>
-                <MdDelete className="h-icon" />
-                <p>Remove profile picture</p>
-              </div>
-              <div className="toolbarItem" onClick={() => restoreOriginal()}>
-                <GrPowerReset className="h-icon" />
-                <p>Reset profile picture</p>
-              </div>
-            </>
-          )}
-        </div>
-
         <CloseButton
           closeFunction={openingHookSetter}
-          resetFunction={setProfile}
-          resetObject={{ username: `${auth.username}` }}
+          resetFunction={setProfileData}
+          resetObject={{ username: auth.username, profileImageUrl: auth }}
         />
 
         <div className="titleHeader">
@@ -191,110 +192,127 @@ function Profile({
         </div>
 
         {formType === "VIEW" && (
-          <div className="profile-view-container">
-            <div className="profile-img-container">
-              <img
-                src={selectedFile ? selectedFile : profile}
-                alt="profile"
-                className="selected-profile-image"
-              />
-            </div>
-            <h4>{auth.username}</h4>
-          </div>
-        )}
-
-        <div className="form-information">
-          {formType !== "VIEW" && (
-            <form>
-              <>
-                <div
-                  className={
-                    formType === "EDIT"
-                      ? "profile-box-edit profile-box-active"
-                      : "profile-box-edit profile-box-inactive"
-                  }
-                  onClick={() => fileClickHandler()}
-                >
-                  {/*uploaded profile image*/}
-                  <img
-                    src={selectedFile ? selectedFile : profile}
+          <>
+            <div className="bottom profile-view-container">
+              <div className="profile-container">
+                <div className="profile-img-container">
+                  {/* <img
+                    src={
+                      savedFilename
+                        ? `${baseURL}${savedFilename}`
+                        : defaultProfile
+                    }
                     alt="profile"
-                    className={
-                      formType === "EDIT"
-                        ? "profile-image-edit"
-                        : "profile-image-show"
+                    className="selected-profile-image"
+                  /> */}
+                </div>
+                {/* <h4>{auth.username}</h4> */}
+              </div>
+            </div>
+            <div className="middle profile-view-container">
+              <div className="profile-container">
+                <div className="profile-img-container">
+                  {/* <img
+                    src={
+                      savedFilename
+                        ? `${baseURL}${savedFilename}`
+                        : defaultProfile
                     }
-                  />
-
-                  {/*upload icon */}
-                  <div
-                    className={
-                      formType === "EDIT"
-                        ? "profile-add-container showFileIcon"
-                        : "profile-add-container hideFileIcon"
+                    alt="profile"
+                    className="selected-profile-image"
+                  /> */}
+                </div>
+                {/* <h4>{auth.username}</h4> */}
+              </div>
+            </div>
+            <div className="top profile-view-container">
+              <div className="profile-container">
+                <div className="profile-img-container">
+                  <img
+                    src={
+                      savedFilename
+                        ? `${baseURL}${savedFilename}`
+                        : defaultProfile
                     }
-                  >
-                    <FaFileUpload className={"add-file-icon"} />
-                    <p>Upload picture</p>
-                  </div>
-                  <input
-                    type="file"
-                    accept="image/png, image/jpeg"
-                    name="profileFile"
-                    ref={fileRef}
-                    onChange={() => {
-                      if (fileRef.current.files[0] !== undefined) {
-                        setSelectedFile(
-                          URL.createObjectURL(fileRef.current.files[0])
-                        );
-                      }
-                    }}
+                    alt="profile"
+                    className="selected-profile-image"
                   />
                 </div>
-              </>
-
-              <div className="input-item">
-                {formType === "EDIT" && (
-                  <label htmlFor="username">Username:</label>
-                )}
-                <input
-                  className={formType === "EDIT" ? "editing" : ""}
-                  disabled={formType === "EDIT" ? false : true}
-                  type="text"
-                  name="username"
-                  autoComplete="off"
-                  size="40"
-                />
+                <h4>{auth.username}</h4>
               </div>
+            </div>
+          </>
+        )}
 
-              <div className="buttons">
-                {formType === "EDIT" && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setEditing(!editing);
-                      if (profileImageUrl !== null) {
-                        setSelectedFile(`${baseURL}${profileImageUrl}`);
-                      } else {
-                        setSelectedFile(null);
-                      }
-                    }}
-                  >
-                    <BiArrowBack />
-                    Exit
-                  </button>
-                )}
-                {formType === "EDIT" && (
-                  <SubmitButton
-                    type={formType}
-                    editFunction={handleSaveProfile}
-                    saveFunction={handleSaveProfile}
-                  />
-                )}
+        {formType !== "VIEW" && (
+          <div className="form-information">
+            <div className="toolbar">
+              <div className="toolbarItem" onClick={() => clearImage()}>
+                <MdDelete className="icon delete" />
+                <p>Remove profile picture</p>
               </div>
-            </form>
-          )}
-        </div>
+              <div className="toolbarItem" onClick={() => restoreOriginal()}>
+                <MdRestore className="icon restore" />
+                <p>Reset profile details</p>
+              </div>
+            </div>
+
+            <div className="profile-box" onClick={() => fileClickHandler()}>
+              {/* uploaded profile image */}
+              <img
+                src={previewImage ? previewImage : defaultProfile}
+                alt="profile avatar preview"
+                className="profile-image"
+              />
+              {/*upload icon */}
+              <div className="profile-add-container">
+                <FaFileUpload className="add-file-icon" />
+                <p>Upload picture</p>
+              </div>
+              <input
+                type="file"
+                accept="image/png, image/jpeg"
+                name="profileFile"
+                ref={fileRef}
+                onChange={() => {
+                  if (fileRef.current.files[0] !== undefined) {
+                    setProfileData({
+                      ...profileData,
+                      file: fileRef.current.files[0],
+                      filename: fileRef.current.files[0].name,
+                    });
+                  }
+                }}
+              />
+            </div>
+
+            <div className="input-item">
+              <label htmlFor="username">Username:</label>
+
+              <input
+                type="text"
+                name="username"
+                autoComplete="off"
+                size="40"
+                value={profileData.username}
+                onChange={(e) =>
+                  setProfileData({
+                    ...profileData,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </div>
+
+            <div className="buttons">
+              <SubmitButton
+                type={formType}
+                editFunction={handleSaveProfile}
+                saveFunction={handleSaveProfile}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </StyledProfile>
   );
@@ -322,6 +340,68 @@ const StyledProfile = styled(motion.div)`
     padding: 2rem;
     box-shadow: 0 0 20px 10px #689ed0;
 
+    //IMAGE STACK
+    .bottom {
+      position: relative;
+      top: 0%;
+      left: 2%;
+      transform: rotate(10deg);
+    }
+    .middle {
+      position: relative;
+      top: -100%;
+      left: -3%;
+      transform: rotate(-7deg);
+    }
+    .top {
+      position: relative;
+      top: -200%;
+      left: 0%;
+      transform: rotate(0deg);
+    }
+
+    //VIEW PROFILE MODAL
+    .profile-view-container {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      .profile-container {
+        height: 85%;
+        padding: 1rem;
+        box-shadow: 0 0 10px 5px #8f8f8f;
+        border-radius: 4px;
+        background-color: whitesmoke;
+        display: flex;
+        row-gap: 1rem;
+        flex-direction: column;
+        justify-content: center;
+        //transform: rotate(-5deg);
+        .profile-img-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 20em;
+          height: 20em;
+          border-radius: 4px;
+          overflow: hidden;
+
+          .selected-profile-image {
+            width: auto;
+            height: 20em;
+            object-fit: scale-down;
+          }
+        }
+        h4 {
+          color: #0c395e;
+          font-size: 24pt;
+          text-align: center;
+          font-family: "Lobster Two", cursive;
+        }
+      }
+    }
+
+    //EDIT PROFILE TOOLBAR
     .toolbar {
       position: absolute;
       top: 6rem;
@@ -335,128 +415,82 @@ const StyledProfile = styled(motion.div)`
         align-items: center;
         p {
           cursor: pointer;
+          font-size: 11pt;
+          font-weight: bold;
+          font-variant: all-small-caps;
         }
-        .h-icon {
+        .icon {
           cursor: pointer;
-          width: 1.6rem;
-          height: 1.6rem;
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+        .delete {
+          color: #920000;
+        }
+        .restore {
+          color: #005e00;
         }
       }
     }
 
-    .profile-view-container {
-      height: 90%;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      row-gap: 1rem;
-      align-items: center;
-      justify-content: center;
-      .profile-img-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 20em;
-        height: 20em;
-        border-radius: 50%;
-        overflow: hidden;
-        box-shadow: 0 0 20px 10px #689ed0;
-        object-position: 50% 50%;
-        object-fit: cover;
-
-        .selected-profile-image {
-          width: auto;
-          height: 20em;
-        }
-      }
-      h4 {
-        color: #0c395e;
-        font-size: 24pt;
-        text-align: center;
-        font-family: "Lobster Two", cursive;
-      }
-    }
-
+    //EDIT PROFILE MODAL
     .form-information {
       height: 90%;
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      //border: 1px solid red;
+      flex-direction: column;
 
-      form {
+      .profile-box {
+        border: dashed 3px #313131;
+        outline-offset: 5px;
+        z-index: 5;
+        height: 250px;
+        width: 250px;
+        position: relative;
         display: flex;
-        flex-direction: column;
+        justify-content: center;
         align-items: center;
-        justify-content: space-around;
-        height: 100%;
+        cursor: pointer;
+        border-radius: 50%;
+        overflow: hidden;
 
-        .profile-box-active {
-          border: dashed 3px #313131;
-          outline-offset: 5px;
-        }
-        .profile-box-inactive {
-          pointer-events: none;
-          box-shadow: 0 0 5px 5px #688297;
-          border: none;
-        }
-        .profile-box-edit {
-          z-index: 5;
-          min-height: 250px;
-          width: 250px;
-          position: relative;
+        .profile-add-container {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
           display: flex;
-          justify-content: center;
+          flex-direction: column;
           align-items: center;
-          cursor: pointer;
-          border-radius: 50%;
-          overflow: hidden;
+          justify-content: center;
+          row-gap: 0.25rem;
 
-          .showFileIcon {
-            display: flex;
+          .add-file-icon {
+            pointer-events: none;
+            z-index: 1;
+            height: 50%;
+            width: 50%;
           }
-          .hideFileIcon {
-            display: none;
+        }
+        .profile-image {
+          z-index: 2;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: 50% 50%;
+          //using overflow:hidden on container for better support
+          //clip-path: circle(125px at center);
+          &:hover {
+            transition: 1s ease;
+            opacity: 0;
           }
-          .profile-add-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 100%;
-            //display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            row-gap: 0.25rem;
+        }
 
-            .add-file-icon {
-              pointer-events: none;
-              z-index: 1;
-              height: 50%;
-              width: 50%;
-            }
-          }
-          .profile-image-edit {
-            z-index: 2;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: 50% 50%;
-            //using overflow:hidden on container for better support
-            //clip-path: circle(125px at center);
-            &:hover {
-              transition: 1s ease;
-              opacity: 0;
-            }
-          }
-          h4 {
-            color: #0c395e;
-          }
-          input[type="file"] {
-            display: none;
-          }
+        input[type="file"] {
+          display: none;
         }
       }
 
@@ -466,18 +500,13 @@ const StyledProfile = styled(motion.div)`
         font-size: 24pt;
         text-align: center;
         font-family: "Lobster Two", cursive;
-        outline: solid 3px transparent;
-        border: solid 1px transparent;
         background-color: #ebebeb;
+        border-radius: 4px;
+        outline: solid 3px transparent;
+        border: dashed 3px #313131;
         &:focus {
           outline: solid 3px #688297;
-        }
-        &.editing {
-          border: dashed 3px #313131;
-          border-radius: 4px;
-        }
-        &:focus.editing {
-          border: solid 1px transparent;
+          border: solid 3px transparent;
         }
       }
 
@@ -495,29 +524,8 @@ const StyledProfile = styled(motion.div)`
 
       .buttons {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         width: 100%;
-        column-gap: 1rem;
-        button {
-          display: flex;
-          column-gap: 1rem;
-          align-items: center;
-          justify-content: center;
-          color: #0c395e;
-          border: 2px solid #0c395e;
-          padding: 0.25rem;
-          font-size: 14pt;
-          font-variant-caps: all-small-caps;
-          outline: solid 3px transparent;
-          width: 100px;
-          height: 40px;
-          cursor: pointer;
-        }
-        button:hover {
-          color: white;
-          background-color: #0c395e;
-          transition: 0.3s;
-        }
       }
     }
   }

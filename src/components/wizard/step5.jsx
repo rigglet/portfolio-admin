@@ -146,8 +146,9 @@ const StyledStep = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 82vh;
+  height: 75vh;
   color: #313131;
+  justify-content: space-between;
 
   h2 {
     text-align: center;
@@ -155,9 +156,10 @@ const StyledStep = styled.div`
 
   .form-information {
     display: flex;
-    height: 100%;
+    height: 80%;
     width: 100%;
     column-gap: 2rem;
+
     .view-container,
     .included-container,
     .available-container {
@@ -167,20 +169,20 @@ const StyledStep = styled.div`
         margin-bottom: 0.5rem;
       }
       .list {
-        z-index: 100;
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
         gap: 0.5rem;
         width: 100%;
-        height: 100%;
+        height: 93%;
         padding: 0.5rem;
         box-shadow: 0 0 3px 5px #688297;
         overflow-y: scroll;
         border-radius: 4px;
       }
     }
-    .view-container {
+
+    /* .view-container {
       width: 100%;
       img {
         height: auto;
@@ -188,7 +190,7 @@ const StyledStep = styled.div`
         object-fit: contain;
         object-position: center center;
       }
-    }
+    } */
   }
 `;
 

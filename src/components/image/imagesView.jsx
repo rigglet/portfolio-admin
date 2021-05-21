@@ -63,9 +63,6 @@ const StyledImagesView = styled(motion.div)`
     display: flex;
     align-items: center;
     justify-content: center;
-    /* object-fit: contain;
-    resize: both;
-    overflow: hidden; */
 
     .image-gallery {
       max-width: 60%;

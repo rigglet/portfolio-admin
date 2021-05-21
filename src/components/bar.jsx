@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 //styling
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -19,16 +19,9 @@ function Bar({ auth, setAuth }) {
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showViewProfile, setShowViewProfile] = useState(false);
   const { username } = auth;
-  const profileImageUrl = auth.profileImageUrl?.fileName || null;
-  const [selectedFile, setSelectedFile] = useState(profileImageUrl);
 
-  const baseURL = `${SERVER_BASE_URL()}/public/uploads/`;
-
-  useEffect(() => {
-    if (profileImageUrl !== null) {
-      setSelectedFile(`${baseURL}${profileImageUrl}`);
-    }
-  }, [profileImageUrl, baseURL]);
+  const savedFilename = auth.profileImageUrl?.fileName || null;
+  const fullPathToFile = `${SERVER_BASE_URL()}/public/uploads/${savedFilename}`;
 
   const logOut = () => {
     setAuth({});
@@ -36,7 +29,6 @@ function Bar({ auth, setAuth }) {
 
   const showSettings = () => {
     toggleMenu(!menu);
-    console.log("Settings...");
   };
 
   const listvariants = {
@@ -61,19 +53,16 @@ function Bar({ auth, setAuth }) {
           auth={auth}
           setAuth={setAuth}
           openingHookSetter={setShowEditProfile}
-          selectedFile={selectedFile}
-          setSelectedFile={setSelectedFile}
           title={"Edit profile"}
           formType={"EDIT"}
         />
       )}
+
       {showViewProfile && (
         <Profile
           auth={auth}
           setAuth={setAuth}
           openingHookSetter={setShowViewProfile}
-          selectedFile={selectedFile}
-          setSelectedFile={setSelectedFile}
           title={"View profile"}
           formType={"VIEW"}
         />
@@ -124,7 +113,7 @@ function Bar({ auth, setAuth }) {
         <div className="image-container">
           <img
             className="profileImg"
-            src={selectedFile ? selectedFile : profile}
+            src={savedFilename ? fullPathToFile : profile}
             alt="view profile"
             onClick={() => setShowViewProfile(!showViewProfile)}
           />
@@ -236,6 +225,7 @@ const StyledBar = styled(motion.div)`
         width: 45px;
         height: 45px;
         cursor: pointer;
+        object-fit: cover;
       }
     }
     .chevron {

@@ -125,8 +125,9 @@ const StyledStep = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 82vh;
+  height: 75vh;
   color: #313131;
+  justify-content: space-between;
 
   h3 {
     text-align: center;
@@ -135,13 +136,14 @@ const StyledStep = styled.div`
 
   .form-information {
     display: flex;
-    height: 100%;
+    height: 80%;
     width: 100%;
     column-gap: 2rem;
+
     .included-container,
     .available-container {
       width: 50%;
-      height: 50%;
+      height: 100%;
       h4 {
         margin-bottom: 0.5rem;
       }
@@ -151,7 +153,7 @@ const StyledStep = styled.div`
         justify-content: flex-start;
         gap: 0.5rem;
         width: 100%;
-        height: 100%;
+        height: 93%;
         padding: 0.5rem;
         box-shadow: 0 0 3px 5px #688297;
         overflow-y: scroll;

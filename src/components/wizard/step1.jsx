@@ -275,16 +275,18 @@ const StyledStep = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 82vh;
+  height: 75vh;
   color: #313131;
+  justify-content: space-between;
+
   h3 {
     text-align: center;
-    margin-bottom: 1rem;
+    //margin-bottom: 1rem;
   }
   .form-information {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: auto;
     width: 100%;
     row-gap: 2rem;
 

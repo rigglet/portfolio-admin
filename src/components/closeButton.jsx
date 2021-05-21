@@ -25,8 +25,8 @@ const StyledClose = styled.button`
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 2rem;
+  right: 2rem;
   width: 2.2rem;
   height: 2.2rem;
   border: 0;
