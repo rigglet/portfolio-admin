@@ -7,6 +7,8 @@ import { FaUser, FaLock } from "react-icons/fa";
 //message components
 import { ToastContainer, toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+//components
+import Spinner from "../components/spinner";
 //images
 import curve2 from "../images/curve-lin-grad.svg";
 //import loginPic from "../images/login.svg";
@@ -24,6 +26,7 @@ function Login({ setAuth }) {
   const [password, setPassword] = useState("");
   const [emailFocus, toggleEmail] = useState(false);
   const [passwordFocus, togglePassword] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const notify = (type) => {
     switch (type) {
@@ -41,6 +44,7 @@ function Login({ setAuth }) {
   };
   const handleSubmit = async (e) => {
     //e.preventDefault();
+    setLoading(true);
     toggleEmail(false);
     togglePassword(false);
 
@@ -63,10 +67,12 @@ function Login({ setAuth }) {
       } else {
         //toast message - invalid credentials
         notify("INVALID", res.error);
+        setLoading(false);
       }
     } else {
       //toast message - missing credentials
       notify("MISSING");
+      setLoading(false);
     }
   };
 
@@ -85,7 +91,6 @@ function Login({ setAuth }) {
         rtl={false}
         pauseOnFocusLoss
       />
-
       <img src={curve2} alt="curve" id="curve" />
 
       <h1 className="title">Portfolio Administration</h1>
@@ -144,12 +149,16 @@ function Login({ setAuth }) {
                 />
               </div>
             </div>
-            <input
-              onClick={(e) => handleSubmit(e)}
-              type="button"
-              value="Login"
-              className="btn"
-            />
+            {!isLoading ? (
+              <input
+                onClick={(e) => handleSubmit(e)}
+                type="button"
+                value="Login"
+                className="btn"
+              />
+            ) : (
+              <Spinner />
+            )}
           </form>
         </div>
       </div>
