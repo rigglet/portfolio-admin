@@ -234,20 +234,19 @@ const StyledLogin = styled(motion.div)`
         .input-div {
           display: flex;
           flex-direction: column;
-          align-items: center;
-          //justify-content: center;
-          //gap: 0rem;
+
           .prompt-selected {
             font-family: "Poppins", sans-serif;
             font-size: 1.2rem;
             font-weight: bold;
             color: #474747;
             font-variant-caps: all-small-caps;
-            transform: translateY(12px) translateX(-110px);
+            transform: translateY(10px) translateX(0px);
             transition: 0.5s ease;
           }
+          //Initial position of "placeholder" text <H5 />
           .prompt {
-            transform: translateY(40px) translateX(-40px);
+            transform: translateY(42px) translateX(60px);
             font-size: 1.2rem;
             color: #474747;
             font-weight: 200;
