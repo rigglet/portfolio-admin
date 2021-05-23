@@ -171,14 +171,12 @@ const StyledLogin = styled(motion.div)`
   flex-direction: column;
   overflow-y: hidden;
   overflow-x: hidden;
-
   #curve {
     position: fixed;
     bottom: 0;
     left: 0;
     z-index: -1;
   }
-
   .title {
     position: fixed;
     width: 100vw;
@@ -193,7 +191,6 @@ const StyledLogin = styled(motion.div)`
     height: 100vh;
     display: flex;
     padding: 3rem;
-
     .img-container {
       width: 100vw;
       height: 100vh;
@@ -204,14 +201,12 @@ const StyledLogin = styled(motion.div)`
         width: 600px;
       }
     }
-
     .login-container {
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-
       #profile {
         width: 7rem;
       }
@@ -227,7 +222,6 @@ const StyledLogin = styled(motion.div)`
           color: #474747;
           font-size: 1.1rem;
         }
-
         .focus {
           width: 300px;
           display: flex;
@@ -237,7 +231,6 @@ const StyledLogin = styled(motion.div)`
           border-bottom: 3px solid #689ed0;
           color: #689ed0;
         }
-
         .input-div {
           display: flex;
           flex-direction: column;
@@ -286,7 +279,7 @@ const StyledLogin = styled(motion.div)`
             align-items: center;
             justify-content: space-between;
             gap: 1rem;
-            border-bottom: 2px solid #cbcaca;
+            border-bottom: 3px solid #cbcaca;
             color: #cbcaca;
             &:hover {
               color: #689ed0;
@@ -312,13 +305,10 @@ const StyledLogin = styled(motion.div)`
       }
     }
   }
-
   @media screen and (max-width: 1050px) {
   }
-
   @media screen and (max-width: 1000px) {
   }
-
   @media screen and (max-width: 900px) {
     #curve {
       display: none;
@@ -341,7 +331,6 @@ const StyledLogin = styled(motion.div)`
       }
     }
   }
-
   @media screen and (max-width: 320px) {
     #curve {
       display: none;

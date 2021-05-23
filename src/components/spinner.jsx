@@ -7,10 +7,10 @@ const Spinner = () => {
 const StyledSpinner = styled.div`
   height: 40px;
   width: 40px;
-  border-top: 10px solid #689ed0;
-  border-left: 10px solid #689ed0;
-  border-right: 10px solid #689ed0;
-  border-bottom: 10px solid transparent;
+  border-top: 5px solid #474747;
+  border-left: 5px solid #689ed0;
+  border-right: 5px solid #689ed0;
+  border-bottom: 5px solid #474747;
   border-radius: 50%;
   animation: spin 0.8s infinite linear;
   @keyframes spin {
