@@ -20,13 +20,14 @@ export const getUserData = async (auth) => {
   //const baseUrl = baseURL;
   const { id, token } = auth;
   const projects = `${serverBaseURL()}/api/users/${id}/projects`;
-  const links = `${serverBaseURL()}/api/users/${id}/links`;
   const technologies = `${serverBaseURL()}/api/users/${id}/technologies`;
   const libraries = `${serverBaseURL()}/api/users/${id}/libraries`;
   const packages = `${serverBaseURL()}/api/users/${id}/packages`;
-  const tools = `${serverBaseURL()}/api/users/${id}/tools`;
-  const texts = `${serverBaseURL()}/api/users/${id}/texts`;
   const images = `${serverBaseURL()}/api/users/${id}/images`;
+  const tools = `${serverBaseURL()}/api/users/${id}/tools`;
+  const links = `${serverBaseURL()}/api/users/${id}/links`;
+  const texts = `${serverBaseURL()}/api/users/${id}/texts`;
+  //const roadmaps = `${serverBaseURL()}/api/users/${id}/roadmaps`;
 
   const headers = {
     headers: {
@@ -34,25 +35,26 @@ export const getUserData = async (auth) => {
     },
   };
 
-  const requestPackages = await axios.get(packages, headers);
-  const requestLibraries = await axios.get(libraries, headers);
   const requestProjects = await axios.get(projects, headers);
-  const requestLinks = await axios.get(links, headers);
   const requestTechnologies = await axios.get(technologies, headers);
-  const requestTools = await axios.get(tools, headers);
-  const requestTexts = await axios.get(texts, headers);
+  const requestLibraries = await axios.get(libraries, headers);
+  const requestPackages = await axios.get(packages, headers);
   const requestImages = await axios.get(images, headers);
+  const requestTools = await axios.get(tools, headers);
+  const requestLinks = await axios.get(links, headers);
+  const requestTexts = await axios.get(texts, headers);
+  //const requestRoadmaps = await axios.get(roadmaps, headers);
 
   try {
     return axios
       .all([
         requestProjects,
-        requestLinks,
         requestTechnologies,
         requestLibraries,
         requestPackages,
-        requestTools,
         requestImages,
+        requestTools,
+        requestLinks,
         requestTexts,
       ])
       .then(

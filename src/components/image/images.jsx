@@ -64,7 +64,7 @@ function Images({ auth, images, setImages }) {
 
     addImage()
       .then((result) => {
-        //Toast message
+        //     //Toast message
         notify("ADDED", result.status, result.data._id);
         return result;
       })

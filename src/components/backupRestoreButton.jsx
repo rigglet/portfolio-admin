@@ -1,15 +1,28 @@
 import styled from "styled-components";
-import { FaRegSave } from "react-icons/fa";
+import { FaDownload, FaUpload } from "react-icons/fa";
 
-export default function submitButton({ type, saveFunction, editFunction }) {
+export default function backupRestoreButton({
+  type,
+  backupFunction,
+  restoreFunction,
+}) {
   let handleClickFunction = {};
-  if (type === "NEW") handleClickFunction = saveFunction;
-  else handleClickFunction = editFunction;
+  if (type === "BACKUP") handleClickFunction = backupFunction;
+  else handleClickFunction = restoreFunction;
 
   return (
     <StyledSubmit type="button" onClick={handleClickFunction}>
-      <FaRegSave />
-      Save
+      {type === "BACKUP" ? (
+        <>
+          <FaDownload className="button-icon" />
+          Backup
+        </>
+      ) : (
+        <>
+          <FaUpload className="button-icon" />
+          Restore
+        </>
+      )}
     </StyledSubmit>
   );
 }
@@ -25,11 +38,16 @@ const StyledSubmit = styled.button`
   font-size: 14pt;
   font-variant-caps: all-small-caps;
   outline: solid 3px transparent;
-  width: 100px;
+  width: 150px;
   height: 40px;
   cursor: pointer;
   align-self: flex-end;
   border-radius: 4px;
+
+  .button-icon {
+    width: 20px;
+    height: 20px;
+  }
 
   &:hover {
     color: white;
