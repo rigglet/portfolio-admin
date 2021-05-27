@@ -180,3 +180,43 @@ export const updateUser = async (auth, data, option) => {
     return error;
   }
 };
+
+//BACKUP UP ROUTES
+export const postBackup = async (auth, data) => {
+  const { id, token } = auth;
+
+  try {
+    //axios.headers.Authorization = { bearer: token };
+    const response = await axios.post(
+      `${serverBaseURL()}/api/users/${id}/maintenance/backup`,
+      data,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+  } finally {
+    console.log("blah");
+  }
+};
+
+export const getLastBackup = async (auth) => {
+  const { id, token } = auth;
+
+  try {
+    //axios.headers.Authorization = { bearer: token };
+    const response = await axios.get(
+      `${serverBaseURL()}/api/users/${id}/maintenance/restore`,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      }
+    );
+
+    return response;
+  } finally {
+    console.log("blah");
+  }
+};

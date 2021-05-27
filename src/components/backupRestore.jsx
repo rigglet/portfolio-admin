@@ -7,15 +7,14 @@ import { FaDownload, FaUpload } from "react-icons/fa";
 import { ToastContainer, toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 //data
-import { updateUser } from "../api/api";
+import { postBackup, getLastBackup } from "../api/api";
 //components
 import CloseButton from "./closeButton";
 import BackupRestoreButton from "./backupRestoreButton";
-import { split } from "lodash";
+//import { split } from "lodash";
 
 function Profile({
   auth,
-  setAuth,
   openingHookSetter,
   showBackup,
   title,
@@ -25,52 +24,103 @@ function Profile({
   //console.log(allData);
 
   const [applicationData, setApplicationData] = useState({
-    data: {},
-    filename: "BACKUP",
+    name: "BACKUP",
+    saveData: {},
   });
 
   const notify = (type) => {
     switch (type) {
       case "SERVER_ERR":
-        toast.warning(`Internal Server error: Profile not saved.`);
+        toast.warning(`Internal Server error`);
         break;
       case "EDITED":
         toast.dark(`Profile SAVED`);
         break;
       case "ADDED":
-        toast.dark(`Profile image ADDED successfully`);
-        break;
-      case "NOIMAGE":
-        toast.dark(`Please select a profile image!`);
-        break;
-      case "DELETED":
-        toast.dark(`Profile image DELETED successfully`);
+        toast.dark(`Backup ADDED successfully`);
+      case "LOADED":
+        toast.dark(`Backup LOADED successfully`);
         break;
       default:
         toast.dark("Nothing to report");
     }
   };
 
-  //HANDLE BACKUP - saves data as JSON to local storage
-  const handleBackup = () => {
-    let saveData = "";
+  useEffect(() => {
     let dataType = "";
     let dataArr = [];
-    //console.log(allData.map(i=>{console.log(i)}));
-    saveData = JSON.stringify(
+
+    //stringify data
+    const data = JSON.stringify(
       allData.map((i, index, array) => {
         dataArr = i.config.url.split("/");
         dataType = dataArr[dataArr.length - 1];
         return { [dataType]: array[index].data };
       })
     );
-    console.log(saveData);
-    window.localStorage.setItem(applicationData.filename, saveData);
-    openingHookSetter(!showBackup);
+
+    setApplicationData(() => ({
+      ...applicationData,
+      saveData: data,
+    }));
+  }, []);
+
+  //console.log(applicationData);
+  //HANDLE BACKUP - saves data as JSON to local storage
+  const handleBackup = () => {
+    const saveBackup = async () => {
+      const savedBackup = await postBackup(auth, {
+        name: applicationData.name,
+        stringifiedJSONBackup: applicationData.saveData,
+      });
+      return savedBackup;
+    };
+
+    saveBackup().then(
+      (result) => {
+        //console.log(result);
+        if (result.status === 200) {
+          //local backup
+          window.localStorage.setItem(
+            applicationData.name,
+            applicationData.saveData
+          );
+          notify("ADDED");
+          //close modal
+          openingHookSetter(!showBackup);
+        }
+      },
+      (error) => {
+        console.log(error);
+        notify("SERVER_ERR");
+      }
+    );
   };
 
   const handleRestore = () => {
-    console.log("restore");
+    const getBackup = async () => {
+      return await getLastBackup(auth);
+    };
+
+    getBackup()
+      .then(
+        (result) => {
+          //console.log(result);
+          if (result.status === 200) {
+            notify("LOADED");
+            //close modal
+            openingHookSetter(!showBackup);
+          }
+        },
+        (error) => {
+          //notify("SERVER_ERR");
+          console.log(error);
+        }
+      )
+      .catch((error) => {
+        console.log(`Error: ${error.message}`);
+        notify("SERVER_ERR");
+      });
   };
 
   return (
@@ -93,7 +143,7 @@ function Profile({
         <CloseButton
           closeFunction={openingHookSetter}
           resetFunction={setApplicationData}
-          resetObject={{ data: {}, filename: "" }}
+          resetObject={{ data: {}, name: "" }}
         />
 
         <div className="titleHeader">
@@ -105,14 +155,14 @@ function Profile({
         <div className="form-information">
           {formType === "BACKUP" && (
             <div className="input-item">
-              <label htmlFor="filename">Back-up name:</label>
+              <label htmlFor="name">Back-up name:</label>
 
               <input
                 type="text"
-                name="filename"
+                name="name"
                 autoComplete="off"
                 size="40"
-                value={applicationData.filename}
+                value={applicationData.name}
                 onChange={(e) =>
                   setApplicationData({
                     ...applicationData,

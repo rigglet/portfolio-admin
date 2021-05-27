@@ -185,6 +185,8 @@ const StyledLogin = styled(motion.div)`
     justify-content: center;
     font-size: 2.5rem;
     font-weight: bold;
+    font-family: "Lobster Two", cursive;
+    color: #689ed0;
   }
   .container {
     width: 100vw;

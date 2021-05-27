@@ -58,8 +58,6 @@ function Bar({ auth, setAuth, allData }) {
     },
   };
 
-  console.log(allData);
-
   return (
     <StyledBar>
       {showEditProfile && (
@@ -85,7 +83,6 @@ function Bar({ auth, setAuth, allData }) {
       {showBackup && (
         <BackupRestore
           auth={auth}
-          setAuth={setAuth}
           openingHookSetter={setShowBackup}
           showBackup={showBackup}
           title={"Backup Data"}
@@ -96,10 +93,10 @@ function Bar({ auth, setAuth, allData }) {
       {showRestore && (
         <BackupRestore
           auth={auth}
-          setAuth={setAuth}
           openingHookSetter={setShowRestore}
           title={"Restore Data"}
           formType={"RESTORE"}
+          allData={allData}
         />
       )}
 
