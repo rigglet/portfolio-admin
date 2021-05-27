@@ -7,12 +7,11 @@ import profile from "../images/profile.svg";
 import organise from "../images/organise.svg";
 //icons
 import { HiChevronDown } from "react-icons/hi";
-import { FiLogOut, FiSettings } from "react-icons/fi";
-import { FaDownload, FaUpload } from "react-icons/fa";
+import { FiLogOut } from "react-icons/fi";
+//import { FiSettings } from "react-icons/fi";
 import { BiUser } from "react-icons/bi";
 //components
 import Profile from "./profile";
-import BackupRestore from "./backupRestore";
 //server base url
 import SERVER_BASE_URL from "../config/config";
 
@@ -20,8 +19,6 @@ function Bar({ auth, setAuth, allData }) {
   const [menu, toggleMenu] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showViewProfile, setShowViewProfile] = useState(false);
-  const [showBackup, setShowBackup] = useState(false);
-  const [showRestore, setShowRestore] = useState(false);
   const { username } = auth;
 
   const savedFilename = auth.profileImageUrl?.fileName || null;
@@ -29,14 +26,6 @@ function Bar({ auth, setAuth, allData }) {
 
   const logOut = () => {
     setAuth({});
-  };
-
-  const showBackupModal = () => {
-    setShowBackup(!showBackup);
-  };
-
-  const showRestoreModal = () => {
-    setShowRestore(!showRestore);
   };
 
   const showSettings = () => {
@@ -80,26 +69,6 @@ function Bar({ auth, setAuth, allData }) {
         />
       )}
 
-      {showBackup && (
-        <BackupRestore
-          auth={auth}
-          openingHookSetter={setShowBackup}
-          showBackup={showBackup}
-          title={"Backup Data"}
-          formType={"BACKUP"}
-          allData={allData}
-        />
-      )}
-      {showRestore && (
-        <BackupRestore
-          auth={auth}
-          openingHookSetter={setShowRestore}
-          title={"Restore Data"}
-          formType={"RESTORE"}
-          allData={allData}
-        />
-      )}
-
       {menu && (
         <div className="bar-background" onClick={() => toggleMenu(!menu)}>
           <ul
@@ -120,24 +89,12 @@ function Bar({ auth, setAuth, allData }) {
                 </h3>
               </div>
             </li>
-            <li className="bar-list-item" listvariants={itemListVariants}>
+            {/* <li className="bar-list-item" listvariants={itemListVariants}>
               <div className="profile-menu-item">
                 <FiSettings className="profile-menu-icon" />
                 <h3 onClick={() => showSettings()}>Settings</h3>
               </div>
-            </li>
-            <li className="bar-list-item" listvariants={itemListVariants}>
-              <div className="profile-menu-item">
-                <FaDownload className="profile-menu-icon" />
-                <h3 onClick={() => showBackupModal()}>Backup</h3>
-              </div>
-            </li>
-            <li className="bar-list-item" listvariants={itemListVariants}>
-              <div className="profile-menu-item">
-                <FaUpload className="profile-menu-icon" />
-                <h3 onClick={() => showRestoreModal()}>Restore</h3>
-              </div>
-            </li>
+            </li> */}
             <li className="bar-list-item" listvariants={itemListVariants}>
               <div className="profile-menu-item">
                 <FiLogOut className="profile-menu-icon" />
