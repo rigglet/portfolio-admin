@@ -12,7 +12,7 @@ import LibAdd from "./libAddViewEdit";
 //data
 import { deleteData, postData, updateData } from "../../api/api";
 
-function Libs({ auth, libraries, setLibraries }) {
+function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
   const [currentLib, setCurrentLib] = useState({
     name: "",
     version: "",
@@ -69,18 +69,43 @@ function Libs({ auth, libraries, setLibraries }) {
     };
 
     editLib()
-      .then((result) => {
-        //Toast message
-        notify("EDITED", result.status, result._id);
-        return result;
-      })
-      .then((result) => {
-        setLibraries([
-          ...libraries.filter((p) => p._id !== currentLib._id),
-          currentLib,
-        ]);
-      })
+      .then(
+        (result) => {
+          if (result.status === 200) {
+            //set library state
+            setLibraries([
+              ...libraries.filter((p) => p._id !== currentLib._id),
+              currentLib,
+            ]);
+            //update project state
+            setProjects(
+              projects.map((project) => ({
+                ...project,
+                libraries: [
+                  ...project.libraries.filter(
+                    (library) => library._id !== currentLib._id
+                  ),
+                  currentLib,
+                ],
+              }))
+            );
+            //Toast message
+            notify("EDITED");
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
       .then(() => {
+        setCurrentLib({
+          name: "",
+          version: "",
+          description: "",
+          npmaddress: "",
+          githubrepo: "",
+          homepage: "",
+        });
         setViewEditLib(false);
       });
   };
@@ -93,11 +118,23 @@ function Libs({ auth, libraries, setLibraries }) {
 
     deleteLib()
       .then((result) => {
-        //Toast message
-        notify("DELETED", result.status, result.data._id);
+        if (result.status === 200) {
+          //update library state
+          setLibraries([...libraries.filter((p) => p._id !== id)]);
+          //update project state
+          setProjects(
+            projects.map((project) => ({
+              ...project,
+              libraries: [
+                ...project.libraries.filter((library) => library._id !== id),
+              ],
+            }))
+          );
+        }
       })
-      .then(() => {
-        setLibraries([...libraries.filter((p) => p._id !== id)]);
+      .then((result) => {
+        //Toast message
+        notify("DELETED");
       });
   };
 
@@ -182,7 +219,7 @@ function Libs({ auth, libraries, setLibraries }) {
           setViewViewLib={setViewViewLib}
         />
       ) : (
-        <h4 className="empty">No libs to display</h4>
+        <h4 className="empty">No libraries to display</h4>
       )}
     </StyledLibs>
   );

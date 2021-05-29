@@ -12,7 +12,7 @@ import PackageAdd from "./packageAddViewEdit";
 //data
 import { deleteData, postData, updateData } from "../../api/api";
 
-function Packages({ auth, packages, setPackages }) {
+function Packages({ auth, packages, setPackages, projects, setProjects }) {
   const [currentPackage, setCurrentPackage] = useState({
     name: "",
     version: "",
@@ -77,17 +77,34 @@ function Packages({ auth, packages, setPackages }) {
     };
 
     editPackage()
-      .then((result) => {
-        //Toast message
-        notify("EDITED");
-        return result;
-      })
-      .then((result) => {
-        setPackages([
-          ...packages.filter((p) => p._id !== currentPackage._id),
-          currentPackage,
-        ]);
-      })
+      .then(
+        (result) => {
+          if (result.status === 200) {
+            //update package state
+            setPackages([
+              ...packages.filter((p) => p._id !== currentPackage._id),
+              currentPackage,
+            ]);
+            //update project state
+            setProjects(
+              projects.map((project) => ({
+                ...project,
+                packages: [
+                  ...project.packages.filter(
+                    (pack) => pack._id !== currentPackage._id
+                  ),
+                  currentPackage,
+                ],
+              }))
+            );
+            //Toast message
+            notify("EDITED");
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
       .then(() => {
         setCurrentPackage({
           name: "",
@@ -110,11 +127,21 @@ function Packages({ auth, packages, setPackages }) {
 
     deletePackage()
       .then((result) => {
-        //Toast message
-        notify("DELETED", result.status, result.data._id);
+        if (result.status === 200) {
+          //update package state
+          setPackages([...packages.filter((p) => p._id !== id)]);
+          //update project state
+          setProjects(
+            projects.map((project) => ({
+              ...project,
+              packages: [...project.packages.filter((pack) => pack._id !== id)],
+            }))
+          );
+        }
       })
       .then(() => {
-        setPackages([...packages.filter((p) => p._id !== id)]);
+        //Toast message
+        notify("DELETED");
       });
   };
 

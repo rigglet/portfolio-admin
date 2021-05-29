@@ -14,7 +14,7 @@ import ImagesView from "./imagesView";
 //data
 import { deleteData, postData, updateData } from "../../api/api";
 
-function Images({ auth, images, setImages }) {
+function Images({ auth, images, setImages, projects, setProjects }) {
   const [currentImage, setCurrentImage] = useState({
     name: "",
     description: "",
@@ -64,8 +64,8 @@ function Images({ auth, images, setImages }) {
 
     addImage()
       .then((result) => {
-        //     //Toast message
-        notify("ADDED", result.status, result.data._id);
+        //Toast message
+        notify("ADDED");
         return result;
       })
       .then((result) => {
@@ -83,18 +83,42 @@ function Images({ auth, images, setImages }) {
     };
 
     editImage()
-      .then((result) => {
-        //Toast message
-        notify("EDITED", result.status, result._id);
-        return result;
-      })
+      .then(
+        (result) => {
+          if (result.status === 200) {
+            //update image state
+            setImages([
+              ...images.filter((t) => t._id !== currentImage._id),
+              currentImage,
+            ]);
+
+            //update project state
+            setProjects(
+              projects.map((project) => ({
+                ...project,
+                screenshots: [
+                  ...project.screenshots.filter(
+                    (image) => image._id !== currentImage._id
+                  ),
+                  currentImage,
+                ],
+              }))
+            );
+
+            //Toast message
+            notify("EDITED");
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
       .then(() => {
-        setImages([
-          ...images.filter((t) => t._id !== currentImage._id),
-          currentImage,
-        ]);
-      })
-      .then(() => {
+        setCurrentImage({
+          name: "",
+          description: "",
+          file: {},
+        });
         setViewEditImage(false);
       });
   };
@@ -107,11 +131,23 @@ function Images({ auth, images, setImages }) {
 
     deleteImage()
       .then((result) => {
-        //Toast message
-        notify("DELETED", result.status, result.data._id);
+        if (result.status === 200) {
+          //set image state
+          setImages([...images.filter((t) => t._id !== id)]);
+          //update project state
+          setProjects(
+            projects.map((project) => ({
+              ...project,
+              screenshots: [
+                ...project.screenshots.filter((image) => image._id !== id),
+              ],
+            }))
+          );
+        }
       })
       .then(() => {
-        setImages([...images.filter((t) => t._id !== id)]);
+        //Toast message
+        notify("DELETED");
       });
   };
 

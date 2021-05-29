@@ -69,28 +69,52 @@ function Admin({ auth, setAuth }) {
             setLibraries={setLibraries}
           />
         );
-      case "/admin/packages":
-        return (
-          <Packages auth={auth} packages={packages} setPackages={setPackages} />
-        );
-      case "/admin/links":
-        return <Links auth={auth} links={links} setLinks={setLinks} />;
-      case "/admin/texts":
-        return <Texts auth={auth} texts={texts} setTexts={setTexts} />;
       case "/admin/tech":
-        return <Technologies auth={auth} techs={techs} setTechs={setTechs} />;
+        return (
+          <Technologies
+            auth={auth}
+            techs={techs}
+            setTechs={setTechs}
+            projects={projects}
+            setProjects={setProjects}
+          />
+        );
       case "/admin/libraries":
         return (
           <Libraries
             auth={auth}
             libraries={libraries}
             setLibraries={setLibraries}
+            projects={projects}
+            setProjects={setProjects}
+          />
+        );
+      case "/admin/packages":
+        return (
+          <Packages
+            auth={auth}
+            packages={packages}
+            setPackages={setPackages}
+            projects={projects}
+            setProjects={setProjects}
+          />
+        );
+      case "/admin/images":
+        return (
+          <Images
+            auth={auth}
+            images={images}
+            projects={projects}
+            setImages={setImages}
+            setProjects={setProjects}
           />
         );
       case "/admin/tools":
         return <Tools auth={auth} tools={tools} setTools={setTools} />;
-      case "/admin/images":
-        return <Images auth={auth} images={images} setImages={setImages} />;
+      case "/admin/links":
+        return <Links auth={auth} links={links} setLinks={setLinks} />;
+      case "/admin/texts":
+        return <Texts auth={auth} texts={texts} setTexts={setTexts} />;
       // case "/admin/roadmaps":
       //   return <Roadmaps auth={auth} maps={maps} setMaps={setMaps} />;
       default:

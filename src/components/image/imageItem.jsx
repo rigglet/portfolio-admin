@@ -69,6 +69,7 @@ const StyledImageItem = styled(motion.li)`
   position: relative;
   align-items: center;
   text-decoration: none;
+  font-family: "Poppins", sans-serif;
 
   &:visited {
     text-decoration: none;
@@ -79,7 +80,7 @@ const StyledImageItem = styled(motion.li)`
     white-space: nowrap;
     text-overflow: ellipsis;
     font-size: 11pt;
-    font-weight: 500;
+    font-weight: 400;
     padding: 0.5rem;
   }
 

@@ -12,7 +12,7 @@ import TechAdd from "./techAddViewEdit";
 //data
 import { deleteData, postData, updateData } from "../../api/api";
 
-function Techs({ auth, techs, setTechs }) {
+function Techs({ auth, techs, setTechs, projects, setProjects }) {
   const [currentTech, setCurrentTech] = useState({
     name: "",
     type: "",
@@ -71,24 +71,42 @@ function Techs({ auth, techs, setTechs }) {
     };
 
     editTech()
-      .then((result) => {
-        //Toast message
-        notify("EDITED");
-        return result;
-      })
+      .then(
+        (result) => {
+          if (result.status === 200) {
+            //update technology state
+            setTechs([
+              ...techs.filter((t) => t._id !== currentTech._id),
+              currentTech,
+            ]);
+            //update project state
+            setProjects(
+              projects.map((project) => ({
+                ...project,
+                technologies: [
+                  ...project.technologies.filter(
+                    (technology) => technology._id !== currentTech._id
+                  ),
+                  currentTech,
+                ],
+              }))
+            );
+
+            //Toast message
+            notify("EDITED");
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
       .then(() => {
-        setTechs([
-          ...techs.filter((t) => t._id !== currentTech._id),
-          currentTech,
-        ]);
-      })
-      .then(() => {
-        setViewEditTech(false);
         setCurrentTech({
           name: "",
           type: "",
           address: "",
         });
+        setViewEditTech(false);
       });
   };
 
@@ -100,11 +118,25 @@ function Techs({ auth, techs, setTechs }) {
 
     deleteTech()
       .then((result) => {
-        //Toast message
-        notify("DELETED");
+        if (result.status === 200) {
+          //update technologies state
+          setTechs([...techs.filter((t) => t._id !== id)]);
+          //update project state
+          setProjects(
+            projects.map((project) => ({
+              ...project,
+              technologies: [
+                ...project.technologies.filter(
+                  (technology) => technology._id !== id
+                ),
+              ],
+            }))
+          );
+        }
       })
       .then(() => {
-        setTechs([...techs.filter((t) => t._id !== id)]);
+        //Toast message
+        notify("DELETED");
       });
   };
 
@@ -191,7 +223,7 @@ function Techs({ auth, techs, setTechs }) {
           setViewViewTech={setViewViewTech}
         />
       ) : (
-        <h4 className="empty">No techs to display</h4>
+        <h4 className="empty">No technologies to display</h4>
       )}
     </StyledTechs>
   );

@@ -91,6 +91,7 @@ const StyledProjectItem = styled(motion.li)`
   border-bottom: 1px solid #688297;
   gap: 0.25rem;
   text-decoration: none;
+  font-family: "Poppins", sans-serif;
 
   &:visited {
     text-decoration: none;
@@ -101,7 +102,7 @@ const StyledProjectItem = styled(motion.li)`
     white-space: nowrap;
     text-overflow: ellipsis;
     font-size: 11pt;
-    font-weight: 500;
+    font-weight: 400;
     padding: 0.5rem;
   }
 

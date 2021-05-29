@@ -207,6 +207,7 @@ const ProjectView = function ({
             <div className="scroller">
               {currentProject.screenshots.map((s) => (
                 <img
+                  key={uuidv4()}
                   src={`${SERVER_BASE_URL()}/public/uploads/${s.fileName}`}
                   alt={s.description}
                 />

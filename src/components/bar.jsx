@@ -28,9 +28,9 @@ function Bar({ auth, setAuth, allData }) {
     setAuth({});
   };
 
-  const showSettings = () => {
-    toggleMenu(!menu);
-  };
+  // const showSettings = () => {
+  //   toggleMenu(!menu);
+  // };
 
   const listvariants = {
     open: { opacity: 1, transition: { duration: 0.3 } },
