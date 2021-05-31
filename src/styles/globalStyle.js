@@ -92,6 +92,32 @@ input[type="submit"], .wizard-submit {
   }
 }
 
+//Header section
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80vw;
+    margin-bottom: 0.5rem;
+    .toolbar {
+      display: flex;
+      gap: 0.5rem;
+      .header-icon {
+        cursor: pointer;
+        width: 1.4rem;
+        height: 1.4rem;
+        &:hover {
+          transition: 0.3s ease;
+          transform: scale(1.1);
+        }
+      }
+    }
+    h1 {
+      font-size: 16pt;
+      font-weight: 600;
+    }
+  }
+
 //Action column icons
 .action-bar {
     display: flex;

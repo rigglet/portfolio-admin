@@ -233,10 +233,13 @@ function Images({ auth, images, setImages, projects, setProjects }) {
 
       <div className="header">
         <h1>Images</h1>
-        <div className="imagebar">
-          <ImImages className="h-icon" onClick={() => setViewAllImages(true)} />
+        <div className="toolbar">
+          <ImImages
+            className="header-icon"
+            onClick={() => setViewAllImages(true)}
+          />
           <RiAddCircleLine
-            className="h-icon"
+            className="header-icon"
             onClick={() => setViewAddImage(true)}
           />
         </div>
@@ -267,27 +270,6 @@ const StyledImages = styled(motion.div)`
   //empty table msg
   .empty {
     margin-top: 2rem;
-  }
-  //top header
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 80vw;
-    margin-bottom: 0.5rem;
-    .imagebar {
-      display: flex;
-      gap: 0.5rem;
-      .h-icon {
-        cursor: pointer;
-        width: 1.4rem;
-        height: 1.4rem;
-      }
-    }
-    h1 {
-      font-size: 16pt;
-      font-weight: 600;
-    }
   }
 `;
 

@@ -64,22 +64,25 @@ function ProjectItem({
       </div>
 
       <div className="data-item actions-cell">
-        <div className="toolbar">
+        <div className="action-bar">
           <FaRegFolderOpen
-            className="icon"
+            className="action-icon"
             onClick={() => {
               handleViewEditRecord(project);
               setViewViewProject(true);
             }}
           />
           <FaEdit
-            className="icon"
+            className="action-icon"
             onClick={() => {
               handleViewEditRecord(project);
               setViewEditProject(true);
             }}
           />
-          <FaTrash className="icon" onClick={() => setViewDelete(true)} />
+          <FaTrash
+            className="action-icon"
+            onClick={() => setViewDelete(true)}
+          />
         </div>
       </div>
     </StyledProjectItem>
@@ -124,7 +127,7 @@ const StyledProjectItem = styled(motion.li)`
     justify-content: center;
   }
 
-  .toolbar {
+  /* .toolbar {
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -134,14 +137,12 @@ const StyledProjectItem = styled(motion.li)`
     width: 1.2rem;
     height: 1.2rem;
     color: #888888;
-  }
+  } */
   .tick {
     color: green;
-    //cursor: default;
   }
   .cross {
     color: red;
-    //cursor: default;
   }
 `;
 

@@ -178,7 +178,7 @@ function Projects({
     deleteProject()
       .then((result) => {
         //Toast message
-        notify("DELETED", result.status, result.data._id);
+        notify("DELETED");
       })
       .then(() => {
         setProjects([...projects.filter((p) => p._id !== id)]);
@@ -258,7 +258,7 @@ function Projects({
         <h1>Projects</h1>
         <div className="toolbar">
           <RiAddCircleLine
-            className="h-icon"
+            className="header-icon"
             onClick={() => setViewAddProject(true)}
           />
         </div>
@@ -291,27 +291,6 @@ const StyledProjects = styled(motion.div)`
   //empty table msg
   .empty {
     margin-top: 2rem;
-  }
-  //top header
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 80vw;
-    margin-bottom: 0.5rem;
-    .toolbar {
-      display: flex;
-      gap: 0.5rem;
-      .h-icon {
-        cursor: pointer;
-        width: 1.4rem;
-        height: 1.4rem;
-      }
-    }
-    h1 {
-      font-size: 16pt;
-      font-weight: 600;
-    }
   }
 `;
 

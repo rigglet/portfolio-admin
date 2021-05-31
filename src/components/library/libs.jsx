@@ -213,7 +213,7 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
         <h1>Libraries</h1>
         <div className="toolbar">
           <RiAddCircleLine
-            className="h-icon"
+            className="header-icon"
             onClick={() => setViewAddLib(true)}
           />
         </div>
@@ -244,27 +244,6 @@ const StyledLibs = styled(motion.div)`
   //empty table msg
   .empty {
     margin-top: 2rem;
-  }
-  //top header
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 80vw;
-    margin-bottom: 0.5rem;
-    .toolbar {
-      display: flex;
-      gap: 0.5rem;
-      .h-icon {
-        cursor: pointer;
-        width: 1.4rem;
-        height: 1.4rem;
-      }
-    }
-    h1 {
-      font-size: 16pt;
-      font-weight: 600;
-    }
   }
 `;
 
