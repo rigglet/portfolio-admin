@@ -19,7 +19,7 @@ function TextList({
         <ul>
           <li key={uuidv4()} className="headers">
             <h4 className="name-header">Name</h4>
-            <h4 className="long-header">content</h4>
+            <h4 className="long-header">Content</h4>
             <h4 className="short-header">Actions</h4>
           </li>
           {texts
@@ -66,6 +66,7 @@ const StyledTextList = styled(motion.div)`
       text-align: left;
       display: flex;
       align-items: center;
+      cursor: default;
     }
   }
   .name-header {

@@ -11,6 +11,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    //cursor: default;
 }
 
 body {
@@ -49,8 +50,6 @@ body {
         //margin-bottom: 1.5rem;
       }
     }
-
-
 
 //FORM SUBMIT
 input[type="submit"], .wizard-submit {
@@ -115,6 +114,7 @@ input[type="submit"], .wizard-submit {
     h1 {
       font-size: 16pt;
       font-weight: 600;
+      cursor: default;
     }
   }
 

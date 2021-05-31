@@ -295,8 +295,15 @@ const StyledNav = styled(motion.div)`
       justify-content: space-between;
       padding: 0.75rem;
       cursor: pointer;
+      border-right: 4px solid transparent;
       &.selected {
         background-color: #ebebeb;
+        border-radius: 30px 0 0 30px;
+      }
+      &:hover {
+        //background-color: #313131;
+        //color: white;
+        border-right: 4px solid #313131;
         border-radius: 30px 0 0 30px;
       }
       .link-info {

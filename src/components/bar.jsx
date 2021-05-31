@@ -202,6 +202,7 @@ const StyledBar = styled(motion.div)`
     #title {
       font-family: "Lobster Two", cursive;
       color: #dddddd;
+      cursor: default;
     }
   }
   .header-profile {
@@ -213,6 +214,7 @@ const StyledBar = styled(motion.div)`
       color: white;
       font-weight: 400;
       font-size: 12pt;
+      cursor: default;
     }
     .image-container {
       min-width: 2.8rem;
@@ -227,6 +229,10 @@ const StyledBar = styled(motion.div)`
         height: 45px;
         cursor: pointer;
         object-fit: cover;
+        &:hover {
+          transition: 0.3s ease;
+          transform: scale(1.1);
+        }
       }
     }
     .chevron {
@@ -236,6 +242,7 @@ const StyledBar = styled(motion.div)`
       &:hover {
         background-color: #688297;
         border-radius: 50%;
+        cursor: pointer;
       }
     }
   }

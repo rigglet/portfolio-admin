@@ -68,6 +68,7 @@ const StyledToolList = styled(motion.div)`
       text-align: left;
       display: flex;
       align-items: center;
+      cursor: default;
     }
   }
   .name-header {
