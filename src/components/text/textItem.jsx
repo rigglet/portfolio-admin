@@ -34,22 +34,25 @@ function TextItem({
       <div className="data-item long-cell">{text.content}</div>
 
       <div className="data-item short-cell">
-        <div className="toolbar">
+        <div className="action-bar">
           <FaRegFolderOpen
-            className="icon"
+            className="action-icon"
             onClick={() => {
               handleViewEditRecord(text);
               setViewViewText(true);
             }}
           />
           <FaEdit
-            className="icon"
+            className="action-icon"
             onClick={() => {
               handleViewEditRecord(text);
               setViewEditText(true);
             }}
           />
-          <FaTrash className="icon" onClick={() => setViewDelete(true)} />
+          <FaTrash
+            className="action-icon"
+            onClick={() => setViewDelete(true)}
+          />
         </div>
       </div>
     </StyledTextItem>
@@ -83,34 +86,12 @@ const StyledTextItem = styled(motion.li)`
   }
   .short-cell {
     display: flex;
-    //align-items: center;
     flex: 0 0 10%;
     justify-content: center;
   }
   .long-cell {
     flex-grow: 1;
-    //text-align: left;
     justify-content: center;
-  }
-
-  .toolbar {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .icon {
-    cursor: pointer;
-    width: 1.2rem;
-    height: 1.2rem;
-    color: #888888;
-  }
-  .tick {
-    color: green;
-    //cursor: default;
-  }
-  .cross {
-    color: red;
-    //cursor: default;
   }
 `;
 

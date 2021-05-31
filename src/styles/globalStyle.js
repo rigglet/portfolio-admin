@@ -92,6 +92,22 @@ input[type="submit"], .wizard-submit {
   }
 }
 
+//Action column icons
+.action-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .action-icon {
+    cursor: pointer;
+    width: 1.2rem;
+    height: 1.2rem;
+    color: #888888;
+    &:hover {
+      color: #313131;
+    }
+  }
+
 //WIZARD PROGRESS
 .progress {
     width: 80%;

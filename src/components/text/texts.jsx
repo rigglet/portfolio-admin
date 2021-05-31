@@ -50,8 +50,8 @@ function Texts({ auth, texts, setTexts }) {
         setTexts([...texts, result.data]);
       })
       .then(() => {
-        setViewAddText(false);
         setCurrentText({ name: "", content: "" });
+        setViewAddText(false);
       });
   };
 

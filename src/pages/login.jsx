@@ -210,7 +210,7 @@ const StyledLogin = styled(motion.div)`
       align-items: center;
       justify-content: center;
       #profile {
-        width: 7rem;
+        width: 150px;
       }
       .form {
         width: 100%;
@@ -220,9 +220,8 @@ const StyledLogin = styled(motion.div)`
         justify-content: center;
         gap: 1rem;
         h2 {
-          //font-variant-caps: all-small-caps;
           color: #474747;
-          font-size: 1.1rem;
+          font-size: 13pt;
         }
         .focus {
           width: 300px;
@@ -232,6 +231,7 @@ const StyledLogin = styled(motion.div)`
           gap: 1rem;
           border-bottom: 3px solid #689ed0;
           color: #689ed0;
+          //border: 1px solid red;
         }
         .input-div {
           display: flex;
@@ -239,7 +239,7 @@ const StyledLogin = styled(motion.div)`
 
           .prompt-selected {
             font-family: "Poppins", sans-serif;
-            font-size: 1.2rem;
+            font-size: 14pt;
             font-weight: bold;
             color: #474747;
             font-variant-caps: all-small-caps;

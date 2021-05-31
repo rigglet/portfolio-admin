@@ -51,6 +51,10 @@ function Images({ auth, images, setImages, projects, setProjects }) {
   const handleSaveImage = async () => {
     const formData = new FormData();
 
+    //check if file selected
+    //if (currentImage.file ) {}
+    console.log(currentImage.file);
+
     //append form data
     formData.append("_id", currentImage._id);
     formData.append("name", currentImage.name);
@@ -72,6 +76,11 @@ function Images({ auth, images, setImages, projects, setProjects }) {
         setImages([...images, result.data]);
       })
       .then(() => {
+        setCurrentImage({
+          name: "",
+          description: "",
+          file: {},
+        });
         setViewAddImage(false);
       });
   };

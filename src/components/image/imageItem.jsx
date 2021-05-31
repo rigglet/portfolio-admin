@@ -36,9 +36,9 @@ function ImageItem({
       <div className="data-item short-cell">{image.category}</div>
 
       <div className="data-item actions-cell">
-        <div className="imagebar">
+        <div className="action-bar">
           <FaRegFolderOpen
-            className="icon"
+            className="action-icon"
             onClick={() => {
               handleViewEditRecord(image);
               setViewViewImage(true);
@@ -47,13 +47,16 @@ function ImageItem({
           {image.category !== "profile" && (
             <>
               <FaEdit
-                className="icon"
+                className="action-icon"
                 onClick={() => {
                   handleViewEditRecord(image);
                   setViewEditImage(true);
                 }}
               />
-              <FaTrash className="icon" onClick={() => setViewDelete(true)} />
+              <FaTrash
+                className="action-icon"
+                onClick={() => setViewDelete(true)}
+              />
             </>
           )}
         </div>
@@ -99,18 +102,6 @@ const StyledImageItem = styled(motion.li)`
   .long-cell {
     flex-grow: 1;
     justify-content: center;
-  }
-
-  .imagebar {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .icon {
-    cursor: pointer;
-    width: 1.2rem;
-    height: 1.2rem;
-    color: #888888;
   }
 `;
 

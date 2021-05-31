@@ -35,22 +35,25 @@ function LibItem({
       <div className="data-item long-cell">{lib.description}</div>
 
       <div className="data-item short-cell">
-        <div className="toolbar">
+        <div className="action-bar">
           <FaRegFolderOpen
-            className="icon"
+            className="action-icon"
             onClick={() => {
               handleViewEditRecord(lib);
               setViewViewLib(true);
             }}
           />
           <FaEdit
-            className="icon"
+            className="action-icon"
             onClick={() => {
               handleViewEditRecord(lib);
               setViewEditLib(true);
             }}
           />
-          <FaTrash className="icon" onClick={() => setViewDelete(true)} />
+          <FaTrash
+            className="action-icon"
+            onClick={() => setViewDelete(true)}
+          />
         </div>
       </div>
     </StyledLibItem>
@@ -84,34 +87,12 @@ const StyledLibItem = styled(motion.li)`
   }
   .short-cell {
     display: flex;
-    //align-items: center;
     flex: 0 0 10%;
     justify-content: center;
   }
   .long-cell {
     flex-grow: 1;
-    //text-align: left;
     justify-content: center;
-  }
-
-  .toolbar {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .icon {
-    cursor: pointer;
-    width: 1.2rem;
-    height: 1.2rem;
-    color: #888888;
-  }
-  .tick {
-    color: green;
-    //cursor: default;
-  }
-  .cross {
-    color: red;
-    //cursor: default;
   }
 `;
 

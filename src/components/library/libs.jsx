@@ -58,6 +58,14 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
         setLibraries([...libraries, result.data]);
       })
       .then(() => {
+        setCurrentLib({
+          name: "",
+          version: "",
+          description: "",
+          npmaddress: "",
+          githubrepo: "",
+          homepage: "",
+        });
         setViewAddLib(false);
       });
   };

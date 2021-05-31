@@ -35,22 +35,25 @@ function LinkItem({
       <div className="data-item long-cell">{link.address}</div>
 
       <div className="data-item short-cell">
-        <div className="toolbar">
+        <div className="action-bar">
           <FaRegFolderOpen
-            className="icon"
+            className="action-icon"
             onClick={() => {
               handleViewEditRecord(link);
               setViewViewLink(true);
             }}
           />
           <FaEdit
-            className="icon"
+            className="action-icon"
             onClick={() => {
               handleViewEditRecord(link);
               setViewEditLink(true);
             }}
           />
-          <FaTrash className="icon" onClick={() => setViewDelete(true)} />
+          <FaTrash
+            className="action-icon"
+            onClick={() => setViewDelete(true)}
+          />
         </div>
       </div>
     </StyledLinkItem>
@@ -91,26 +94,6 @@ const StyledLinkItem = styled(motion.li)`
     flex-grow: 1;
     //text-align: left;
     justify-content: center;
-  }
-
-  .toolbar {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .icon {
-    cursor: pointer;
-    width: 1.2rem;
-    height: 1.2rem;
-    color: #888888;
-  }
-  .tick {
-    color: green;
-    //cursor: default;
-  }
-  .cross {
-    color: red;
-    //cursor: default;
   }
 `;
 

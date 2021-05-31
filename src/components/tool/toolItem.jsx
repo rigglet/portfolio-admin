@@ -36,22 +36,25 @@ function ToolItem({
       <div className="data-item long-cell">{tool.address}</div>
 
       <div className="data-item actions-cell">
-        <div className="toolbar">
+        <div className="action-bar">
           <FaRegFolderOpen
-            className="icon"
+            className="action-icon"
             onClick={() => {
               handleViewEditRecord(tool);
               setViewViewTool(true);
             }}
           />
           <FaEdit
-            className="icon"
+            className="action-icon"
             onClick={() => {
               handleViewEditRecord(tool);
               setViewEditTool(true);
             }}
           />
-          <FaTrash className="icon" onClick={() => setViewDelete(true)} />
+          <FaTrash
+            className="action-icon"
+            onClick={() => setViewDelete(true)}
+          />
         </div>
       </div>
     </StyledToolItem>
@@ -95,18 +98,6 @@ const StyledToolItem = styled(motion.li)`
   .long-cell {
     flex-grow: 1;
     justify-content: center;
-  }
-
-  .toolbar {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .icon {
-    cursor: pointer;
-    width: 1.2rem;
-    height: 1.2rem;
-    color: #888888;
   }
 `;
 

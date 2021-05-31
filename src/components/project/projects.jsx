@@ -21,13 +21,13 @@ function Projects({
   projects,
   setProjects,
   images,
-  setImages,
+  //setImages,
   techs,
-  setTechs,
+  //setTechs,
   packages,
-  setPackages,
+  //setPackages,
   libraries,
-  setLibraries,
+  //setLibraries,
 }) {
   const [currentProject, setCurrentProject] = useState({
     projectName: "",
@@ -99,7 +99,7 @@ function Projects({
     addProject()
       .then((result) => {
         //Toast message
-        notify("ADDED", result.status, result.data._id);
+        notify("ADDED");
         return result;
       })
       .then((result) => {
