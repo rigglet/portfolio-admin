@@ -224,15 +224,15 @@ const StyledBar = styled(motion.div)`
       align-items: center;
       border-radius: 50%;
       overflow: hidden;
+      border: 2px solid transparent;
+      &:hover {
+        //can't round corners of outline, so use box-shadow
+        box-shadow: 0 0 0 1px white;
+      }
       .profileImg {
         width: 45px;
         height: 45px;
         cursor: pointer;
-        object-fit: cover;
-        &:hover {
-          transition: 0.3s ease;
-          transform: scale(1.1);
-        }
       }
     }
     .chevron {

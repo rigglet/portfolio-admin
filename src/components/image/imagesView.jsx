@@ -55,7 +55,7 @@ const StyledImagesView = styled(motion.div)`
 
   .container {
     width: 70vw;
-    height: 70vh;
+    height: 80vh;
     background-color: #ebebeb;
     border: 0.05rem #689ed0 solid;
     position: relative;
@@ -65,18 +65,31 @@ const StyledImagesView = styled(motion.div)`
     justify-content: center;
 
     .image-gallery {
-      max-width: 60%;
+      height: 70vh;
+      width: auto;
     }
 
+    .image-gallery-thumbnails-container img {
+      height: 100px;
+      object-fit: scale-down;
+    }
+
+    .image-gallery-slide {
+      height: 55vh;
+      background: white;
+    }
     .image-gallery-slide img {
-      object-fit: contain;
-      resize: both;
-      overflow: hidden;
+      height: 400px;
+      object-fit: scale-down;
       object-position: center center;
     }
 
+    //fullscreen view
+    .fullscreen .image-gallery-slide {
+      height: 80vh;
+    }
     .fullscreen .image-gallery-slide img {
-      max-height: 100vh;
+      height: 80vh;
     }
   }
 `;

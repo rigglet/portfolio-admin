@@ -51,9 +51,9 @@ function Images({ auth, images, setImages, projects, setProjects }) {
   const handleSaveImage = async () => {
     const formData = new FormData();
 
+    //TODO: check if file before save etc
     //check if file selected
     //if (currentImage.file ) {}
-    console.log(currentImage.file);
 
     //append form data
     formData.append("_id", currentImage._id);
@@ -90,6 +90,8 @@ function Images({ auth, images, setImages, projects, setProjects }) {
     const editImage = async () => {
       return await updateData(auth, "images", currentImage);
     };
+
+    console.log(currentImage);
 
     editImage()
       .then(
@@ -197,7 +199,7 @@ function Images({ auth, images, setImages, projects, setProjects }) {
             handleSaveImage={handleSaveImage}
             handleEditImage={handleEditImage}
             title="Add new image"
-            formType={"NEW"}
+            formType={"ADD"}
           />
         )
       }

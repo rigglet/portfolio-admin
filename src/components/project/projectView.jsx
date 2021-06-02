@@ -25,6 +25,8 @@ const ProjectView = function ({
   title,
   openingHookSetter,
 }) {
+  console.log(currentProject);
+
   return (
     <StyledProjectView>
       <div className="container">

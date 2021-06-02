@@ -22,15 +22,13 @@ function ProjectItem({
     <StyledProjectItem>
       {
         //view deleteConfirmation
-        viewDelete ? (
+        viewDelete && (
           <DeleteConfirmation
             declineFnc={declineFnc}
             acceptFnc={acceptFnc}
             setViewDelete={setViewDelete}
             id={project._id}
           />
-        ) : (
-          ""
         )
       }
       <div className="data-item name-cell upper">{project.projectName}</div>
@@ -126,18 +124,12 @@ const StyledProjectItem = styled(motion.li)`
     flex-grow: 1;
     justify-content: center;
   }
-
-  /* .toolbar {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
   .icon {
     cursor: pointer;
     width: 1.2rem;
     height: 1.2rem;
     color: #888888;
-  } */
+  }
   .tick {
     color: green;
   }

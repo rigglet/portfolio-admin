@@ -3,7 +3,7 @@ import { FaRegSave } from "react-icons/fa";
 
 export default function submitButton({ type, saveFunction, editFunction }) {
   let handleClickFunction = {};
-  if (type === "NEW") handleClickFunction = saveFunction;
+  if (type === "NEW" || type === "ADD") handleClickFunction = saveFunction;
   else handleClickFunction = editFunction;
 
   return (

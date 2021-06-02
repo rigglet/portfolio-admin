@@ -197,7 +197,6 @@ function Projects({
         transition={Zoom}
         position="bottom-center"
         draggable={false}
-        pauseOnHover
         autoClose={2000}
         hideProgressBar
         newestOnTop={false}
