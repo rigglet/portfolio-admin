@@ -53,36 +53,42 @@ function Images({ auth, images, setImages, projects, setProjects }) {
 
     //TODO: check if file before save etc
     //check if file selected
-    //if (currentImage.file ) {}
+    if (currentImage.file?.name !== undefined) {
+      //append form data
+      formData.append("_id", currentImage._id);
+      formData.append("name", currentImage.name);
+      formData.append("description", currentImage.description);
+      formData.append("category", "project");
+      formData.append(
+        "projectImage",
+        currentImage.file,
+        currentImage.file.name
+      );
 
-    //append form data
-    formData.append("_id", currentImage._id);
-    formData.append("name", currentImage.name);
-    formData.append("description", currentImage.description);
-    formData.append("category", "project");
-    formData.append("projectImage", currentImage.file, currentImage.file.name);
+      const addImage = async () => {
+        return await postData(auth, "images", formData);
+      };
 
-    const addImage = async () => {
-      return await postData(auth, "images", formData);
-    };
-
-    addImage()
-      .then((result) => {
-        //Toast message
-        notify("ADDED");
-        return result;
-      })
-      .then((result) => {
-        setImages([...images, result.data]);
-      })
-      .then(() => {
-        setCurrentImage({
-          name: "",
-          description: "",
-          file: {},
+      addImage()
+        .then((result) => {
+          //Toast message
+          notify("ADDED");
+          return result;
+        })
+        .then((result) => {
+          setImages([...images, result.data]);
+        })
+        .then(() => {
+          setCurrentImage({
+            name: "",
+            description: "",
+            file: {},
+          });
+          setViewAddImage(false);
         });
-        setViewAddImage(false);
-      });
+    } else {
+      notify("NOIMAGE");
+    }
   };
 
   //HANDLE EDIT IMAGE

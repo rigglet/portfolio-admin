@@ -31,7 +31,7 @@ const ImagesView = function ({ openingHookSetter, images }) {
           thumbnailPosition={"bottom"}
           //showIndex={true}
           //autoPlay={true}
-          showBullets={true}
+          //showBullets={true}
           showNav={false}
         />
         {/* <div className="images"></div> */}
@@ -68,7 +68,9 @@ const StyledImagesView = styled(motion.div)`
       height: 70vh;
       width: auto;
     }
-
+    .image-gallery-thumbnails-container {
+      max-width: 65vw;
+    }
     .image-gallery-thumbnails-container img {
       height: 100px;
       object-fit: scale-down;
@@ -76,7 +78,7 @@ const StyledImagesView = styled(motion.div)`
 
     .image-gallery-slide {
       height: 55vh;
-      background: white;
+      //background: white;
     }
     .image-gallery-slide img {
       height: 400px;

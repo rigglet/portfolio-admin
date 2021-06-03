@@ -185,6 +185,7 @@ const StyledBar = styled(motion.div)`
           .profile-menu-icon {
             width: 1.2rem;
             height: 1.2rem;
+            color: #313131;
           }
         }
       }
@@ -217,6 +218,7 @@ const StyledBar = styled(motion.div)`
       cursor: default;
     }
     .image-container {
+      background: whitesmoke;
       min-width: 2.8rem;
       height: 2.8rem;
       display: flex;
@@ -233,6 +235,8 @@ const StyledBar = styled(motion.div)`
         width: 45px;
         height: 45px;
         cursor: pointer;
+        object-fit: scale-down;
+        object-position: 50% 50%;
       }
     }
     .chevron {
