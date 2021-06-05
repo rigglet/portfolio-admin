@@ -23,8 +23,6 @@ const Step5 = function ({
   setCurrentProject,
   images,
 }) {
-  console.log(currentProject);
-
   //If NEW image then selected technologies should be empty - set in ImageAddViewEdit.jsx
   //If EDIT image then selected technologies should be loaded for specific project
   const [selectedImages, setSelectedImages] = useState(
@@ -40,33 +38,63 @@ const Step5 = function ({
     _.differenceWith(projectImages, selectedImages, _.isEqual)
   );
 
-  const handleTechItemClick = (image) => {
-    //remove clicked image from list of available technologies
+  const handleImageClick = (image) => {
+    //remove clicked image from list of available images
     setAvailableImages(availableImages.filter((i) => i._id !== image._id));
 
-    //add clicked image to list of selected technologies
+    //add clicked image to list of selected images
     setSelectedImages([...selectedImages, image]);
 
     //add clicked image to currentProject
-    setCurrentProject({
-      ...currentProject,
-      screenshots: [...currentProject?.screenshots, image],
-    });
+    if (selectedImages.length < 1) {
+      //if only image, set as main image
+      setCurrentProject({
+        ...currentProject,
+        screenshots: [...currentProject?.screenshots, image],
+        mainImage: image,
+      });
+    } else {
+      setCurrentProject({
+        ...currentProject,
+        screenshots: [...currentProject?.screenshots, image],
+      });
+    }
   };
 
   const handleSelectedItemClick = (image) => {
-    //remove clicked image from list of selected technologies
+    //remove clicked image from list of selected images
     setSelectedImages(selectedImages.filter((i) => i._id !== image._id));
 
-    //add clicked technologies to list of available technologies
+    //add clicked images to list of available images
     setAvailableImages([...availableImages, image]);
 
     //remove clicked image from currentProject
+    console.log("image: ", image);
+    console.log("currentProject.mainImage: ", currentProject.mainImage);
+    if (image._id === currentProject.mainImage?._id) {
+      //if selected image is main image, remove mainImage also
+      setCurrentProject(() => ({
+        ...currentProject,
+        screenshots: currentProject?.screenshots.filter(
+          (i) => i._id !== image._id
+        ),
+        mainImage: null,
+      }));
+    } else {
+      setCurrentProject(() => ({
+        ...currentProject,
+        screenshots: currentProject?.screenshots.filter(
+          (i) => i._id !== image._id
+        ),
+      }));
+    }
+  };
+
+  const handleMainImageSelect = (image) => {
+    //set clicked image as main Image
     setCurrentProject({
       ...currentProject,
-      screenshots: currentProject?.screenshots.filter(
-        (i) => i._id !== image._id
-      ),
+      mainImage: image,
     });
   };
 
@@ -83,7 +111,8 @@ const Step5 = function ({
                 .map((p) => (
                   <ImageItem
                     key={uuidv4()}
-                    handleItemClick={handleTechItemClick}
+                    handleItemClick={handleImageClick}
+                    selectable={false}
                   >
                     {p}
                   </ImageItem>
@@ -100,6 +129,9 @@ const Step5 = function ({
                   <ImageItem
                     key={uuidv4()}
                     handleItemClick={handleSelectedItemClick}
+                    selectable={true}
+                    handleMainImageSelect={handleMainImageSelect}
+                    mainImage={currentProject.mainImage}
                   >
                     {p}
                   </ImageItem>

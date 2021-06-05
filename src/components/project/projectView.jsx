@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 //dates
 import { DateTime } from "luxon";
 //icons
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaRegCheckCircle } from "react-icons/fa";
 import { BsCardText, BsStarFill, BsCardChecklist } from "react-icons/bs";
 import { CgWebsite } from "react-icons/cg";
 import { ImImages } from "react-icons/im";
@@ -14,6 +14,7 @@ import { IoLibraryOutline } from "react-icons/io5";
 import { GoPackage } from "react-icons/go";
 import { AiOutlineCalendar } from "react-icons/ai";
 import { BiMessageSquareDetail } from "react-icons/bi";
+//components
 import CloseButton from "../closeButton";
 
 //server base url
@@ -229,11 +230,16 @@ const ProjectView = function ({
             </legend>
             <div className="scroller">
               {currentProject.screenshots.map((s) => (
-                <img
-                  key={uuidv4()}
-                  src={`${SERVER_BASE_URL()}/public/uploads/${s.fileName}`}
-                  alt={s.description}
-                />
+                <div className="image-container" key={uuidv4()}>
+                  <img
+                    key={uuidv4()}
+                    src={`${SERVER_BASE_URL()}/public/uploads/${s.fileName}`}
+                    alt={s.description}
+                  />
+                  {currentProject.mainImage._id === s._id && (
+                    <FaRegCheckCircle className="mainImage-icon" />
+                  )}
+                </div>
               ))}
             </div>
           </fieldset>
@@ -324,15 +330,26 @@ const StyledProjectView = styled.div`
         overflow-x: scroll;
         display: flex;
         column-gap: 0.5rem;
-
-        img {
-          cursor: default;
-          height: auto;
-          width: 425px;
-          object-fit: contain;
-          object-position: center center;
-          border-radius: 4px;
-          border: 1px solid #689ed0;
+        .image-container {
+          position: relative;
+          img {
+            cursor: default;
+            height: auto;
+            width: 425px;
+            object-fit: contain;
+            object-position: center center;
+            border-radius: 4px;
+            border: 1px solid #689ed0;
+          }
+          .mainImage-icon {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            width: 3rem;
+            height: 3rem;
+            cursor: pointer;
+            color: green;
+          }
         }
       }
 
