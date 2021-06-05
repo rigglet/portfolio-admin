@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { DateTime } from "luxon";
 //icons
 import { FaGithub } from "react-icons/fa";
-import { BsCardText } from "react-icons/bs";
+import { BsCardText, BsStarFill, BsCardChecklist } from "react-icons/bs";
 import { CgWebsite } from "react-icons/cg";
 import { ImImages } from "react-icons/im";
 import { HiCode, HiLink } from "react-icons/hi";
@@ -25,8 +25,6 @@ const ProjectView = function ({
   title,
   openingHookSetter,
 }) {
-  console.log(currentProject);
-
   return (
     <StyledProjectView>
       <div className="container">
@@ -50,6 +48,9 @@ const ProjectView = function ({
             packages: [],
             technologies: [],
             screenshots: [],
+            mainImage: null,
+            features: [],
+            highlights: [],
           }}
         />
 
@@ -171,6 +172,26 @@ const ProjectView = function ({
               <label htmlFor="description">Description:</label>
               <p>{currentProject?.projectDescription}</p>
             </div>
+          </fieldset>
+          <fieldset className="features">
+            <legend>
+              Features <BsCardChecklist />
+            </legend>
+            <ul>
+              {currentProject.features.map((f) => (
+                <li key={uuidv4()}>{f}</li>
+              ))}
+            </ul>
+          </fieldset>
+          <fieldset className="highlights">
+            <legend>
+              Highlights <BsStarFill />
+            </legend>
+            <ul>
+              {currentProject.highlights.map((h) => (
+                <li key={uuidv4()}>{h}</li>
+              ))}
+            </ul>
           </fieldset>
           <fieldset className="libraries">
             <legend>
@@ -315,6 +336,8 @@ const StyledProjectView = styled.div`
         }
       }
 
+      .features,
+      .highlights,
       .libraries,
       .technologies,
       .packages {

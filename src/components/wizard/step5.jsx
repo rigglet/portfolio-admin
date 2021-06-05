@@ -23,6 +23,8 @@ const Step5 = function ({
   setCurrentProject,
   images,
 }) {
+  console.log(currentProject);
+
   //If NEW image then selected technologies should be empty - set in ImageAddViewEdit.jsx
   //If EDIT image then selected technologies should be loaded for specific project
   const [selectedImages, setSelectedImages] = useState(
@@ -181,16 +183,6 @@ const StyledStep = styled.div`
         border-radius: 4px;
       }
     }
-
-    /* .view-container {
-      width: 100%;
-      img {
-        height: auto;
-        width: 425px;
-        object-fit: contain;
-        object-position: center center;
-      }
-    } */
   }
 `;
 
