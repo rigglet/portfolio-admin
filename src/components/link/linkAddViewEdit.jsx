@@ -68,6 +68,23 @@ const LinkAddViewEdit = function ({
                 }
               />
             </div>
+            <div className="input-item">
+              <label htmlFor="icon">Icon:</label>
+              <input
+                disabled={formType === "VIEW" ? true : false}
+                type="text"
+                name="icon"
+                autoComplete="off"
+                size="50"
+                value={currentLink?.icon}
+                onChange={(e) =>
+                  setCurrentLink({
+                    ...currentLink,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </div>
           </div>
           <div className="addresses">
             <div className="input-item">

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
 import { CgWebsite } from "react-icons/cg";
+import { FaBook } from "react-icons/fa";
 import { HiCode } from "react-icons/hi";
 //components
 import SubmitButton from "../submitButton";
@@ -17,6 +18,7 @@ const TechAddViewEdit = function ({
   setCurrentTech,
   formType,
 }) {
+  console.log(currentTech);
   return (
     <StyledTechAddViewEdit>
       <div className="container">
@@ -27,6 +29,8 @@ const TechAddViewEdit = function ({
             name: "",
             type: "",
             address: "",
+            icon: "",
+            documentation: "",
           }}
         />
 
@@ -94,6 +98,44 @@ const TechAddViewEdit = function ({
             </div>
           </div>
 
+          <div className="input-item">
+            <label htmlFor="documentation">Documentation:</label>
+            <div className="address-item">
+              <FaBook className="address-icon" />
+              <input
+                disabled={formType === "VIEW" ? true : false}
+                type="text"
+                name="documentation"
+                autoComplete="off"
+                value={currentTech?.documentation}
+                onChange={(e) =>
+                  setCurrentTech({
+                    ...currentTech,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </div>
+
+          <div className="input-item">
+            <label htmlFor="icon">Icon:</label>
+            <input
+              disabled={formType === "VIEW" ? true : false}
+              type="text"
+              name="icon"
+              autoComplete="off"
+              size="50"
+              value={currentTech?.icon}
+              onChange={(e) =>
+                setCurrentTech({
+                  ...currentTech,
+                  [e.target.name]: e.target.value,
+                })
+              }
+            />
+          </div>
+
           {formType !== "VIEW" && (
             <SubmitButton
               type={formType}
@@ -122,7 +164,7 @@ const StyledTechAddViewEdit = styled(motion.div)`
 
   .container {
     width: 60vw;
-    height: 60vh;
+    height: 75vh;
     background-color: #ebebeb;
     border: 0.05rem #689ed0 solid;
     position: relative;

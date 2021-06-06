@@ -5,7 +5,10 @@ import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 //icons
 import { ImImages } from "react-icons/im";
-import { FaTools, FaMapSigns } from "react-icons/fa";
+import {
+  FaTools,
+  //FaMapSigns
+} from "react-icons/fa";
 import { HiChevronRight, HiChevronDown, HiCode, HiLink } from "react-icons/hi";
 import { MdWeb } from "react-icons/md";
 import { IoLibraryOutline, IoText } from "react-icons/io5";
@@ -226,7 +229,7 @@ function Nav({
             <h4>{textNo}</h4>
           </div>
         </motion.li>
-        <motion.li
+        {/* <motion.li
           variants={item}
           className={path === "roadmap" ? "selected" : ""}
         >
@@ -242,7 +245,7 @@ function Nav({
           <div className="link-amount">
             <h4>{roadmapNo}</h4>
           </div>
-        </motion.li>
+        </motion.li> */}
       </motion.ul>
     </StyledNav>
   );

@@ -17,6 +17,7 @@ function Links({ auth, links, setLinks }) {
     name: "",
     type: "",
     address: "",
+    icon: "",
   });
   const [viewViewLink, setViewViewLink] = useState(false);
   const [viewAddLink, setViewAddLink] = useState(false);
@@ -59,6 +60,7 @@ function Links({ auth, links, setLinks }) {
           name: "",
           type: "",
           address: "",
+          icon: "",
         });
       });
   };
@@ -87,6 +89,7 @@ function Links({ auth, links, setLinks }) {
           name: "",
           type: "",
           address: "",
+          icon: "",
         });
       });
   };

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
 import { CgWebsite } from "react-icons/cg";
+import { FaBook } from "react-icons/fa";
 import { FaTools } from "react-icons/fa";
 //components
 import SubmitButton from "../submitButton";
@@ -27,6 +28,8 @@ const ToolAddViewEdit = function ({
             type: "",
             category: "",
             address: "",
+            icon: "",
+            documentation: "",
           }}
         />
 
@@ -55,6 +58,7 @@ const ToolAddViewEdit = function ({
                 }
               />
             </div>
+
             <div className="input-item">
               <label htmlFor="category">Category:</label>
               <input
@@ -91,27 +95,64 @@ const ToolAddViewEdit = function ({
               />
             </div>
           </div>
-          <div className="addresses">
-            <div className="input-item">
-              <label htmlFor="address">Address:</label>
-              <div className="address-item">
-                <CgWebsite className="address-icon" />
-                <input
-                  disabled={formType === "VIEW" ? true : false}
-                  type="text"
-                  name="address"
-                  autoComplete="off"
-                  size="50"
-                  value={currentTool?.address}
-                  onChange={(e) =>
-                    setCurrentTool({
-                      ...currentTool,
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                />
-              </div>
+
+          <div className="input-item">
+            <label htmlFor="address">Address:</label>
+            <div className="address-item">
+              <CgWebsite className="address-icon" />
+              <input
+                disabled={formType === "VIEW" ? true : false}
+                type="text"
+                name="address"
+                autoComplete="off"
+                size="50"
+                value={currentTool?.address}
+                onChange={(e) =>
+                  setCurrentTool({
+                    ...currentTool,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
             </div>
+          </div>
+
+          <div className="input-item">
+            <label htmlFor="documentation">Documentation:</label>
+            <div className="address-item">
+              <FaBook className="address-icon" />
+              <input
+                disabled={formType === "VIEW" ? true : false}
+                type="text"
+                name="documentation"
+                autoComplete="off"
+                value={currentTool?.documentation}
+                onChange={(e) =>
+                  setCurrentTool({
+                    ...currentTool,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </div>
+
+          <div className="input-item">
+            <label htmlFor="icon">Icon:</label>
+            <input
+              disabled={formType === "VIEW" ? true : false}
+              type="text"
+              name="icon"
+              autoComplete="off"
+              size="50"
+              value={currentTool?.icon}
+              onChange={(e) =>
+                setCurrentTool({
+                  ...currentTool,
+                  [e.target.name]: e.target.value,
+                })
+              }
+            />
           </div>
 
           {formType !== "VIEW" && (
@@ -142,7 +183,7 @@ const StyledToolAddViewEdit = styled(motion.div)`
 
   .container {
     width: 60vw;
-    height: 60vh;
+    height: 80vh;
     background-color: #ebebeb;
     border: 0.05rem #689ed0 solid;
     position: relative;
@@ -154,7 +195,7 @@ const StyledToolAddViewEdit = styled(motion.div)`
       width: 100%;
       display: flex;
       flex-direction: column;
-      row-gap: 2rem;
+      row-gap: 1rem;
 
       .address-item {
         display: flex;

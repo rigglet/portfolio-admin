@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaBook } from "react-icons/fa";
 import { CgWebsite, CgNpm } from "react-icons/cg";
 
 //components
@@ -31,6 +31,8 @@ const PackageAddViewEdit = function ({
             npmaddress: "",
             githubrepo: "",
             homepage: "",
+            documentation: "",
+            icon: "",
           }}
         />
 
@@ -77,6 +79,23 @@ const PackageAddViewEdit = function ({
                   }
                 />
               </div>
+              <div className="input-item">
+                <label htmlFor="icon">Icon:</label>
+                <input
+                  disabled={formType === "VIEW" ? true : false}
+                  type="text"
+                  name="icon"
+                  autoComplete="off"
+                  size="50"
+                  value={currentPackage?.icon}
+                  onChange={(e) =>
+                    setCurrentPackage({
+                      ...currentPackage,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
+              </div>
             </div>
             <div className="description">
               <div className="input-item">
@@ -87,7 +106,7 @@ const PackageAddViewEdit = function ({
                   name="description"
                   autoComplete="off"
                   cols="50"
-                  rows="4"
+                  rows="7"
                   value={currentPackage?.description}
                   onChange={(e) =>
                     setCurrentPackage({
@@ -161,6 +180,25 @@ const PackageAddViewEdit = function ({
                 />
               </div>
             </div>
+            <div className="input-item">
+              <label htmlFor="documentation">Documentation:</label>
+              <div className="address-item">
+                <FaBook className="address-icon" />
+                <input
+                  disabled={formType === "VIEW" ? true : false}
+                  type="text"
+                  name="documentation"
+                  autoComplete="off"
+                  value={currentPackage?.documentation}
+                  onChange={(e) =>
+                    setCurrentPackage({
+                      ...currentPackage,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
+              </div>
+            </div>
           </div>
 
           {formType !== "VIEW" && (
@@ -191,7 +229,7 @@ const StyledPackageAddViewEdit = styled(motion.div)`
 
   .container {
     width: 60vw;
-    height: 80vh;
+    height: 95vh;
     background-color: #ebebeb;
     border: 0.05rem #689ed0 solid;
     position: relative;

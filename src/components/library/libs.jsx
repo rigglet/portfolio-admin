@@ -20,7 +20,8 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
     npmaddress: "",
     githubrepo: "",
     homepage: "",
-    //TODO: documentation: ""
+    documentation: "",
+    icon: "",
   });
   const [viewViewLib, setViewViewLib] = useState(false);
   const [viewAddLib, setViewAddLib] = useState(false);
@@ -65,6 +66,8 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
           npmaddress: "",
           githubrepo: "",
           homepage: "",
+          documentation: "",
+          icon: "",
         });
         setViewAddLib(false);
       });
@@ -113,6 +116,8 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
           npmaddress: "",
           githubrepo: "",
           homepage: "",
+          documentation: "",
+          icon: "",
         });
         setViewEditLib(false);
       });
@@ -140,7 +145,7 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
           );
         }
       })
-      .then((result) => {
+      .then(() => {
         //Toast message
         notify("DELETED");
       });
