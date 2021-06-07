@@ -46,8 +46,9 @@ function Projects({
     packages: [],
     technologies: [],
     screenshots: [],
-    //TODO: features: [],
-    //TODO: highlights /proud of...
+    mainImage: null,
+    features: [],
+    highlights: [],
   });
 
   const [viewViewProject, setViewViewProject] = useState(false);
@@ -124,6 +125,9 @@ function Projects({
           packages: [],
           technologies: [],
           screenshots: [],
+          mainImage: null,
+          features: [],
+          highlights: [],
         });
       });
   };
@@ -176,7 +180,7 @@ function Projects({
     };
 
     deleteProject()
-      .then((result) => {
+      .then(() => {
         //Toast message
         notify("DELETED");
       })
@@ -187,7 +191,7 @@ function Projects({
 
   //HANDLE VIEW / EDIT RECORD
   const handleViewEditRecord = (project) => {
-    setCurrentProject(project);
+    setCurrentProject({ ...currentProject, ...project });
   };
 
   return (

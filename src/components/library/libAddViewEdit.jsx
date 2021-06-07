@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaBook } from "react-icons/fa";
 import { CgWebsite, CgNpm } from "react-icons/cg";
 import { IoLibraryOutline } from "react-icons/io5";
 //components
@@ -30,6 +30,8 @@ const LibAddViewEdit = function ({
             npmaddress: "",
             githubrepo: "",
             homepage: "",
+            documentation: "",
+            icon: "",
           }}
         />
 
@@ -75,6 +77,23 @@ const LibAddViewEdit = function ({
                   }
                 />
               </div>
+              <div className="input-item">
+                <label htmlFor="icon">Icon:</label>
+                <input
+                  disabled={formType === "VIEW" ? true : false}
+                  type="text"
+                  name="icon"
+                  autoComplete="off"
+                  size="50"
+                  value={currentLib?.icon}
+                  onChange={(e) =>
+                    setCurrentLib({
+                      ...currentLib,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
+              </div>
             </div>
 
             <div className="description">
@@ -86,7 +105,7 @@ const LibAddViewEdit = function ({
                   name="description"
                   autoComplete="off"
                   cols="50"
-                  rows="4"
+                  rows="7"
                   value={currentLib?.description}
                   onChange={(e) =>
                     setCurrentLib({
@@ -140,6 +159,7 @@ const LibAddViewEdit = function ({
                 />
               </div>
             </div>
+
             <div className="input-item">
               <label htmlFor="homepage">Homepage:</label>
               <div className="address-item">
@@ -160,7 +180,28 @@ const LibAddViewEdit = function ({
                 />
               </div>
             </div>
+
+            <div className="input-item">
+              <label htmlFor="documentation">Documentation:</label>
+              <div className="address-item">
+                <FaBook className="address-icon" />
+                <input
+                  disabled={formType === "VIEW" ? true : false}
+                  type="text"
+                  name="documentation"
+                  autoComplete="off"
+                  value={currentLib?.documentation}
+                  onChange={(e) =>
+                    setCurrentLib({
+                      ...currentLib,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
+              </div>
+            </div>
           </div>
+
           {formType !== "VIEW" && (
             <SubmitButton
               type={formType}
@@ -189,7 +230,7 @@ const StyledLibAddViewEdit = styled(motion.div)`
 
   .container {
     width: 60vw;
-    height: 80vh;
+    height: 95vh;
     background-color: #ebebeb;
     border: 0.05rem #689ed0 solid;
     position: relative;

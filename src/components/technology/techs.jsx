@@ -17,7 +17,8 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
     name: "",
     type: "",
     address: "",
-    //TODO: documentation: ""
+    icon: "",
+    documentation: "",
   });
   const [viewViewTech, setViewViewTech] = useState(false);
   const [viewAddTech, setViewAddTech] = useState(false);
@@ -60,6 +61,8 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
           name: "",
           type: "",
           address: "",
+          icon: "",
+          documentation: "",
         });
       });
   };
@@ -105,6 +108,8 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
           name: "",
           type: "",
           address: "",
+          icon: "",
+          documentation: "",
         });
         setViewEditTech(false);
       });
@@ -142,7 +147,7 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
 
   //HANDLE VIEW / EDIT RECORD
   const handleViewEditRecord = (tech) => {
-    setCurrentTech(tech);
+    setCurrentTech({ ...currentTech, ...tech });
   };
 
   return (
@@ -197,9 +202,9 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
           <TechAdd
             openingHookSetter={setViewViewTech}
             setViewViewTech={setViewViewTech}
-            title="View technology"
             currentTech={currentTech}
             setCurrentTech={setCurrentTech}
+            title="View technology"
             formType={"VIEW"}
           />
         )

@@ -18,6 +18,8 @@ function Tools({ auth, tools, setTools }) {
     type: "",
     category: "",
     address: "",
+    icon: "",
+    documentation: "",
   });
   const [viewViewTool, setViewViewTool] = useState(false);
   const [viewAddTool, setViewAddTool] = useState(false);
@@ -48,7 +50,7 @@ function Tools({ auth, tools, setTools }) {
     addTool()
       .then((result) => {
         //Toast message
-        notify("ADDED", result.status, result.data._id);
+        notify("ADDED");
         return result;
       })
       .then((result) => {
@@ -61,6 +63,8 @@ function Tools({ auth, tools, setTools }) {
           type: "",
           category: "",
           address: "",
+          icon: "",
+          documentation: "",
         });
       });
   };
@@ -74,7 +78,7 @@ function Tools({ auth, tools, setTools }) {
     editTool()
       .then((result) => {
         //Toast message
-        notify("EDITED", result.status, result._id);
+        notify("EDITED");
         return result;
       })
       .then(() => {
@@ -90,6 +94,8 @@ function Tools({ auth, tools, setTools }) {
           type: "",
           category: "",
           address: "",
+          icon: "",
+          documentation: "",
         });
       });
   };
@@ -112,7 +118,7 @@ function Tools({ auth, tools, setTools }) {
 
   //HANDLE VIEW / EDIT RECORD
   const handleViewEditRecord = (tool) => {
-    setCurrentTool(tool);
+    setCurrentTool({ ...currentTool, ...tool });
   };
 
   return (

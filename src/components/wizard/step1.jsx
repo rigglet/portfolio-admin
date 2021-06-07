@@ -1,14 +1,22 @@
+import { useState } from "react";
 import styled from "styled-components";
 //dates
 import { DateTime } from "luxon";
-
 //icons
 import {
   FaArrowCircleRight,
   FaArrowCircleLeft,
   FaGithub,
 } from "react-icons/fa";
+//UUID inique ID generator
+import { v4 as uuidv4 } from "uuid";
+//message components
+import { ToastContainer, toast, Zoom } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+//icons
 import { CgWebsite } from "react-icons/cg";
+import { RiAddCircleLine } from "react-icons/ri";
+import { BiMinusCircle } from "react-icons/bi";
 
 const Step1 = function ({
   currentStep,
@@ -18,8 +26,84 @@ const Step1 = function ({
   currentProject,
   setCurrentProject,
 }) {
+  const notify = (type) => {
+    switch (type) {
+      case "NOFEATURE":
+        toast.dark(`Please enter a feature`);
+        break;
+      case "NOHIGHLIGHT":
+        toast.dark(`Please enter a highlight`);
+        break;
+      default:
+        toast.dark("Nothing to report");
+    }
+  };
+
+  const [feature, setFeature] = useState("");
+  const [highlight, setHighlight] = useState("");
+
+  const handleAddFeature = () => {
+    if (feature !== "") {
+      setCurrentProject(() => ({
+        ...currentProject,
+        features: [...currentProject.features, feature],
+      }));
+
+      setFeature("");
+    } else {
+      //Toast message
+      notify("NOFEATURE");
+    }
+  };
+
+  const handleDeleteFeature = (clickedFeature) => {
+    console.log(clickedFeature);
+    setCurrentProject({
+      ...currentProject,
+      features: [
+        ...currentProject.features.filter((f) => f !== clickedFeature),
+      ],
+    });
+  };
+
+  const handleAddHighlight = () => {
+    if (highlight !== "") {
+      setCurrentProject(() => ({
+        ...currentProject,
+        highlights: [...currentProject.highlights, highlight],
+      }));
+
+      setHighlight("");
+    } else {
+      //Toast message
+      notify("NOHIGHLIGHT");
+    }
+  };
+
+  const handleDeleteHighlight = (clickedHighlight) => {
+    setCurrentProject({
+      ...currentProject,
+      highlights: [
+        ...currentProject.highlights.filter((h) => h !== clickedHighlight),
+      ],
+    });
+  };
+
   return (
     <StyledStep>
+      <ToastContainer
+        closeButton={false}
+        transition={Zoom}
+        position="bottom-center"
+        draggable={false}
+        autoClose={2000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+      />
+
       <h3>Project information</h3>
       <div className="form-information">
         <div className="details">
@@ -159,7 +243,7 @@ const Step1 = function ({
               id="shortDescription"
               autoComplete="off"
               cols="50"
-              rows="4"
+              rows="3"
               onChange={(e) =>
                 setCurrentProject({
                   ...currentProject,
@@ -177,7 +261,7 @@ const Step1 = function ({
               id="projectDescription"
               autoComplete="off"
               cols="50"
-              rows="4"
+              rows="3"
               onChange={(e) =>
                 setCurrentProject({
                   ...currentProject,
@@ -185,6 +269,67 @@ const Step1 = function ({
                 })
               }
             />
+          </div>
+        </div>
+        <div className="features">
+          <div className="input-item">
+            <div className="label-icons">
+              <label htmlFor="features">Features:</label>
+              <RiAddCircleLine
+                className="header-icon"
+                onClick={handleAddFeature}
+              />
+            </div>
+            <input
+              type="text"
+              name="features"
+              id="features"
+              autoComplete="off"
+              size="60"
+              value={feature}
+              onChange={(e) => setFeature(e.target.value)}
+            />
+            <div className="features-container">
+              {currentProject?.features.map((f) => (
+                <span key={uuidv4()}>
+                  {f}
+                  <BiMinusCircle
+                    className="minus-icon"
+                    onClick={() => handleDeleteFeature(f)}
+                  />
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="input-item">
+            <div className="label-icons">
+              <label htmlFor="highlights">Highlights:</label>
+              <RiAddCircleLine
+                className="header-icon"
+                onClick={handleAddHighlight}
+              />
+            </div>
+            <input
+              type="text"
+              name="highlights"
+              id="highlights"
+              autoComplete="off"
+              size="60"
+              value={highlight}
+              onChange={(e) => setHighlight(e.target.value)}
+            />
+
+            <div className="highlights-container">
+              {currentProject?.highlights.map((h) => (
+                <span key={uuidv4()}>
+                  {h}
+                  <BiMinusCircle
+                    className="minus-icon"
+                    onClick={() => handleDeleteHighlight(h)}
+                  />
+                </span>
+              ))}
+            </div>
           </div>
         </div>
         <div className="dates">
@@ -288,16 +433,35 @@ const StyledStep = styled.div`
     flex-direction: column;
     height: auto;
     width: 100%;
-    row-gap: 2rem;
+    row-gap: 1rem;
 
     .details,
     .dates,
+    .features,
     .descriptions,
     .addresses {
       width: 100%;
       display: flex;
       justify-content: space-around;
     }
+
+    //feature and highlight section
+    .label-icons {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      .header-icon {
+        cursor: pointer;
+        width: 1.4rem;
+        height: 1.4rem;
+        &:hover {
+          transition: 0.3s ease;
+          transform: scale(1.1);
+        }
+      }
+    }
+
     .address-item {
       display: flex;
       gap: 0.5rem;
@@ -317,6 +481,33 @@ const StyledStep = styled.div`
       font-variant-caps: all-small-caps;
       margin-bottom: 0.5rem;
     }
+    .highlights-container,
+    .features-container {
+      margin-top: 0.5rem;
+      width: 100%;
+      height: 66px;
+      color: #0c395e;
+      border-radius: 4px;
+      border: 1px solid #313131;
+      padding: 0.25rem;
+      font-family: "Poppins", sans-serif;
+      font-weight: 300;
+      font-size: 10pt;
+      overflow-y: scroll;
+      span {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .minus-icon {
+          cursor: pointer;
+          width: 1.4rem;
+          height: 1.4rem;
+          color: #313131;
+        }
+      }
+    }
+
     input,
     textarea {
       width: 100%;
@@ -330,6 +521,7 @@ const StyledStep = styled.div`
       font-weight: 300;
       font-size: 10pt;
     }
+
     input:focus,
     textarea:focus {
       outline: solid 3px #688297;

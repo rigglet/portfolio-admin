@@ -27,9 +27,18 @@ const ImageAddViewEdit = function ({
   const [selectedFile, setSelectedFile] = useState(null);
 
   //view or edit
-  const imageURL = `${SERVER_BASE_URL()}/public/uploads/${
-    currentImage?.fileName
-  }`;
+  // const imageURL = `${SERVER_BASE_URL()}/public/uploads/${
+  //   currentImage?.fileName
+  // }`;
+
+  //TODO: Better way of handling this maybe?
+  //render after edit throws error as currentImage is reset and becomes undefined
+  let imageURL = "";
+  currentImage?.fileName !== undefined
+    ? (imageURL = `${SERVER_BASE_URL()}/public/uploads/${
+        currentImage?.fileName
+      }`)
+    : (imageURL = placeholderImage);
 
   //trigger open file input
   const fileClickHandler = () => {

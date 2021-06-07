@@ -20,6 +20,8 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
     npmaddress: "",
     githubrepo: "",
     homepage: "",
+    documentation: "",
+    icon: "",
   });
 
   const [viewViewPackage, setViewViewPackage] = useState(false);
@@ -65,6 +67,8 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
           npmaddress: "",
           githubrepo: "",
           homepage: "",
+          documentation: "",
+          icon: "",
         });
         setViewAddPackage(false);
       });
@@ -113,7 +117,8 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
           npmaddress: "",
           githubrepo: "",
           homepage: "",
-          //TODO: documentation: ""
+          documentation: "",
+          icon: "",
         });
         setViewEditPackage(false);
       });
@@ -147,7 +152,7 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
 
   //HANDLE VIEW / EDIT RECORD
   const handleViewEditRecord = (pack) => {
-    setCurrentPackage(pack);
+    setCurrentPackage({ ...currentPackage, ...pack });
   };
 
   return (

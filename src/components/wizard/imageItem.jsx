@@ -1,14 +1,33 @@
 import styled from "styled-components";
 import SERVER_BASE_URL from "../../config/config";
+import { FaRegCheckCircle } from "react-icons/fa";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 const ImageItem = (props) => {
-  const { children, handleItemClick } = props;
+  const {
+    children,
+    handleItemClick,
+    selectable,
+    handleMainImageSelect,
+    mainImage,
+  } = props;
+
   return (
-    <StyledImageItem onClick={() => handleItemClick(children)}>
+    <StyledImageItem>
       <img
+        onClick={() => handleItemClick(children)}
         src={`${SERVER_BASE_URL()}/public/uploads/${children.fileName}`}
         alt={children.description}
       />
+      {selectable &&
+        (mainImage?._id === children._id ? (
+          <FaRegCheckCircle className="mainImage-icon selected" />
+        ) : (
+          <AiOutlineCloseCircle
+            className="mainImage-icon unselected"
+            onClick={() => handleMainImageSelect(children)}
+          />
+        ))}
     </StyledImageItem>
   );
 };
@@ -16,11 +35,28 @@ const ImageItem = (props) => {
 export default ImageItem;
 
 const StyledImageItem = styled.div`
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 1rem;
+
   img {
+    cursor: pointer;
     height: auto;
-    width: 425px;
-    object-fit: contain;
+    max-width: 425px;
+    object-fit: scale-down;
     object-position: center center;
+  }
+
+  .mainImage-icon {
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    &.selected {
+      color: green;
+    }
+    &.unselected {
+      color: grey;
+    }
   }
 `;

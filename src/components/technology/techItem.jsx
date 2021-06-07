@@ -35,22 +35,25 @@ function TechItem({
       <div className="data-item long-cell">{tech.address}</div>
 
       <div className="data-item actions-cell">
-        <div className="toolbar">
+        <div className="action-bar">
           <FaRegFolderOpen
-            className="icon"
+            className="action-icon"
             onClick={() => {
               handleViewEditRecord(tech);
               setViewViewTech(true);
             }}
           />
           <FaEdit
-            className="icon"
+            className="action-icon"
             onClick={() => {
               handleViewEditRecord(tech);
               setViewEditTech(true);
             }}
           />
-          <FaTrash className="icon" onClick={() => setViewDelete(true)} />
+          <FaTrash
+            className="action-icon"
+            onClick={() => setViewDelete(true)}
+          />
         </div>
       </div>
     </StyledTechItem>
