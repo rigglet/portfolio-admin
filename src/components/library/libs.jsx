@@ -153,7 +153,7 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
 
   //HANDLE VIEW / EDIT RECORD
   const handleViewEditRecord = (lib) => {
-    setCurrentLib(lib);
+    setCurrentLib({ ...currentLib, ...lib });
   };
 
   return (

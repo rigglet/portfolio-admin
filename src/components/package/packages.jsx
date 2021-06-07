@@ -152,7 +152,7 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
 
   //HANDLE VIEW / EDIT RECORD
   const handleViewEditRecord = (pack) => {
-    setCurrentPackage(pack);
+    setCurrentPackage({ ...currentPackage, ...pack });
   };
 
   return (

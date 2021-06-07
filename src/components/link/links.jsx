@@ -112,7 +112,7 @@ function Links({ auth, links, setLinks }) {
 
   //HANDLE VIEW / EDIT RECORD
   const handleViewEditRecord = (link) => {
-    setCurrentLink(link);
+    setCurrentLink({ ...currentLink, ...link });
   };
 
   return (

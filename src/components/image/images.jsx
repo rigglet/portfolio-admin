@@ -97,8 +97,6 @@ function Images({ auth, images, setImages, projects, setProjects }) {
       return await updateData(auth, "images", currentImage);
     };
 
-    console.log(currentImage);
-
     editImage()
       .then(
         (result) => {
@@ -170,7 +168,7 @@ function Images({ auth, images, setImages, projects, setProjects }) {
 
   //HANDLE VIEW / EDIT RECORD
   const handleViewEditRecord = (image) => {
-    setCurrentImage(image);
+    setCurrentImage({ ...currentImage, ...image });
   };
 
   return (

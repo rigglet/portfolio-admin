@@ -191,7 +191,7 @@ function Projects({
 
   //HANDLE VIEW / EDIT RECORD
   const handleViewEditRecord = (project) => {
-    setCurrentProject(project);
+    setCurrentProject({ ...currentProject, ...project });
   };
 
   return (

@@ -97,7 +97,7 @@ function Texts({ auth, texts, setTexts }) {
 
   //HANDLE VIEW / EDIT RECORD
   const handleViewEditRecord = (text) => {
-    setCurrentText(text);
+    setCurrentText({ ...currentText, ...text });
   };
 
   return (

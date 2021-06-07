@@ -118,7 +118,7 @@ function Tools({ auth, tools, setTools }) {
 
   //HANDLE VIEW / EDIT RECORD
   const handleViewEditRecord = (tool) => {
-    setCurrentTool(tool);
+    setCurrentTool({ ...currentTool, ...tool });
   };
 
   return (

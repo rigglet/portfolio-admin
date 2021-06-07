@@ -147,7 +147,7 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
 
   //HANDLE VIEW / EDIT RECORD
   const handleViewEditRecord = (tech) => {
-    setCurrentTech(tech);
+    setCurrentTech({ ...currentTech, ...tech });
   };
 
   return (
@@ -202,9 +202,9 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
           <TechAdd
             openingHookSetter={setViewViewTech}
             setViewViewTech={setViewViewTech}
-            title="View technology"
             currentTech={currentTech}
             setCurrentTech={setCurrentTech}
+            title="View technology"
             formType={"VIEW"}
           />
         )
