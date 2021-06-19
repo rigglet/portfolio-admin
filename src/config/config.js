@@ -8,7 +8,11 @@ export function baseURL() {
   //production
   const protocol = "https";
   const host = "portfolio-server26052021.herokuapp.com";
+<<<<<<< HEAD
   //const port = "80";
+=======
+  const port = "80";
+>>>>>>> main
   return `${protocol}://${host}`;
 }
 
