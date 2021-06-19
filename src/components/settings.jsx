@@ -1,137 +1,90 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
-import { CgWebsite } from "react-icons/cg";
-import { FaBook } from "react-icons/fa";
-import { FaTools } from "react-icons/fa";
+import { FiSettings, FiDatabase } from "react-icons/fi";
+import { FaMapPin } from "react-icons/fa";
+import { BsBucket } from "react-icons/bs";
+import { AiOutlineNumber } from "react-icons/ai";
+import { CgProfile } from "react-icons/cg";
 //components
-import SubmitButton from "../submitButton";
-import CloseButton from "../closeButton";
-import Spinner from "../spinner";
+import CloseButton from "./closeButton";
 
-const ToolAddViewEdit = function ({
+function Settings({
+  auth,
+  setAuth,
   openingHookSetter,
-  handleSaveTool,
-  handleEditTool,
   title,
-  currentTool,
-  setCurrentTool,
   formType,
-  fetchingData,
+  settings,
+  setSettings,
 }) {
   return (
-    <StyledToolAddViewEdit>
+    <StyledSettings>
       <div className="container">
         <CloseButton
           closeFunction={openingHookSetter}
-          resetFunction={setCurrentTool}
-          resetObject={{
-            name: "",
-            type: "",
-            category: "",
-            address: "",
-            icon: "",
-            documentation: "",
-          }}
+          resetFunction={setSettings}
+          resetObject={settings}
         />
 
         <div className="titleHeader">
-          <FaTools className="titleIcon" />
+          <FiSettings className="titleIcon" />
           <h1>{title} </h1>
-          {formType !== "ADD" && <h5>{currentTool?._id}</h5>}
         </div>
 
         <div className="form-information">
-          <div className="name-v">
-            <div className="input-item">
-              <label htmlFor="name">Tool name:</label>
+          <div className="input-item">
+            <label htmlFor="username">Username:</label>
+            <div className="address-item">
+              <CgProfile className="address-icon" />
               <input
                 disabled={formType === "VIEW" ? true : false}
                 type="text"
-                name="name"
+                name="username"
                 autoComplete="off"
-                size="40"
-                value={currentTool?.name}
+                value={auth?.username}
                 onChange={(e) =>
-                  setCurrentTool({
-                    ...currentTool,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-            </div>
-
-            <div className="input-item">
-              <label htmlFor="category">Category:</label>
-              <input
-                disabled={formType === "VIEW" ? true : false}
-                type="text"
-                name="category"
-                autoComplete="off"
-                size="40"
-                value={currentTool?.category}
-                onChange={(e) =>
-                  setCurrentTool({
-                    ...currentTool,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-            </div>
-
-            <div className="input-item">
-              <label htmlFor="type">Type:</label>
-              <input
-                disabled={formType === "VIEW" ? true : false}
-                type="text"
-                name="type"
-                autoComplete="off"
-                size="40"
-                value={currentTool?.type}
-                onChange={(e) =>
-                  setCurrentTool({
-                    ...currentTool,
+                  setSettings({
+                    ...auth,
                     [e.target.name]: e.target.value,
                   })
                 }
               />
             </div>
           </div>
-
           <div className="input-item">
-            <label htmlFor="address">Address:</label>
+            <label htmlFor="port">Port:</label>
             <div className="address-item">
-              <CgWebsite className="address-icon" />
+              <AiOutlineNumber className="address-icon" />
               <input
                 disabled={formType === "VIEW" ? true : false}
                 type="text"
                 name="address"
                 autoComplete="off"
-                size="50"
-                value={currentTool?.address}
+                value={settings?.port}
                 onChange={(e) =>
-                  setCurrentTool({
-                    ...currentTool,
+                  setSettings({
+                    ...settings,
                     [e.target.name]: e.target.value,
                   })
                 }
               />
             </div>
           </div>
-
           <div className="input-item">
-            <label htmlFor="documentation">Documentation:</label>
+            <label htmlFor="address">Database:</label>
             <div className="address-item">
-              <FaBook className="address-icon" />
+              <FiDatabase className="address-icon" />
               <input
                 disabled={formType === "VIEW" ? true : false}
                 type="text"
-                name="documentation"
+                name="address"
                 autoComplete="off"
-                value={currentTool?.documentation}
+                //size="50"
+                value={settings?.database}
                 onChange={(e) =>
-                  setCurrentTool({
-                    ...currentTool,
+                  setSettings({
+                    ...settings,
                     [e.target.name]: e.target.value,
                   })
                 }
@@ -140,46 +93,65 @@ const ToolAddViewEdit = function ({
           </div>
 
           <div className="input-item">
-            <label htmlFor="icon">Icon:</label>
-            <input
-              disabled={formType === "VIEW" ? true : false}
-              type="text"
-              name="icon"
-              autoComplete="off"
-              size="50"
-              value={currentTool?.icon}
-              onChange={(e) =>
-                setCurrentTool({
-                  ...currentTool,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
+            <label htmlFor="bucketName">Bucket Name:</label>
+            <div className="address-item">
+              <BsBucket className="address-icon" />
+              <input
+                disabled={formType === "VIEW" ? true : false}
+                type="text"
+                name="bucketName"
+                autoComplete="off"
+                value={settings?.bucketName}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </div>
           </div>
 
-          {formType !== "VIEW" &&
-            (fetchingData ? (
-              <Spinner size="25px" alignment="flex-end" />
-            ) : (
-              <SubmitButton
-                type={formType}
-                editFunction={handleEditTool}
-                saveFunction={handleSaveTool}
+          <div className="input-item">
+            <label htmlFor="bucketRegion">Bucket Region:</label>
+            <div className="address-item">
+              <FaMapPin className="address-icon" />
+              <input
+                disabled={formType === "VIEW" ? true : false}
+                type="text"
+                name="bucketRegion"
+                autoComplete="off"
+                value={settings?.bucketRegion}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    [e.target.name]: e.target.value,
+                  })
+                }
               />
-            ))}
+            </div>
+          </div>
+
+          {/* {formType !== "VIEW" && (
+            <SubmitButton
+              type={formType}
+              editFunction={handleEditSettings}
+              saveFunction={handleSaveSettings}
+            />
+          )} */}
         </div>
       </div>
-    </StyledToolAddViewEdit>
+    </StyledSettings>
   );
-};
+}
 
-const StyledToolAddViewEdit = styled(motion.div)`
+const StyledSettings = styled(motion.div)`
   width: 100vw;
   height: 100vh;
   z-index: 10;
   position: absolute;
-  top: -9vh;
-  left: -15.5vw;
+  top: 0vh;
+  left: 0vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -187,8 +159,8 @@ const StyledToolAddViewEdit = styled(motion.div)`
   background-color: rgba(256, 256, 256, 0.5);
 
   .container {
-    width: 60vw;
-    height: 80vh;
+    width: 40vw;
+    height: 65vh;
     background-color: #ebebeb;
     border: 0.05rem #689ed0 solid;
     position: relative;
@@ -243,4 +215,4 @@ const StyledToolAddViewEdit = styled(motion.div)`
   }
 `;
 
-export default ToolAddViewEdit;
+export default Settings;

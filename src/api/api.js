@@ -1,5 +1,5 @@
 import axios from "axios";
-import serverBaseURL from "../config/config";
+import { baseURL as serverBaseURL } from "../config/config";
 
 //AUTH - signin
 export const signin = async (data) => {
@@ -27,6 +27,7 @@ export const getUserData = async (auth) => {
   const tools = `${serverBaseURL()}/api/users/${id}/tools`;
   const links = `${serverBaseURL()}/api/users/${id}/links`;
   const texts = `${serverBaseURL()}/api/users/${id}/texts`;
+  const settings = `${serverBaseURL()}/api/users/${id}/settings`;
   //const roadmaps = `${serverBaseURL()}/api/users/${id}/roadmaps`;
 
   const headers = {
@@ -43,6 +44,7 @@ export const getUserData = async (auth) => {
   const requestTools = await axios.get(tools, headers);
   const requestLinks = await axios.get(links, headers);
   const requestTexts = await axios.get(texts, headers);
+  const requestSettings = await axios.get(settings, headers);
   //const requestRoadmaps = await axios.get(roadmaps, headers);
 
   try {
@@ -56,6 +58,7 @@ export const getUserData = async (auth) => {
         requestTools,
         requestLinks,
         requestTexts,
+        requestSettings,
       ])
       .then(
         axios.spread((...responses) => {

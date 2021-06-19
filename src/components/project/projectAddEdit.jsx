@@ -24,6 +24,7 @@ const ProjectAddEdit = function ({
   techs,
   packages,
   libraries,
+  fetchingData,
 }) {
   return (
     <StyledProjectAddEdit>
@@ -54,7 +55,7 @@ const ProjectAddEdit = function ({
         <div className="titleHeader">
           <MdWeb className="titleIcon" />
           <h1>{title} </h1>
-          {formType !== "NEW" && <h5>{currentProject?._id}</h5>}
+          {formType !== "ADD" && <h5>{currentProject?._id}</h5>}
         </div>
 
         <StepWizard>
@@ -84,6 +85,7 @@ const ProjectAddEdit = function ({
             handleSaveProject={handleSaveProject}
             handleEditProject={handleEditProject}
             images={images}
+            fetchingData={fetchingData}
           />
         </StepWizard>
       </div>
@@ -111,6 +113,8 @@ const StyledProjectAddEdit = styled(motion.div)`
     border: 0.05rem #689ed0 solid;
     position: relative;
     padding: 2rem;
+    overflow-x: hidden;
+    overflow-y: hidden;
   }
 `;
 

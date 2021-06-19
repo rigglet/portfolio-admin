@@ -27,8 +27,12 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
   const [viewViewPackage, setViewViewPackage] = useState(false);
   const [viewAddPackage, setViewAddPackage] = useState(false);
   const [viewEditPackage, setViewEditPackage] = useState(false);
+  //hooks to manage state for showing hiding spinner when fetching / deleting data
+  const [deletingData, setDeletingData] = useState(false);
+  const [fetchingData, setFetchingData] = useState(false);
+  const [clickedItem, setClickedItem] = useState(null);
 
-  const notify = (type) => {
+  const notify = (type, err) => {
     switch (type) {
       case "EDITED":
         toast.dark(`Package EDITED successfully`);
@@ -39,6 +43,15 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
       case "DELETED":
         toast.dark(`Package DELETED successfully`);
         break;
+      case "EDIT_ERROR":
+        toast.dark(`Error EDITING package: ${err.message}`);
+        break;
+      case "ADD_ERROR":
+        toast.dark(`Error ADDING package: ${err.message}`);
+        break;
+      case "DELETE_ERROR":
+        toast.dark(`Error DELETING package: ${err.message}`);
+        break;
       default:
         toast.dark("Nothing to report");
     }
@@ -46,20 +59,22 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
 
   //HANDLE ADD PACKAGE
   const handleSavePackage = async () => {
+    setFetchingData(true);
+
     const addPackage = async () => {
       return await postData(auth, "packages", currentPackage);
     };
 
     addPackage()
       .then((result) => {
-        //Toast message
-        notify("ADDED", result.status, result.data._id);
-        return result;
-      })
-      .then((result) => {
-        setPackages([...packages, result.data]);
+        if (result.status === 200) {
+          setPackages([...packages, result.data]);
+          //Toast message
+          notify("ADDED");
+        }
       })
       .then(() => {
+        setFetchingData(false);
         setCurrentPackage({
           name: "",
           version: "",
@@ -71,45 +86,47 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
           icon: "",
         });
         setViewAddPackage(false);
+      })
+      .catch((err) => {
+        notify("ADD_ERROR", err);
+        setFetchingData(false);
       });
   };
 
   //HANDLE EDIT PACKAGE
   const handleEditPackage = async () => {
+    setFetchingData(true);
+
     const editPackage = async () => {
       return await updateData(auth, "packages", currentPackage);
     };
 
     editPackage()
-      .then(
-        (result) => {
-          if (result.status === 200) {
-            //update package state
-            setPackages([
-              ...packages.filter((p) => p._id !== currentPackage._id),
-              currentPackage,
-            ]);
-            //update project state
-            setProjects(
-              projects.map((project) => ({
-                ...project,
-                packages: [
-                  ...project.packages.filter(
-                    (pack) => pack._id !== currentPackage._id
-                  ),
-                  currentPackage,
-                ],
-              }))
-            );
-            //Toast message
-            notify("EDITED");
-          }
-        },
-        (error) => {
-          console.log(error);
+      .then((result) => {
+        if (result.status === 200) {
+          //update package state
+          setPackages([
+            ...packages.filter((p) => p._id !== currentPackage._id),
+            currentPackage,
+          ]);
+          //update project state
+          setProjects(
+            projects.map((project) => ({
+              ...project,
+              packages: [
+                ...project.packages.filter(
+                  (pack) => pack._id !== currentPackage._id
+                ),
+                currentPackage,
+              ],
+            }))
+          );
+          //Toast message
+          notify("EDITED");
         }
-      )
+      })
       .then(() => {
+        setFetchingData(false);
         setCurrentPackage({
           name: "",
           version: "",
@@ -121,11 +138,18 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
           icon: "",
         });
         setViewEditPackage(false);
+      })
+      .catch((err) => {
+        notify("EDIT_ERROR", err);
+        setFetchingData(false);
       });
   };
 
   //HANDLE DELETE RECORD
   const handleDeleteRecord = (id) => {
+    setDeletingData(true);
+    setClickedItem(id);
+
     const deletePackage = async () => {
       return await deleteData(auth, "packages", id);
     };
@@ -145,8 +169,13 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
         }
       })
       .then(() => {
+        setDeletingData(false);
         //Toast message
         notify("DELETED");
+      })
+      .catch((err) => {
+        notify("DELETE_ERROR", err);
+        setDeletingData(false);
       });
   };
 
@@ -180,8 +209,9 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
             setCurrentPackage={setCurrentPackage}
             handleEditPackage={handleEditPackage}
             handleSavePackage={handleSavePackage}
+            fetchingData={fetchingData}
             title="Add new package"
-            formType={"NEW"}
+            formType={"ADD"}
           />
         )
       }
@@ -195,6 +225,7 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
             setCurrentPackage={setCurrentPackage}
             handleEditPackage={handleEditPackage}
             handleSavePackage={handleSavePackage}
+            fetchingData={fetchingData}
             title="Edit package"
             formType={"EDIT"}
           />
@@ -205,10 +236,9 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
         viewViewPackage && (
           <PackageAdd
             openingHookSetter={setViewViewPackage}
-            setViewViewPackage={setViewViewPackage}
-            title="View package"
             currentPackage={currentPackage}
             setCurrentPackage={setCurrentPackage}
+            title="View package"
             formType={"VIEW"}
           />
         )
@@ -229,6 +259,8 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
           handleViewEditRecord={handleViewEditRecord}
           setViewEditPackage={setViewEditPackage}
           setViewViewPackage={setViewViewPackage}
+          deletingData={deletingData}
+          clickedItem={clickedItem}
         />
       ) : (
         <h4 className="empty">No packages to display</h4>

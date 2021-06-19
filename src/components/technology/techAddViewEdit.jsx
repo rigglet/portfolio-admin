@@ -8,6 +8,7 @@ import { HiCode } from "react-icons/hi";
 //components
 import SubmitButton from "../submitButton";
 import CloseButton from "../closeButton";
+import Spinner from "../spinner";
 
 const TechAddViewEdit = function ({
   openingHookSetter,
@@ -17,8 +18,8 @@ const TechAddViewEdit = function ({
   currentTech,
   setCurrentTech,
   formType,
+  fetchingData,
 }) {
-  console.log(currentTech);
   return (
     <StyledTechAddViewEdit>
       <div className="container">
@@ -37,7 +38,7 @@ const TechAddViewEdit = function ({
         <div className="titleHeader">
           <HiCode className="titleIcon" />
           <h1>{title} </h1>
-          {formType !== "NEW" && <h5>{currentTech?._id}</h5>}
+          {formType !== "ADD" && <h5>{currentTech?._id}</h5>}
         </div>
 
         <div className="form-information">
@@ -136,13 +137,16 @@ const TechAddViewEdit = function ({
             />
           </div>
 
-          {formType !== "VIEW" && (
-            <SubmitButton
-              type={formType}
-              editFunction={handleEditTech}
-              saveFunction={handleSaveTech}
-            />
-          )}
+          {formType !== "VIEW" &&
+            (fetchingData ? (
+              <Spinner size="25px" alignment="flex-end" />
+            ) : (
+              <SubmitButton
+                type={formType}
+                editFunction={handleEditTech}
+                saveFunction={handleSaveTech}
+              />
+            ))}
         </div>
       </div>
     </StyledTechAddViewEdit>
@@ -183,8 +187,8 @@ const StyledTechAddViewEdit = styled(motion.div)`
         column-gap: 0.25rem;
         align-items: center;
         .address-icon {
-          width: 2rem;
-          height: 2rem;
+          width: 1.5rem;
+          height: 1.5rem;
         }
       }
       .input-item {

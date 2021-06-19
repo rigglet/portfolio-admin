@@ -13,6 +13,7 @@ import { HiChevronRight, HiChevronDown, HiCode, HiLink } from "react-icons/hi";
 import { MdWeb } from "react-icons/md";
 import { IoLibraryOutline, IoText } from "react-icons/io5";
 import { GoPackage } from "react-icons/go";
+//import { FiVideo } from "react-icons/fi";
 
 function Nav({
   projectNo,
@@ -23,6 +24,7 @@ function Nav({
   imageNo,
   toolNo,
   roadmapNo,
+  videoNo,
   textNo,
 }) {
   const [projectChevron, setProjectChevron] = useState(true);
@@ -162,6 +164,23 @@ function Nav({
             <h4>{imageNo}</h4>
           </div>
         </motion.li>
+        {/* <motion.li
+          variants={item}
+          className={path === "video" ? "selected" : ""}
+        >
+          <div className="link-info">
+            <FiVideo className="nav-icon" />
+            <Link
+              className={path === "video" ? "selected" : ""}
+              to="/admin/video"
+            >
+              Videos
+            </Link>
+          </div>
+          <div className="link-amount">
+            <h4>{videoNo}</h4>
+          </div>
+        </motion.li> */}
       </motion.ul>
       <div className="nav-heading">
         <h3>Site</h3>
@@ -214,12 +233,12 @@ function Nav({
         </motion.li>
         <motion.li
           variants={item}
-          className={path === "text" ? "selected" : ""}
+          className={path === "texts" ? "selected" : ""}
         >
           <div className="link-info">
             <IoText className="nav-icon" />
             <Link
-              className={path === "text" ? "selected" : ""}
+              className={path === "texts" ? "selected" : ""}
               to="/admin/texts"
             >
               Text

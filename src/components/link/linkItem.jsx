@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 //icons
 import { FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
 import DeleteConfirmation from "../DeleteConfirmation";
+import Spinner from "../spinner";
 
 function LinkItem({
   link,
@@ -12,6 +13,8 @@ function LinkItem({
   handleViewEditRecord,
   declineFnc,
   acceptFnc,
+  deletingData,
+  clickedItem,
 }) {
   const [viewDelete, setViewDelete] = useState(false);
 
@@ -50,10 +53,14 @@ function LinkItem({
               setViewEditLink(true);
             }}
           />
-          <FaTrash
-            className="action-icon"
-            onClick={() => setViewDelete(true)}
-          />
+          {deletingData && link._id === clickedItem ? (
+            <Spinner size="20px" />
+          ) : (
+            <FaTrash
+              className="action-icon"
+              onClick={() => setViewDelete(true)}
+            />
+          )}
         </div>
       </div>
     </StyledLinkItem>

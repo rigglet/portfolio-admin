@@ -12,6 +12,8 @@ function PackageList({
   declineFnc,
   acceptFnc,
   handleViewEditRecord,
+  deletingData,
+  clickedItem,
 }) {
   return (
     <StyledPackageList>
@@ -35,6 +37,8 @@ function PackageList({
                   setViewEditPackage={setViewEditPackage}
                   setViewViewPackage={setViewViewPackage}
                   handleViewEditRecord={handleViewEditRecord}
+                  deletingData={deletingData}
+                  clickedItem={clickedItem}
                 />
               );
             })}

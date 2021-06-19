@@ -31,15 +31,15 @@ function Admin({ auth, setAuth }) {
   const [packages, setPackages] = useState({});
   const [tools, setTools] = useState({});
   const [images, setImages] = useState({});
-  const [allData, setAllData] = useState({});
+  const [settings, setSettings] = useState({});
   //const [maps, setMaps] = useState({});
 
   useEffect(() => {
     async function getApplicationData() {
       return await getUserData(auth);
     }
+
     getApplicationData().then((result) => {
-      setAllData(result);
       setProjects(result[0].data);
       setTechs(result[1].data);
       setLibraries(result[2].data);
@@ -48,6 +48,7 @@ function Admin({ auth, setAuth }) {
       setTools(result[5].data);
       setLinks(result[6].data);
       setTexts(result[7].data);
+      setSettings(result[8].data);
     });
   }, [auth]);
 
@@ -124,7 +125,12 @@ function Admin({ auth, setAuth }) {
 
   return (
     <StyledAdmin>
-      <Bar auth={auth} setAuth={setAuth} allData={allData} />
+      <Bar
+        auth={auth}
+        setAuth={setAuth}
+        settings={settings}
+        setSettings={setSettings}
+      />
       <Nav
         projectNo={projects?.length ? projects.length : 0}
         techNo={techs?.length ? techs.length : 0}

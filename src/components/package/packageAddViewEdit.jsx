@@ -3,11 +3,11 @@ import { motion } from "framer-motion";
 //icons
 import { FaGithub, FaBook } from "react-icons/fa";
 import { CgWebsite, CgNpm } from "react-icons/cg";
-
+import { GoPackage } from "react-icons/go";
 //components
 import SubmitButton from "../submitButton";
 import CloseButton from "../closeButton";
-import { GoPackage } from "react-icons/go";
+import Spinner from "../spinner";
 
 const PackageAddViewEdit = function ({
   openingHookSetter,
@@ -17,6 +17,7 @@ const PackageAddViewEdit = function ({
   currentPackage,
   setCurrentPackage,
   formType,
+  fetchingData,
 }) {
   return (
     <StyledPackageAddViewEdit>
@@ -39,7 +40,7 @@ const PackageAddViewEdit = function ({
         <div className="titleHeader">
           <GoPackage className="titleIcon" />
           <h1>{title} </h1>
-          {formType !== "NEW" && <h5>{currentPackage?._id}</h5>}
+          {formType !== "ADD" && <h5>{currentPackage?._id}</h5>}
         </div>
 
         <div className="form-information">
@@ -201,13 +202,16 @@ const PackageAddViewEdit = function ({
             </div>
           </div>
 
-          {formType !== "VIEW" && (
-            <SubmitButton
-              type={formType}
-              editFunction={handleEditPackage}
-              saveFunction={handleSavePackage}
-            />
-          )}
+          {formType !== "VIEW" &&
+            (fetchingData ? (
+              <Spinner size="25px" alignment="flex-end" />
+            ) : (
+              <SubmitButton
+                type={formType}
+                editFunction={handleEditPackage}
+                saveFunction={handleSavePackage}
+              />
+            ))}
         </div>
       </div>
     </StyledPackageAddViewEdit>
@@ -248,8 +252,8 @@ const StyledPackageAddViewEdit = styled(motion.div)`
         column-gap: 0.25rem;
         align-items: center;
         .address-icon {
-          width: 2rem;
-          height: 2rem;
+          width: 1.5rem;
+          height: 1.5rem;
         }
       }
       .input-item {

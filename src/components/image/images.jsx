@@ -24,23 +24,35 @@ function Images({ auth, images, setImages, projects, setProjects }) {
   const [viewAddImage, setViewAddImage] = useState(false);
   const [viewEditImage, setViewEditImage] = useState(false);
   const [viewAllImages, setViewAllImages] = useState(false);
+  const [deletingData, setDeletingData] = useState(false);
+  const [fetchingData, setFetchingData] = useState(false);
+  const [clickedItem, setClickedItem] = useState(null);
 
-  const notify = (type) => {
+  const notify = (type, err) => {
     switch (type) {
-      case "SERVER_ERR":
-        toast.warning(`Internal Server error: Project not saved.`);
-        break;
-      case "EDITED":
-        toast.dark(`Project SAVED`);
+      case "NOTADDED":
+        toast.dark(`ERROR: Image not added`);
         break;
       case "ADDED":
         toast.dark(`Project image ADDED successfully`);
+        break;
+      case "EDITED":
+        toast.dark(`Project image EDITED successfully`);
         break;
       case "NOIMAGE":
         toast.dark(`Please select a project image!`);
         break;
       case "DELETED":
         toast.dark(`Project image DELETED successfully`);
+        break;
+      case "EDIT_ERROR":
+        toast.dark(`Error EDITING image: ${err.message}`);
+        break;
+      case "ADD_ERROR":
+        toast.dark(`Error ADDING image: ${err.message}`);
+        break;
+      case "DELETE_ERROR":
+        toast.dark(`Error DELETING image: ${err.message}`);
         break;
       default:
         toast.dark("Nothing to report");
@@ -49,6 +61,8 @@ function Images({ auth, images, setImages, projects, setProjects }) {
 
   //HANDLE ADD IMAGE
   const handleSaveImage = async () => {
+    setFetchingData(true);
+
     const formData = new FormData();
 
     //TODO: check if file before save etc
@@ -71,75 +85,84 @@ function Images({ auth, images, setImages, projects, setProjects }) {
 
       addImage()
         .then((result) => {
-          //Toast message
-          notify("ADDED");
-          return result;
-        })
-        .then((result) => {
-          setImages([...images, result.data]);
+          if (result.status === 200) {
+            setImages([...images, result.data]);
+            //Toast message
+            notify("ADDED");
+          }
         })
         .then(() => {
+          setFetchingData(false);
           setCurrentImage({
             name: "",
             description: "",
             file: {},
           });
           setViewAddImage(false);
+        })
+        .catch((err) => {
+          notify("ADD_ERROR", err);
+          setFetchingData(false);
         });
     } else {
+      setFetchingData(false);
       notify("NOIMAGE");
     }
   };
 
   //HANDLE EDIT IMAGE
   const handleEditImage = async () => {
+    setFetchingData(true);
     const editImage = async () => {
       return await updateData(auth, "images", currentImage);
     };
 
     editImage()
-      .then(
-        (result) => {
-          if (result.status === 200) {
-            //update image state
-            setImages([
-              ...images.filter((t) => t._id !== currentImage._id),
-              currentImage,
-            ]);
+      .then((result) => {
+        if (result.status === 200) {
+          //update image state
+          setImages([
+            ...images.filter((t) => t._id !== currentImage._id),
+            currentImage,
+          ]);
 
-            //update project state
-            setProjects(
-              projects.map((project) => ({
-                ...project,
-                screenshots: [
-                  ...project.screenshots.filter(
-                    (image) => image._id !== currentImage._id
-                  ),
-                  currentImage,
-                ],
-              }))
-            );
+          //update project state
+          setProjects(
+            projects.map((project) => ({
+              ...project,
+              screenshots: [
+                ...project.screenshots.filter(
+                  (image) => image._id !== currentImage._id
+                ),
+                currentImage,
+              ],
+            }))
+          );
 
-            //Toast message
-            notify("EDITED");
-          }
-        },
-        (error) => {
-          console.log(error);
+          //Toast message
+          notify("EDITED");
         }
-      )
+      })
       .then(() => {
+        setFetchingData(false);
         setCurrentImage({
           name: "",
           description: "",
           file: {},
         });
         setViewEditImage(false);
+      })
+      .catch((err) => {
+        notify("EDIT_ERROR", err);
+        setFetchingData(false);
       });
   };
 
   //HANDLE DELETE RECORD
   const handleDeleteRecord = (id) => {
+    setDeletingData(true);
+    setClickedItem(id);
+
     const deleteImage = async () => {
       return await deleteData(auth, "images", id);
     };
@@ -161,8 +184,13 @@ function Images({ auth, images, setImages, projects, setProjects }) {
         }
       })
       .then(() => {
+        setDeletingData(false);
         //Toast message
         notify("DELETED");
+      })
+      .catch((err) => {
+        notify("DELETE_ERROR", err);
+        setDeletingData(false);
       });
   };
 
@@ -202,6 +230,7 @@ function Images({ auth, images, setImages, projects, setProjects }) {
             setCurrentImage={setCurrentImage}
             handleSaveImage={handleSaveImage}
             handleEditImage={handleEditImage}
+            fetchingData={fetchingData}
             title="Add new image"
             formType={"ADD"}
           />
@@ -217,6 +246,7 @@ function Images({ auth, images, setImages, projects, setProjects }) {
             setCurrentImage={setCurrentImage}
             handleSaveImage={handleSaveImage}
             handleEditImage={handleEditImage}
+            fetchingData={fetchingData}
             title="Edit image details"
             formType={"EDIT"}
           />
@@ -229,8 +259,6 @@ function Images({ auth, images, setImages, projects, setProjects }) {
             openingHookSetter={setViewViewImage}
             currentImage={currentImage}
             setCurrentImage={setCurrentImage}
-            handleSaveImage={handleSaveImage}
-            handleEditImage={handleEditImage}
             title="View image"
             formType={"VIEW"}
           />
@@ -257,6 +285,8 @@ function Images({ auth, images, setImages, projects, setProjects }) {
           handleViewEditRecord={handleViewEditRecord}
           setViewEditImage={setViewEditImage}
           setViewViewImage={setViewViewImage}
+          deletingData={deletingData}
+          clickedItem={clickedItem}
         />
       ) : (
         <h4 className="empty">No images to display</h4>

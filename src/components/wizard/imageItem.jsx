@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import SERVER_BASE_URL from "../../config/config";
+import { baseURL as SERVER_BASE_URL, imagePath } from "../../config/config";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
@@ -16,7 +16,7 @@ const ImageItem = (props) => {
     <StyledImageItem>
       <img
         onClick={() => handleItemClick(children)}
-        src={`${SERVER_BASE_URL()}/public/uploads/${children.fileName}`}
+        src={`${SERVER_BASE_URL()}/${imagePath()}/${children.fileName}`}
         alt={children.description}
       />
       {selectable &&

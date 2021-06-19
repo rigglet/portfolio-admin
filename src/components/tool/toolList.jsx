@@ -12,6 +12,8 @@ function ToolList({
   declineFnc,
   acceptFnc,
   handleViewEditRecord,
+  deletingData,
+  clickedItem,
 }) {
   return (
     <StyledToolList>
@@ -36,6 +38,8 @@ function ToolList({
                   setViewEditTool={setViewEditTool}
                   setViewViewTool={setViewViewTool}
                   handleViewEditRecord={handleViewEditRecord}
+                  deletingData={deletingData}
+                  clickedItem={clickedItem}
                 />
               );
             })}

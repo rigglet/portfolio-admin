@@ -21,13 +21,9 @@ function Projects({
   projects,
   setProjects,
   images,
-  //setImages,
   techs,
-  //setTechs,
   packages,
-  //setPackages,
   libraries,
-  //setLibraries,
 }) {
   const [currentProject, setCurrentProject] = useState({
     projectName: "",
@@ -54,8 +50,12 @@ function Projects({
   const [viewViewProject, setViewViewProject] = useState(false);
   const [viewAddProject, setViewAddProject] = useState(false);
   const [viewEditProject, setViewEditProject] = useState(false);
+  //hooks to manage state for showing hiding spinner when fetching / deleting data
+  const [deletingData, setDeletingData] = useState(false);
+  const [fetchingData, setFetchingData] = useState(false);
+  const [clickedItem, setClickedItem] = useState(null);
 
-  const notify = (type) => {
+  const notify = (type, err) => {
     switch (type) {
       case "EDITED":
         toast.dark(`Project EDITED successfully`);
@@ -66,6 +66,15 @@ function Projects({
       case "DELETED":
         toast.dark(`Project DELETED successfully`);
         break;
+      case "EDIT_ERROR":
+        toast.dark(`Error EDITING project: ${err.message}`);
+        break;
+      case "ADD_ERROR":
+        toast.dark(`Error ADDING project: ${err.message}`);
+        break;
+      case "DELETE_ERROR":
+        toast.dark(`Error DELETING project: ${err.message}`);
+        break;
       default:
         toast.dark("Nothing to report");
     }
@@ -73,41 +82,47 @@ function Projects({
 
   //HANDLE LIST EDIT
   const handleSaveList = async (project) => {
+    setFetchingData(true);
+
     const updateProject = async () => {
       return await updateData(auth, "projects", project);
     };
 
     updateProject()
       .then((result) => {
-        //Toast message
-        notify("EDITED", result.status, result._id);
-        return result;
+        if (result.status === 200) {
+          setProjects([
+            ...projects.filter((p) => p._id !== project._id),
+            project,
+          ]);
+          //Toast message
+          notify("EDITED");
+        }
       })
-      .then(() => {
-        setProjects([
-          ...projects.filter((p) => p._id !== project._id),
-          project,
-        ]);
+      .catch((err) => {
+        notify("EDIT_ERROR", err);
+        setFetchingData(false);
       });
   };
 
   //HANDLE ADD PROJECT
   const handleSaveProject = async () => {
+    setFetchingData(true);
+
     const addProject = async () => {
       return await postData(auth, "projects", currentProject);
     };
 
     addProject()
       .then((result) => {
-        //Toast message
-        notify("ADDED");
-        return result;
-      })
-      .then((result) => {
-        setProjects([...projects, result.data]);
+        if (result.status === 200) {
+          setProjects([...projects, result.data]);
+          //Toast message
+          notify("ADDED");
+        }
       })
       .then(() => {
-        setViewAddProject(false);
+        setFetchingData(false);
         setCurrentProject({
           projectName: "",
           version: "",
@@ -129,29 +144,35 @@ function Projects({
           features: [],
           highlights: [],
         });
+        setViewAddProject(false);
+      })
+      .catch((err) => {
+        notify("ADD_ERROR", err);
+        setFetchingData(false);
       });
   };
 
   //HANDLE EDIT PROJECT
   const handleEditProject = async () => {
+    setFetchingData(true);
+
     const editProject = async () => {
       return await updateData(auth, "projects", currentProject);
     };
 
     editProject()
       .then((result) => {
-        //Toast message
-        notify("EDITED", result.status, result._id);
-        return result;
+        if (result.status === 200) {
+          setProjects([
+            ...projects.filter((p) => p._id !== currentProject._id),
+            currentProject,
+          ]);
+          //Toast message
+          notify("EDITED");
+        }
       })
       .then(() => {
-        setProjects([
-          ...projects.filter((p) => p._id !== currentProject._id),
-          currentProject,
-        ]);
-      })
-      .then(() => {
-        setViewEditProject(false);
+        setFetchingData(false);
         setCurrentProject({
           projectName: "",
           version: "",
@@ -170,22 +191,37 @@ function Projects({
           technologies: [],
           screenshots: [],
         });
+        setViewEditProject(false);
+      })
+      .catch((err) => {
+        notify("EDIT_ERROR", err);
+        setFetchingData(false);
       });
   };
 
   //HANDLE DELETE RECORD
   const handleDeleteRecord = (id) => {
+    setDeletingData(true);
+    setClickedItem(id);
+
     const deleteProject = async () => {
       return await deleteData(auth, "projects", id);
     };
 
     deleteProject()
+      .then((result) => {
+        if (result.status === 200) {
+          setProjects([...projects.filter((p) => p._id !== id)]);
+        }
+      })
       .then(() => {
+        setDeletingData(false);
         //Toast message
         notify("DELETED");
       })
-      .then(() => {
-        setProjects([...projects.filter((p) => p._id !== id)]);
+      .catch((err) => {
+        notify("DELETE_ERROR", err);
+        setDeletingData(false);
       });
   };
 
@@ -217,8 +253,9 @@ function Projects({
             currentProject={currentProject}
             setCurrentProject={setCurrentProject}
             handleSaveProject={handleSaveProject}
+            fetchingData={fetchingData}
             title="Add new project"
-            formType="NEW"
+            formType="ADD"
             images={images}
             techs={techs}
             packages={packages}
@@ -235,6 +272,7 @@ function Projects({
             currentProject={currentProject}
             setCurrentProject={setCurrentProject}
             handleEditProject={handleEditProject}
+            fetchingData={fetchingData}
             title="Edit project"
             formType="EDIT"
             images={images}
@@ -275,6 +313,8 @@ function Projects({
           handleSaveList={handleSaveList}
           setViewEditProject={setViewEditProject}
           setViewViewProject={setViewViewProject}
+          deletingData={deletingData}
+          clickedItem={clickedItem}
         />
       ) : (
         <h4 className="empty">No projects to display</h4>

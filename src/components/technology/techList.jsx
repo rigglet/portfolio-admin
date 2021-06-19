@@ -12,6 +12,8 @@ function TechList({
   declineFnc,
   acceptFnc,
   handleViewEditRecord,
+  deletingData,
+  clickedItem,
 }) {
   return (
     <StyledTechList>
@@ -35,6 +37,8 @@ function TechList({
                   setViewEditTech={setViewEditTech}
                   setViewViewTech={setViewViewTech}
                   handleViewEditRecord={handleViewEditRecord}
+                  deletingData={deletingData}
+                  clickedItem={clickedItem}
                 />
               );
             })}

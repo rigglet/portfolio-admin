@@ -23,8 +23,12 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
   const [viewViewTech, setViewViewTech] = useState(false);
   const [viewAddTech, setViewAddTech] = useState(false);
   const [viewEditTech, setViewEditTech] = useState(false);
+  //hooks to manage state for showing hiding spinner when fetching / deleting data
+  const [deletingData, setDeletingData] = useState(false);
+  const [fetchingData, setFetchingData] = useState(false);
+  const [clickedItem, setClickedItem] = useState(null);
 
-  const notify = (type) => {
+  const notify = (type, err) => {
     switch (type) {
       case "EDITED":
         toast.dark(`Technology EDITED successfully`);
@@ -35,6 +39,15 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
       case "DELETED":
         toast.dark(`Technology DELETED successfully`);
         break;
+      case "EDIT_ERROR":
+        toast.dark(`Error EDITING technology: ${err.message}`);
+        break;
+      case "ADD_ERROR":
+        toast.dark(`Error ADDING technology: ${err.message}`);
+        break;
+      case "DELETE_ERROR":
+        toast.dark(`Error DELETING technology: ${err.message}`);
+        break;
       default:
         toast.dark("Nothing to report");
     }
@@ -42,21 +55,22 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
 
   //HANDLE ADD TECHNOLOGY
   const handleSaveTech = async () => {
+    setFetchingData(true);
+
     const addTech = async () => {
       return await postData(auth, "technologies", currentTech);
     };
 
     addTech()
       .then((result) => {
-        //Toast message
-        notify("ADDED");
-        return result;
-      })
-      .then((result) => {
-        setTechs([...techs, result.data]);
+        if (result.status === 200) {
+          setTechs([...techs, result.data]);
+          //Toast message
+          notify("ADDED");
+        }
       })
       .then(() => {
-        setViewAddTech(false);
+        setFetchingData(false);
         setCurrentTech({
           name: "",
           type: "",
@@ -64,46 +78,49 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
           icon: "",
           documentation: "",
         });
+        setViewAddTech(false);
+      })
+      .catch((err) => {
+        notify("ADD_ERROR", err);
+        setFetchingData(false);
       });
   };
 
   //HANDLE EDIT TECHNOLOGY
   const handleEditTech = async () => {
+    setFetchingData(true);
+
     const editTech = async () => {
       return await updateData(auth, "technologies", currentTech);
     };
 
     editTech()
-      .then(
-        (result) => {
-          if (result.status === 200) {
-            //update technology state
-            setTechs([
-              ...techs.filter((t) => t._id !== currentTech._id),
-              currentTech,
-            ]);
-            //update project state
-            setProjects(
-              projects.map((project) => ({
-                ...project,
-                technologies: [
-                  ...project.technologies.filter(
-                    (technology) => technology._id !== currentTech._id
-                  ),
-                  currentTech,
-                ],
-              }))
-            );
+      .then((result) => {
+        if (result.status === 200) {
+          //update technology state
+          setTechs([
+            ...techs.filter((t) => t._id !== currentTech._id),
+            currentTech,
+          ]);
+          //update project state
+          setProjects(
+            projects.map((project) => ({
+              ...project,
+              technologies: [
+                ...project.technologies.filter(
+                  (technology) => technology._id !== currentTech._id
+                ),
+                currentTech,
+              ],
+            }))
+          );
 
-            //Toast message
-            notify("EDITED");
-          }
-        },
-        (error) => {
-          console.log(error);
+          //Toast message
+          notify("EDITED");
         }
-      )
+      })
       .then(() => {
+        setFetchingData(false);
         setCurrentTech({
           name: "",
           type: "",
@@ -112,11 +129,18 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
           documentation: "",
         });
         setViewEditTech(false);
+      })
+      .catch((err) => {
+        notify("EDIT_ERROR", err);
+        setFetchingData(false);
       });
   };
 
   //HANDLE DELETE RECORD
   const handleDeleteRecord = (id) => {
+    setDeletingData(true);
+    setClickedItem(id);
+
     const deleteTech = async () => {
       return await deleteData(auth, "technologies", id);
     };
@@ -140,8 +164,13 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
         }
       })
       .then(() => {
+        setFetchingData(false);
         //Toast message
         notify("DELETED");
+      })
+      .catch((err) => {
+        notify("DELETE_ERROR", err);
+        setDeletingData(false);
       });
   };
 
@@ -175,8 +204,9 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
             setCurrentTech={setCurrentTech}
             handleSaveTech={handleSaveTech}
             handleEditTech={handleEditTech}
+            fetchingData={fetchingData}
             title="Add new technology"
-            formType={"NEW"}
+            formType={"ADD"}
           />
         )
       }
@@ -186,10 +216,11 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
         viewEditTech && (
           <TechAdd
             openingHookSetter={setViewEditTech}
-            handleEditTech={handleEditTech}
-            handleSaveTech={handleSaveTech}
             currentTech={currentTech}
             setCurrentTech={setCurrentTech}
+            handleEditTech={handleEditTech}
+            handleSaveTech={handleSaveTech}
+            fetchingData={fetchingData}
             title="Edit technology"
             formType={"EDIT"}
           />
@@ -201,7 +232,6 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
         viewViewTech && (
           <TechAdd
             openingHookSetter={setViewViewTech}
-            setViewViewTech={setViewViewTech}
             currentTech={currentTech}
             setCurrentTech={setCurrentTech}
             title="View technology"
@@ -226,6 +256,8 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
           handleViewEditRecord={handleViewEditRecord}
           setViewEditTech={setViewEditTech}
           setViewViewTech={setViewViewTech}
+          deletingData={deletingData}
+          clickedItem={clickedItem}
         />
       ) : (
         <h4 className="empty">No technologies to display</h4>

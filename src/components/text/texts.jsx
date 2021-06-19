@@ -17,8 +17,12 @@ function Texts({ auth, texts, setTexts }) {
   const [viewViewText, setViewViewText] = useState(false);
   const [viewAddText, setViewAddText] = useState(false);
   const [viewEditText, setViewEditText] = useState(false);
+  //hooks to manage state for showing hiding spinner when fetching / deleting data
+  const [deletingData, setDeletingData] = useState(false);
+  const [fetchingData, setFetchingData] = useState(false);
+  const [clickedItem, setClickedItem] = useState(null);
 
-  const notify = (type) => {
+  const notify = (type, err) => {
     switch (type) {
       case "EDITED":
         toast.dark(`Text EDITED successfully`);
@@ -29,6 +33,15 @@ function Texts({ auth, texts, setTexts }) {
       case "DELETED":
         toast.dark(`TextDELETED successfully`);
         break;
+      case "EDIT_ERROR":
+        toast.dark(`Error EDITING text: ${err.message}`);
+        break;
+      case "ADD_ERROR":
+        toast.dark(`Error ADDING text: ${err.message}`);
+        break;
+      case "DELETE_ERROR":
+        toast.dark(`Error DELETING text: ${err.message}`);
+        break;
       default:
         toast.dark("Nothing to report");
     }
@@ -36,62 +49,84 @@ function Texts({ auth, texts, setTexts }) {
 
   //HANDLE ADD TEXT
   const handleSaveText = async () => {
+    setFetchingData(true);
+
     const addText = async () => {
       return await postData(auth, "texts", currentText);
     };
 
     addText()
       .then((result) => {
-        //Toast message
-        notify("ADDED", result.status, result.data._id);
-        return result;
-      })
-      .then((result) => {
-        setTexts([...texts, result.data]);
+        if (result.status === 200) {
+          setTexts([...texts, result.data]);
+          //Toast message
+          notify("ADDED");
+        }
       })
       .then(() => {
+        setFetchingData(false);
         setCurrentText({ name: "", content: "" });
         setViewAddText(false);
+      })
+      .catch((err) => {
+        notify("ADD_ERROR", err);
+        setFetchingData(false);
       });
   };
 
   //HANDLE ADD TEXT
   const handleEditText = async () => {
+    setFetchingData(true);
+
     const editText = async () => {
       return await updateData(auth, "texts", currentText);
     };
 
     editText()
       .then((result) => {
-        //Toast message
-        notify("EDITED", result.status, result._id);
-        return result;
-      })
-      .then((result) => {
-        setTexts([
-          ...texts.filter((p) => p._id !== currentText._id),
-          currentText,
-        ]);
+        if (result.status === 200) {
+          setTexts([
+            ...texts.filter((p) => p._id !== currentText._id),
+            currentText,
+          ]);
+          //Toast message
+          notify("EDITED");
+        }
       })
       .then(() => {
-        setViewEditText(false);
+        setFetchingData(false);
         setCurrentText({ name: "", content: "" });
+        setViewEditText(false);
+      })
+      .catch((err) => {
+        notify("EDIT_ERROR", err);
+        setFetchingData(false);
       });
   };
 
   //HANDLE DELETE RECORD
   const handleDeleteRecord = (id) => {
+    setDeletingData(true);
+    setClickedItem(id);
+
     const deleteText = async () => {
       return await deleteData(auth, "texts", id);
     };
 
     deleteText()
       .then((result) => {
-        //Toast message
-        notify("DELETED", result.status, result.data._id);
+        if (result.status === 200) {
+          setTexts([...texts.filter((p) => p._id !== id)]);
+        }
       })
       .then(() => {
-        setTexts([...texts.filter((p) => p._id !== id)]);
+        setDeletingData(false);
+        //Toast message
+        notify("DELETED");
+      })
+      .catch((err) => {
+        notify("DELETE_ERROR", err);
+        setDeletingData(false);
       });
   };
 
@@ -125,8 +160,9 @@ function Texts({ auth, texts, setTexts }) {
             setCurrentText={setCurrentText}
             handleSaveText={handleSaveText}
             handleEditText={handleEditText}
+            fetchingData={fetchingData}
             title="Add new text"
-            formType={"NEW"}
+            formType={"ADD"}
           />
         )
       }
@@ -140,6 +176,7 @@ function Texts({ auth, texts, setTexts }) {
             setCurrentText={setCurrentText}
             handleSaveText={handleSaveText}
             handleEditText={handleEditText}
+            fetchingData={fetchingData}
             title="Edit text"
             formType={"EDIT"}
           />
@@ -152,8 +189,6 @@ function Texts({ auth, texts, setTexts }) {
             openingHookSetter={setViewViewText}
             currentText={currentText}
             setCurrentText={setCurrentText}
-            handleSaveText={handleSaveText}
-            handleEditText={handleEditText}
             title="View text"
             formType={"VIEW"}
           />
@@ -175,6 +210,8 @@ function Texts({ auth, texts, setTexts }) {
           handleViewEditRecord={handleViewEditRecord}
           setViewEditText={setViewEditText}
           setViewViewText={setViewViewText}
+          deletingData={deletingData}
+          clickedItem={clickedItem}
         />
       ) : (
         <h4 className="empty">No texts to display</h4>

@@ -6,13 +6,12 @@ import placeholderImage from "../../images/organise_bg.svg";
 //icons
 import { FaFileUpload } from "react-icons/fa";
 import { ImImages } from "react-icons/im";
-//messages
-import "react-toastify/dist/ReactToastify.css";
 //server base url
-import SERVER_BASE_URL from "../../config/config";
+import { baseURL as SERVER_BASE_URL, imagePath } from "../../config/config";
 //components
 import SubmitButton from "../submitButton";
 import CloseButton from "../closeButton";
+import Spinner from "../spinner";
 
 const ImageAddViewEdit = function ({
   openingHookSetter,
@@ -22,6 +21,7 @@ const ImageAddViewEdit = function ({
   currentImage,
   setCurrentImage,
   formType,
+  fetchingData,
 }) {
   const fileRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -35,7 +35,7 @@ const ImageAddViewEdit = function ({
   //render after edit throws error as currentImage is reset and becomes undefined
   let imageURL = "";
   currentImage?.fileName !== undefined
-    ? (imageURL = `${SERVER_BASE_URL()}/public/uploads/${
+    ? (imageURL = `${SERVER_BASE_URL()}/${imagePath()}/${
         currentImage?.fileName
       }`)
     : (imageURL = placeholderImage);
@@ -179,11 +179,15 @@ const ImageAddViewEdit = function ({
 
               {formType !== "VIEW" && (
                 <div className="buttons">
-                  <SubmitButton
-                    type={formType}
-                    editFunction={handleEditImage}
-                    saveFunction={handleSaveImage}
-                  />
+                  {fetchingData ? (
+                    <Spinner size="25px" alignment="flex-end" />
+                  ) : (
+                    <SubmitButton
+                      type={formType}
+                      editFunction={handleEditImage}
+                      saveFunction={handleSaveImage}
+                    />
+                  )}
                 </div>
               )}
             </div>

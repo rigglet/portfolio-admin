@@ -26,8 +26,12 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
   const [viewViewLib, setViewViewLib] = useState(false);
   const [viewAddLib, setViewAddLib] = useState(false);
   const [viewEditLib, setViewEditLib] = useState(false);
+  //hooks to manage state for showing hiding spinner when fetching / deleting data
+  const [deletingData, setDeletingData] = useState(false);
+  const [fetchingData, setFetchingData] = useState(false);
+  const [clickedItem, setClickedItem] = useState(null);
 
-  const notify = (type, status, id) => {
+  const notify = (type, err) => {
     switch (type) {
       case "EDITED":
         toast.dark(`Library EDITED successfully`);
@@ -38,6 +42,15 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
       case "DELETED":
         toast.dark(`Library DELETED successfully`);
         break;
+      case "EDIT_ERROR":
+        toast.dark(`Error EDITING library: ${err.message}`);
+        break;
+      case "ADD_ERROR":
+        toast.dark(`Error ADDING library: ${err.message}`);
+        break;
+      case "DELETE_ERROR":
+        toast.dark(`Error DELETING library: ${err.message}`);
+        break;
       default:
         toast.dark("Nothing to report");
     }
@@ -45,20 +58,22 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
 
   //HANDLE ADD LIBRARY
   const handleSaveLib = async () => {
+    setFetchingData(true);
+
     const addLib = async () => {
       return await postData(auth, "libraries", currentLib);
     };
 
     addLib()
       .then((result) => {
-        //Toast message
-        notify("ADDED", result.status, result.data._id);
-        return result;
-      })
-      .then((result) => {
-        setLibraries([...libraries, result.data]);
+        if (result.status === 200) {
+          setLibraries([...libraries, result.data]);
+          //Toast message
+          notify("ADDED");
+        }
       })
       .then(() => {
+        setFetchingData(false);
         setCurrentLib({
           name: "",
           version: "",
@@ -70,45 +85,47 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
           icon: "",
         });
         setViewAddLib(false);
+      })
+      .catch((err) => {
+        notify("ADD_ERROR", err);
+        setFetchingData(false);
       });
   };
 
   //HANDLE EDIT LIBRARY
   const handleEditLib = async () => {
+    setFetchingData(true);
+
     const editLib = async () => {
       return await updateData(auth, "libraries", currentLib);
     };
 
     editLib()
-      .then(
-        (result) => {
-          if (result.status === 200) {
-            //set library state
-            setLibraries([
-              ...libraries.filter((p) => p._id !== currentLib._id),
-              currentLib,
-            ]);
-            //update project state
-            setProjects(
-              projects.map((project) => ({
-                ...project,
-                libraries: [
-                  ...project.libraries.filter(
-                    (library) => library._id !== currentLib._id
-                  ),
-                  currentLib,
-                ],
-              }))
-            );
-            //Toast message
-            notify("EDITED");
-          }
-        },
-        (error) => {
-          console.log(error);
+      .then((result) => {
+        if (result.status === 200) {
+          //set library state
+          setLibraries([
+            ...libraries.filter((p) => p._id !== currentLib._id),
+            currentLib,
+          ]);
+          //update project state
+          setProjects(
+            projects.map((project) => ({
+              ...project,
+              libraries: [
+                ...project.libraries.filter(
+                  (library) => library._id !== currentLib._id
+                ),
+                currentLib,
+              ],
+            }))
+          );
+          //Toast message
+          notify("EDITED");
         }
-      )
+      })
       .then(() => {
+        setFetchingData(false);
         setCurrentLib({
           name: "",
           version: "",
@@ -120,11 +137,18 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
           icon: "",
         });
         setViewEditLib(false);
+      })
+      .catch((err) => {
+        notify("EDIT_ERROR", err);
+        setFetchingData(false);
       });
   };
 
   //HANDLE DELETE RECORD
   const handleDeleteRecord = (id) => {
+    setDeletingData(true);
+    setClickedItem(id);
+
     const deleteLib = async () => {
       return await deleteData(auth, "libraries", id);
     };
@@ -146,8 +170,13 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
         }
       })
       .then(() => {
+        setDeletingData(false);
         //Toast message
         notify("DELETED");
+      })
+      .catch((err) => {
+        notify("DELETE_ERROR", err);
+        setDeletingData(false);
       });
   };
 
@@ -181,8 +210,9 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
             setCurrentLib={setCurrentLib}
             handleSaveLib={handleSaveLib}
             handleEditLib={handleEditLib}
+            fetchingData={fetchingData}
             title="Add new library"
-            formType={"NEW"}
+            formType={"ADD"}
           />
         )
       }
@@ -196,6 +226,7 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
             setCurrentLib={setCurrentLib}
             handleEditLib={handleEditLib}
             handleSaveLib={handleSaveLib}
+            fetchingData={fetchingData}
             title="Edit library"
             formType={"EDIT"}
           />
@@ -206,10 +237,9 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
         viewViewLib && (
           <LibAdd
             openingHookSetter={setViewViewLib}
-            setViewViewLib={setViewViewLib}
-            title="View library"
             currentLib={currentLib}
             setCurrentLib={setCurrentLib}
+            title="View library"
             formType={"VIEW"}
           />
         )
@@ -230,6 +260,8 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
           handleViewEditRecord={handleViewEditRecord}
           setViewEditLib={setViewEditLib}
           setViewViewLib={setViewViewLib}
+          deletingData={deletingData}
+          clickedItem={clickedItem}
         />
       ) : (
         <h4 className="empty">No libraries to display</h4>

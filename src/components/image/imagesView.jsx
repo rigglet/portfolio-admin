@@ -6,13 +6,13 @@ import "react-image-gallery/styles/css/image-gallery.css";
 //components
 import CloseButton from "../closeButton";
 //server base url
-import serverBaseURL from "../../config/config";
+import { baseURL as SERVER_BASE_URL, imagePath } from "../../config/config";
 
 const ImagesView = function ({ openingHookSetter, images }) {
   const imageArray = images.map((image) => {
     return {
-      original: `${serverBaseURL()}/public/uploads/${image.fileName}`,
-      thumbnail: `${serverBaseURL()}/public/uploads/${image.fileName}`,
+      original: `${SERVER_BASE_URL()}/${imagePath()}/${image.fileName}`,
+      thumbnail: `${SERVER_BASE_URL()}/${imagePath()}/${image.fileName}`,
     };
   });
 
