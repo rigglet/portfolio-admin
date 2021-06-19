@@ -12,6 +12,8 @@ function LibList({
   declineFnc,
   acceptFnc,
   handleViewEditRecord,
+  deletingData,
+  clickedItem,
 }) {
   return (
     <StyledLibList>
@@ -35,6 +37,8 @@ function LibList({
                   setViewEditLib={setViewEditLib}
                   setViewViewLib={setViewViewLib}
                   handleViewEditRecord={handleViewEditRecord}
+                  deletingData={deletingData}
+                  clickedItem={clickedItem}
                 />
               );
             })}

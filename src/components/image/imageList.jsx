@@ -12,6 +12,8 @@ function ImageList({
   declineFnc,
   acceptFnc,
   handleViewEditRecord,
+  deletingData,
+  clickedItem,
 }) {
   return (
     <StyledImageList>
@@ -36,6 +38,8 @@ function ImageList({
                   setViewEditImage={setViewEditImage}
                   setViewViewImage={setViewViewImage}
                   handleViewEditRecord={handleViewEditRecord}
+                  deletingData={deletingData}
+                  clickedItem={clickedItem}
                 />
               );
             })}

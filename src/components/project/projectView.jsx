@@ -18,7 +18,7 @@ import { BiMessageSquareDetail } from "react-icons/bi";
 import CloseButton from "../closeButton";
 
 //server base url
-import SERVER_BASE_URL from "../../config/config";
+import { baseURL as SERVER_BASE_URL, imagePath } from "../../config/config";
 
 const ProjectView = function ({
   currentProject,
@@ -233,7 +233,7 @@ const ProjectView = function ({
                 <div className="image-container" key={uuidv4()}>
                   <img
                     key={uuidv4()}
-                    src={`${SERVER_BASE_URL()}/public/uploads/${s.fileName}`}
+                    src={`${SERVER_BASE_URL()}/${imagePath()}/${s.fileName}`}
                     alt={s.description}
                   />
                   {currentProject.mainImage._id === s._id && (

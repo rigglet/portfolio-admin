@@ -24,8 +24,12 @@ function Tools({ auth, tools, setTools }) {
   const [viewViewTool, setViewViewTool] = useState(false);
   const [viewAddTool, setViewAddTool] = useState(false);
   const [viewEditTool, setViewEditTool] = useState(false);
+  //hooks to manage state for showing hiding spinner when fetching / deleting data
+  const [deletingData, setDeletingData] = useState(false);
+  const [fetchingData, setFetchingData] = useState(false);
+  const [clickedItem, setClickedItem] = useState(null);
 
-  const notify = (type) => {
+  const notify = (type, err) => {
     switch (type) {
       case "EDITED":
         toast.dark(`Tool EDITED successfully`);
@@ -36,6 +40,15 @@ function Tools({ auth, tools, setTools }) {
       case "DELETED":
         toast.dark(`Tool DELETED successfully`);
         break;
+      case "EDIT_ERROR":
+        toast.dark(`Error EDITING tool: ${err.message}`);
+        break;
+      case "ADD_ERROR":
+        toast.dark(`Error ADDING tool: ${err.message}`);
+        break;
+      case "DELETE_ERROR":
+        toast.dark(`Error DELETING tool: ${err.message}`);
+        break;
       default:
         toast.dark("Nothing to report");
     }
@@ -43,21 +56,22 @@ function Tools({ auth, tools, setTools }) {
 
   //HANDLE ADD TOOL
   const handleSaveTool = async () => {
+    setFetchingData(true);
+
     const addTool = async () => {
       return await postData(auth, "tools", currentTool);
     };
 
     addTool()
       .then((result) => {
-        //Toast message
-        notify("ADDED");
-        return result;
-      })
-      .then((result) => {
-        setTools([...tools, result.data]);
+        if (result.status === 200) {
+          setTools([...tools, result.data]);
+          //Toast message
+          notify("ADDED");
+        }
       })
       .then(() => {
-        setViewAddTool(false);
+        setFetchingData(false);
         setCurrentTool({
           name: "",
           type: "",
@@ -66,29 +80,35 @@ function Tools({ auth, tools, setTools }) {
           icon: "",
           documentation: "",
         });
+        setViewAddTool(false);
+      })
+      .catch((err) => {
+        notify("ADD_ERROR", err);
+        setFetchingData(false);
       });
   };
 
   //HANDLE EDIT TOOL
   const handleEditTool = async () => {
+    setFetchingData(true);
+
     const editTool = async () => {
       return await updateData(auth, "tools", currentTool);
     };
 
     editTool()
       .then((result) => {
-        //Toast message
-        notify("EDITED");
-        return result;
+        if (result.status === 200) {
+          setTools([
+            ...tools.filter((t) => t._id !== currentTool._id),
+            currentTool,
+          ]);
+          //Toast message
+          notify("EDITED");
+        }
       })
       .then(() => {
-        setTools([
-          ...tools.filter((t) => t._id !== currentTool._id),
-          currentTool,
-        ]);
-      })
-      .then(() => {
-        setViewEditTool(false);
+        setFetchingData(false);
         setCurrentTool({
           name: "",
           type: "",
@@ -97,22 +117,37 @@ function Tools({ auth, tools, setTools }) {
           icon: "",
           documentation: "",
         });
+        setViewEditTool(false);
+      })
+      .catch((err) => {
+        notify("EDIT_ERROR", err);
+        setFetchingData(false);
       });
   };
 
   //HANDLE DELETE RECORD
   const handleDeleteRecord = (id) => {
+    setDeletingData(true);
+    setClickedItem(id);
+
     const deleteTool = async () => {
       return await deleteData(auth, "tools", id);
     };
 
     deleteTool()
       .then((result) => {
-        //Toast message
-        notify("DELETED", result.status, result.data._id);
+        if (result.status === 200) {
+          setTools([...tools.filter((t) => t._id !== id)]);
+        }
       })
       .then(() => {
-        setTools([...tools.filter((t) => t._id !== id)]);
+        setDeletingData(false);
+        //Toast message
+        notify("DELETED");
+      })
+      .catch((err) => {
+        notify("DELETE_ERROR", err);
+        setDeletingData(false);
       });
   };
 
@@ -146,8 +181,9 @@ function Tools({ auth, tools, setTools }) {
             setCurrentTool={setCurrentTool}
             handleSaveTool={handleSaveTool}
             handleEditTool={handleEditTool}
+            fetchingData={fetchingData}
             title="Add new tool"
-            formType={"NEW"}
+            formType={"ADD"}
           />
         )
       }
@@ -161,6 +197,7 @@ function Tools({ auth, tools, setTools }) {
             setCurrentTool={setCurrentTool}
             handleSaveTool={handleSaveTool}
             handleEditTool={handleEditTool}
+            fetchingData={fetchingData}
             title="Edit tool"
             formType={"EDIT"}
           />
@@ -173,8 +210,6 @@ function Tools({ auth, tools, setTools }) {
             openingHookSetter={setViewViewTool}
             currentTool={currentTool}
             setCurrentTool={setCurrentTool}
-            handleSaveTool={handleSaveTool}
-            handleEditTool={handleEditTool}
             title="View tool"
             formType={"VIEW"}
           />
@@ -197,6 +232,8 @@ function Tools({ auth, tools, setTools }) {
           handleViewEditRecord={handleViewEditRecord}
           setViewEditTool={setViewEditTool}
           setViewViewTool={setViewViewTool}
+          deletingData={deletingData}
+          clickedItem={clickedItem}
         />
       ) : (
         <h4 className="empty">No tools to display</h4>

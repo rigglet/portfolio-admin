@@ -22,8 +22,12 @@ function Links({ auth, links, setLinks }) {
   const [viewViewLink, setViewViewLink] = useState(false);
   const [viewAddLink, setViewAddLink] = useState(false);
   const [viewEditLink, setViewEditLink] = useState(false);
+  //hooks to manage state for showing hiding spinner when fetching / deleting data
+  const [deletingData, setDeletingData] = useState(false);
+  const [fetchingData, setFetchingData] = useState(false);
+  const [clickedItem, setClickedItem] = useState(null);
 
-  const notify = (type) => {
+  const notify = (type, err) => {
     switch (type) {
       case "EDITED":
         toast.dark(`Link EDITED successfully`);
@@ -34,6 +38,15 @@ function Links({ auth, links, setLinks }) {
       case "DELETED":
         toast.dark(`Link DELETED successfully`);
         break;
+      case "EDIT_ERROR":
+        toast.dark(`Error EDITING link: ${err.message}`);
+        break;
+      case "ADD_ERROR":
+        toast.dark(`Error ADDING link: ${err.message}`);
+        break;
+      case "DELETE_ERROR":
+        toast.dark(`Error DELETING link: ${err.message}`);
+        break;
       default:
         toast.dark("Nothing to report");
     }
@@ -41,27 +54,33 @@ function Links({ auth, links, setLinks }) {
 
   //HANDLE SAVE LINK
   const handleSaveLink = async () => {
+    setFetchingData(true);
+
     const addLink = async () => {
       return await postData(auth, "links", currentLink);
     };
 
     addLink()
       .then((result) => {
-        //Toast message
-        notify("ADDED", result.status, result.data._id);
-        return result;
-      })
-      .then((result) => {
-        setLinks([...links, result.data]);
+        if (result.status === 200) {
+          setLinks([...links, result.data]);
+          //Toast message
+          notify("ADDED");
+        }
       })
       .then(() => {
-        setViewAddLink(false);
+        setFetchingData(false);
         setCurrentLink({
           name: "",
           type: "",
           address: "",
           icon: "",
         });
+        setViewAddLink(false);
+      })
+      .catch((err) => {
+        notify("ADD_ERROR", err);
+        setFetchingData(false);
       });
   };
 
@@ -73,40 +92,55 @@ function Links({ auth, links, setLinks }) {
 
     editLink()
       .then((result) => {
+        if (result.status === 200) {
+          //set link state
+          setLinks([
+            ...links.filter((p) => p._id !== currentLink._id),
+            currentLink,
+          ]);
+        }
         //Toast message
-        notify("EDITED", result.status, result._id);
-        return result;
-      })
-      .then((result) => {
-        setLinks([
-          ...links.filter((p) => p._id !== currentLink._id),
-          currentLink,
-        ]);
+        notify("EDITED");
       })
       .then(() => {
-        setViewEditLink(false);
+        setFetchingData(false);
         setCurrentLink({
           name: "",
           type: "",
           address: "",
           icon: "",
         });
+        setViewEditLink(false);
+      })
+      .catch((err) => {
+        notify("EDIT_ERROR", err);
+        setFetchingData(false);
       });
   };
 
   //HANDLE DELETE RECORD
   const handleDeleteRecord = (id) => {
+    setDeletingData(true);
+    setClickedItem(id);
+
     const deleteLink = async () => {
       return await deleteData(auth, "links", id);
     };
 
     deleteLink()
       .then((result) => {
-        //Toast message
-        notify("DELETED", result.status, result.data._id);
+        if (result.status === 200) {
+          setLinks([...links.filter((p) => p._id !== id)]);
+        }
       })
       .then(() => {
-        setLinks([...links.filter((p) => p._id !== id)]);
+        setDeletingData(false);
+        //Toast message
+        notify("DELETED");
+      })
+      .catch((err) => {
+        notify("DELETE_ERROR", err);
+        setDeletingData(false);
       });
   };
 
@@ -140,8 +174,9 @@ function Links({ auth, links, setLinks }) {
             setCurrentLink={setCurrentLink}
             handleSaveLink={handleSaveLink}
             handleEditLink={handleEditLink}
+            fetchingData={fetchingData}
             title="Add new link"
-            formType={"NEW"}
+            formType={"ADD"}
           />
         )
       }
@@ -155,6 +190,7 @@ function Links({ auth, links, setLinks }) {
             setCurrentLink={setCurrentLink}
             handleSaveLink={handleSaveLink}
             handleEditLink={handleEditLink}
+            fetchingData={fetchingData}
             title="Edit link"
             formType={"EDIT"}
           />
@@ -167,8 +203,6 @@ function Links({ auth, links, setLinks }) {
             openingHookSetter={setViewViewLink}
             currentLink={currentLink}
             setCurrentLink={setCurrentLink}
-            handleSaveLink={handleSaveLink}
-            handleEditLink={handleEditLink}
             title="View link"
             formType={"VIEW"}
           />
@@ -190,6 +224,8 @@ function Links({ auth, links, setLinks }) {
           handleViewEditRecord={handleViewEditRecord}
           setViewEditLink={setViewEditLink}
           setViewViewLink={setViewViewLink}
+          deletingData={deletingData}
+          clickedItem={clickedItem}
         />
       ) : (
         <h4 className="empty">No links to display</h4>

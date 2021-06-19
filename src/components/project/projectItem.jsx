@@ -6,6 +6,7 @@ import { FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
 import { TiTick, TiTimes } from "react-icons/ti";
 //components
 import DeleteConfirmation from "../DeleteConfirmation";
+import Spinner from "../spinner";
 
 function ProjectItem({
   project,
@@ -16,6 +17,8 @@ function ProjectItem({
   acceptFnc,
   toggleFeatured,
   toggleIncluded,
+  deletingData,
+  clickedItem,
 }) {
   const [viewDelete, setViewDelete] = useState(false);
   return (
@@ -77,10 +80,14 @@ function ProjectItem({
               setViewEditProject(true);
             }}
           />
-          <FaTrash
-            className="action-icon"
-            onClick={() => setViewDelete(true)}
-          />
+          {deletingData && project._id === clickedItem ? (
+            <Spinner size="20px" alignment="flex-end" />
+          ) : (
+            <FaTrash
+              className="action-icon"
+              onClick={() => setViewDelete(true)}
+            />
+          )}
         </div>
       </div>
     </StyledProjectItem>

@@ -12,6 +12,8 @@ function TextList({
   declineFnc,
   acceptFnc,
   handleViewEditRecord,
+  deletingData,
+  clickedItem,
 }) {
   return (
     <StyledTextList>
@@ -34,6 +36,8 @@ function TextList({
                   setViewEditText={setViewEditText}
                   setViewViewText={setViewViewText}
                   handleViewEditRecord={handleViewEditRecord}
+                  deletingData={deletingData}
+                  clickedItem={clickedItem}
                 />
               );
             })}

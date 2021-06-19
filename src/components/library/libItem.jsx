@@ -3,7 +3,9 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
 import { FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
+//components
 import DeleteConfirmation from "../DeleteConfirmation";
+import Spinner from "../spinner";
 
 function LibItem({
   lib,
@@ -12,6 +14,8 @@ function LibItem({
   handleViewEditRecord,
   declineFnc,
   acceptFnc,
+  deletingData,
+  clickedItem,
 }) {
   const [viewDelete, setViewDelete] = useState(false);
 
@@ -50,10 +54,14 @@ function LibItem({
               setViewEditLib(true);
             }}
           />
-          <FaTrash
-            className="action-icon"
-            onClick={() => setViewDelete(true)}
-          />
+          {deletingData && lib._id === clickedItem ? (
+            <Spinner size="20px" alignment="flex-end" />
+          ) : (
+            <FaTrash
+              className="action-icon"
+              onClick={() => setViewDelete(true)}
+            />
+          )}
         </div>
       </div>
     </StyledLibItem>

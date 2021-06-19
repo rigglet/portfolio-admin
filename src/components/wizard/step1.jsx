@@ -290,7 +290,7 @@ const Step1 = function ({
               onChange={(e) => setFeature(e.target.value)}
             />
             <div className="features-container">
-              {currentProject?.features.map((f) => (
+              {currentProject?.features?.map((f) => (
                 <span key={uuidv4()}>
                   {f}
                   <BiMinusCircle
@@ -320,7 +320,7 @@ const Step1 = function ({
             />
 
             <div className="highlights-container">
-              {currentProject?.highlights.map((h) => (
+              {currentProject?.highlights?.map((h) => (
                 <span key={uuidv4()}>
                   {h}
                   <BiMinusCircle

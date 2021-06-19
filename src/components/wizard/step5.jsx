@@ -8,6 +8,7 @@ import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa";
 import ImageItem from "./imageItem";
 //components
 import SubmitButton from "../submitButton";
+import Spinner from "../spinner";
 //lodash
 let _ = require("lodash");
 
@@ -22,6 +23,7 @@ const Step5 = function ({
   currentProject,
   setCurrentProject,
   images,
+  fetchingData,
 }) {
   //If NEW image then selected technologies should be empty - set in ImageAddViewEdit.jsx
   //If EDIT image then selected technologies should be loaded for specific project
@@ -69,8 +71,6 @@ const Step5 = function ({
     setAvailableImages([...availableImages, image]);
 
     //remove clicked image from currentProject
-    console.log("image: ", image);
-    console.log("currentProject.mainImage: ", currentProject.mainImage);
     if (image._id === currentProject.mainImage?._id) {
       //if selected image is main image, remove mainImage also
       setCurrentProject(() => ({
@@ -163,6 +163,8 @@ const Step5 = function ({
               className="nav-buttons"
               onClick={() => nextStep()}
             />
+          ) : fetchingData ? (
+            <Spinner size="25px" alignment="flex-end" />
           ) : (
             <SubmitButton
               type={formType}

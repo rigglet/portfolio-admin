@@ -12,6 +12,8 @@ function LinkList({
   declineFnc,
   acceptFnc,
   handleViewEditRecord,
+  deletingData,
+  clickedItem,
 }) {
   return (
     <StyledLinkList>
@@ -35,6 +37,8 @@ function LinkList({
                   setViewEditLink={setViewEditLink}
                   setViewViewLink={setViewViewLink}
                   handleViewEditRecord={handleViewEditRecord}
+                  deletingData={deletingData}
+                  clickedItem={clickedItem}
                 />
               );
             })}

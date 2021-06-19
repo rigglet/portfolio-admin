@@ -6,6 +6,7 @@ import { HiLink } from "react-icons/hi";
 //components
 import SubmitButton from "../submitButton";
 import CloseButton from "../closeButton";
+import Spinner from "../spinner";
 
 const LinkAddViewEdit = function ({
   openingHookSetter,
@@ -15,6 +16,7 @@ const LinkAddViewEdit = function ({
   currentLink,
   setCurrentLink,
   formType,
+  fetchingData,
 }) {
   return (
     <StyledLinkAddViewEdit>
@@ -28,7 +30,7 @@ const LinkAddViewEdit = function ({
         <div className="titleHeader">
           <HiLink className="titleIcon" />
           <h1>{title} </h1>
-          {formType !== "NEW" && <h5>{currentLink?._id}</h5>}
+          {formType !== "ADD" && <h5>{currentLink?._id}</h5>}
         </div>
 
         <div className="form-information">
@@ -109,13 +111,16 @@ const LinkAddViewEdit = function ({
             </div>
           </div>
 
-          {formType !== "VIEW" && (
-            <SubmitButton
-              type={formType}
-              editFunction={handleEditLink}
-              saveFunction={handleSaveLink}
-            />
-          )}
+          {formType !== "VIEW" &&
+            (fetchingData ? (
+              <Spinner size="25px" alignment="flex-end" />
+            ) : (
+              <SubmitButton
+                type={formType}
+                editFunction={handleEditLink}
+                saveFunction={handleSaveLink}
+              />
+            ))}
         </div>
       </div>
     </StyledLinkAddViewEdit>
@@ -156,8 +161,8 @@ const StyledLinkAddViewEdit = styled(motion.div)`
         column-gap: 0.25rem;
         align-items: center;
         .address-icon {
-          width: 2rem;
-          height: 2rem;
+          width: 1.5rem;
+          height: 1.5rem;
         }
       }
       .input-item {

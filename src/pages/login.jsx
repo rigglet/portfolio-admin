@@ -157,7 +157,7 @@ function Login({ setAuth }) {
                 className="btn"
               />
             ) : (
-              <Spinner />
+              <Spinner size="30px" />
             )}
           </form>
         </div>

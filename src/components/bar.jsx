@@ -7,30 +7,28 @@ import profile from "../images/profile.svg";
 import organise from "../images/organise.svg";
 //icons
 import { HiChevronDown } from "react-icons/hi";
-import { FiLogOut } from "react-icons/fi";
+import { FiLogOut, FiSettings } from "react-icons/fi";
 //import { FiSettings } from "react-icons/fi";
 import { BiUser } from "react-icons/bi";
 //components
 import Profile from "./profile";
+import Settings from "./settings";
 //server base url
-import SERVER_BASE_URL from "../config/config";
+import { baseURL as SERVER_BASE_URL, imagePath } from "../config/config";
 
-function Bar({ auth, setAuth, allData }) {
+function Bar({ auth, setAuth, settings, setSettings }) {
   const [menu, toggleMenu] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showViewProfile, setShowViewProfile] = useState(false);
+  const [showViewSettings, setShowViewSettings] = useState(false);
   const { username } = auth;
 
   const savedFilename = auth.profileImageUrl?.fileName || null;
-  const fullPathToFile = `${SERVER_BASE_URL()}/public/uploads/${savedFilename}`;
+  const fullPathToFile = `${SERVER_BASE_URL()}/${imagePath()}/${savedFilename}`;
 
   const logOut = () => {
     setAuth({});
   };
-
-  // const showSettings = () => {
-  //   toggleMenu(!menu);
-  // };
 
   const listvariants = {
     open: { opacity: 1, transition: { duration: 0.3 } },
@@ -49,6 +47,18 @@ function Bar({ auth, setAuth, allData }) {
 
   return (
     <StyledBar>
+      {showViewSettings && (
+        <Settings
+          auth={auth}
+          //setAuth={setAuth}
+          openingHookSetter={setShowViewSettings}
+          title={"Settings"}
+          formType={"VIEW"}
+          settings={settings}
+          setSettings={setSettings}
+        />
+      )}
+
       {showEditProfile && (
         <Profile
           auth={auth}
@@ -89,12 +99,19 @@ function Bar({ auth, setAuth, allData }) {
                 </h3>
               </div>
             </li>
-            {/* <li className="bar-list-item" listvariants={itemListVariants}>
+            <li className="bar-list-item" listvariants={itemListVariants}>
               <div className="profile-menu-item">
                 <FiSettings className="profile-menu-icon" />
-                <h3 onClick={() => showSettings()}>Settings</h3>
+                <h3
+                  onClick={() => {
+                    toggleMenu(!menu);
+                    setShowViewSettings(!showViewSettings);
+                  }}
+                >
+                  Settings
+                </h3>
               </div>
-            </li> */}
+            </li>
             <li className="bar-list-item" listvariants={itemListVariants}>
               <div className="profile-menu-item">
                 <FiLogOut className="profile-menu-icon" />

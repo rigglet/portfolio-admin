@@ -6,6 +6,7 @@ import { IoText } from "react-icons/io5";
 //components
 import SubmitButton from "../submitButton";
 import CloseButton from "../closeButton";
+import Spinner from "../spinner";
 
 const TextAddViewEdit = function ({
   openingHookSetter,
@@ -15,6 +16,7 @@ const TextAddViewEdit = function ({
   currentText,
   setCurrentText,
   formType,
+  fetchingData,
 }) {
   return (
     <StyledTextAddViewEdit>
@@ -31,7 +33,7 @@ const TextAddViewEdit = function ({
         <div className="titleHeader">
           <IoText className="titleIcon" />
           <h1>{title} </h1>
-          {formType !== "NEW" && <h5>{currentText?._id}</h5>}
+          {formType !== "ADD" && <h5>{currentText?._id}</h5>}
         </div>
 
         <div className="form-information">
@@ -74,13 +76,16 @@ const TextAddViewEdit = function ({
             </div>
           </div>
 
-          {formType !== "VIEW" && (
-            <SubmitButton
-              type={formType}
-              editFunction={handleEditText}
-              saveFunction={handleSaveText}
-            />
-          )}
+          {formType !== "VIEW" &&
+            (fetchingData ? (
+              <Spinner size="25px" alignment="flex-end" />
+            ) : (
+              <SubmitButton
+                type={formType}
+                editFunction={handleEditText}
+                saveFunction={handleSaveText}
+              />
+            ))}
         </div>
       </div>
     </StyledTextAddViewEdit>
@@ -122,8 +127,8 @@ const StyledTextAddViewEdit = styled(motion.div)`
         column-gap: 0.25rem;
         align-items: center;
         .address-icon {
-          width: 2rem;
-          height: 2rem;
+          width: 1.5rem;
+          height: 1.5rem;
         }
       }
       .input-item {

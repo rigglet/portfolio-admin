@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 //icons
 import { FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
 import DeleteConfirmation from "../DeleteConfirmation";
+import Spinner from "../spinner";
 
 function ToolItem({
   tool,
@@ -12,6 +13,8 @@ function ToolItem({
   handleViewEditRecord,
   declineFnc,
   acceptFnc,
+  deletingData,
+  clickedItem,
 }) {
   const [viewDelete, setViewDelete] = useState(false);
 
@@ -51,10 +54,14 @@ function ToolItem({
               setViewEditTool(true);
             }}
           />
-          <FaTrash
-            className="action-icon"
-            onClick={() => setViewDelete(true)}
-          />
+          {deletingData && tool._id === clickedItem ? (
+            <Spinner size="20px" alignment="flex-end" />
+          ) : (
+            <FaTrash
+              className="action-icon"
+              onClick={() => setViewDelete(true)}
+            />
+          )}
         </div>
       </div>
     </StyledToolItem>

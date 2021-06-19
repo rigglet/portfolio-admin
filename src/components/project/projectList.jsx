@@ -13,6 +13,8 @@ function ProjectList({
   acceptFnc,
   handleViewEditRecord,
   handleSaveList,
+  deletingData,
+  clickedItem,
 }) {
   const toggleIncluded = (project) => {
     const newProject = {
@@ -59,6 +61,8 @@ function ProjectList({
                   setViewEditProject={setViewEditProject}
                   setViewViewProject={setViewViewProject}
                   handleViewEditRecord={handleViewEditRecord}
+                  deletingData={deletingData}
+                  clickedItem={clickedItem}
                 />
               );
             })}
