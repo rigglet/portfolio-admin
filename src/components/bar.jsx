@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import profile from "../images/profile.svg";
 import organise from "../images/organise.svg";
 //icons
-import { HiChevronDown } from "react-icons/hi";
+import { HiChevronDown, HiChevronUp } from "react-icons/hi";
 import { FiLogOut, FiSettings } from "react-icons/fi";
 //import { FiSettings } from "react-icons/fi";
 import { BiUser } from "react-icons/bi";
@@ -137,7 +137,14 @@ function Bar({ auth, setAuth, settings, setSettings }) {
           />
         </div>
 
-        <HiChevronDown onClick={() => toggleMenu(!menu)} className="chevron" />
+        {menu ? (
+          <HiChevronUp onClick={() => toggleMenu(!menu)} className="chevron" />
+        ) : (
+          <HiChevronDown
+            onClick={() => toggleMenu(!menu)}
+            className="chevron"
+          />
+        )}
       </div>
     </StyledBar>
   );
@@ -181,7 +188,6 @@ const StyledBar = styled(motion.div)`
       color: #011e44;
       border-radius: 4px;
       list-style: none;
-
       //margin: 1rem 0 0 0;
       .bar-list-item {
         display: flex;
@@ -266,6 +272,149 @@ const StyledBar = styled(motion.div)`
         cursor: pointer;
       }
     }
+  }
+
+  //#### RESPONSIVE SECTION ####
+
+  //320px — 480px: Mobile devices
+  @media screen and (max-width: 850px) and (orientation: portrait) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    //flex-wrap: wrap;
+    background-color: #011e44;
+    width: 100vw;
+    //height: 9vh;
+    font-size: 0.5rem;
+    font-weight: 400;
+    //padding: 0.25rem;
+    border-bottom: 2px solid white;
+    position: static;
+
+    .bar-background {
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 98;
+      background-color: rgba(255, 255, 255, 0);
+      .bar-menu {
+        z-index: 99;
+        width: 100vw;
+        height: auto;
+        position: absolute;
+        top: 9vh;
+        left: 0vw;
+
+        //margin: 1rem 0 0 0;
+        .bar-list-item {
+          padding: 0.75rem 1rem;
+
+          .profile-menu-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            //justify-content: space-between;
+            gap: 1rem;
+            h3 {
+              color: white;
+              font-weight: 200;
+              font-size: 0.9rem;
+            }
+            .profile-menu-icon {
+              width: 1.2rem;
+              height: 1.2rem;
+              color: #313131;
+            }
+          }
+        }
+      }
+    }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      //gap: 1rem;
+      margin-left: 0.5rem;
+      #logo {
+        display: none;
+      }
+      #title {
+        font-family: "Lobster Two", cursive;
+        color: #dddddd;
+        cursor: default;
+      }
+    }
+    .header-profile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      //margin-right: 1rem;
+      //gap: 2rem;
+      .username {
+        color: white;
+        font-weight: 400;
+        font-size: 10pt;
+        cursor: default;
+      }
+      .image-container {
+        border: 1px solid red;
+        background: whitesmoke;
+        min-width: 2.8rem;
+        height: 2.8rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid transparent;
+        }
+        .profileImg {
+          width: 30px;
+          height: 30px;
+        }
+      }
+      
+    }
+  }
+
+  //320px — 480px: Mobile devices
+  @media screen and (max-width: 480px) and (orientation: landscape) {
+  }
+
+  //481px — 768px: iPads, Tablets
+  @media screen and (min-width: 481px) and (max-width: 769px) and (orientation: portrait) {
+  }
+
+  //481px — 768px: iPads, Tablets
+  //@media screen and (min-width: 481px) and (max-width: 769px) and (orientation: landscape) {}
+
+  //769px — 1024px: Small screens, laptops
+  //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {}
+
+  //769px — 1024px: Small screens, laptops
+  //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {}
+
+  //1025px — 1200px: Desktops, large screens
+  @media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: portrait) {
+  }
+
+  //1025px — 1200px: Desktops, large screens
+  //@media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: landscape) {}
+
+  //1201px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: portrait) {}
+
+  //1201px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: landscape) {}
+
+  //1501px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1501px) and (orientation: portrait) {}
+
+  //1501px and more —  Extra large screens, TV
+  @media screen and (min-width: 1921px) and (orientation: landscape) {
   }
 `;
 

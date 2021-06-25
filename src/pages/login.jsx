@@ -91,17 +91,18 @@ function Login({ setAuth }) {
         rtl={false}
         pauseOnFocusLoss
       />
-      <img src={curve2} alt="curve" id="curve" />
 
+      <img src={curve2} alt="curve" id="curve" />
       <h1 className="title">Portfolio Administration</h1>
 
       <div className="container">
         <div className="img-container">
           <img id="mainImg" src={organise} alt="organise" />
         </div>
+
         <div className="login-container">
+          <img className="profile-image" src={profile} alt="profile" />
           <form className="form">
-            <img id="profile" src={profile} alt="profile" />
             <h2>Please, log in</h2>
             <div className="input-div">
               <h5
@@ -120,7 +121,7 @@ function Login({ setAuth }) {
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
                   type="text"
-                  size="20"
+                  //size="20"
                   autoComplete="off"
                 />
               </div>
@@ -144,7 +145,7 @@ function Login({ setAuth }) {
                   type="password"
                   onChange={(e) => setPassword(e.target.value)}
                   value={password}
-                  size="20"
+                  //size="20"
                   autoComplete="off"
                 />
               </div>
@@ -169,71 +170,74 @@ function Login({ setAuth }) {
 const StyledLogin = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  overflow-y: hidden;
-  overflow-x: hidden;
+  height: 100vh;
+  align-items: center;
+  justify-content: space-around;
+
   #curve {
     position: fixed;
     bottom: 0;
     left: 0;
     z-index: -1;
+    object-fit: scale-down;
+    height: 100vh;
   }
+
   .title {
-    position: fixed;
     width: 100vw;
-    display: flex;
-    margin: 2rem;
-    justify-content: center;
-    font-size: 2.5rem;
+    text-align: center;
+    font-size: 3.5rem;
     font-weight: bold;
     font-family: "Lobster Two", cursive;
     color: #689ed0;
   }
+
   .container {
     width: 100vw;
-    height: 100vh;
+    min-height: 80vh;
     display: flex;
-    padding: 3rem;
+    justify-content: space-evenly;
+
     .img-container {
-      width: 100vw;
-      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       #mainImg {
-        width: 600px;
+        width: 80%;
       }
     }
+
     .login-container {
-      width: 100%;
+      width: 50%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      #profile {
-        width: 150px;
+      justify-content: space-around;
+
+      .profile-image {
+        width: min(60%, 150px);
       }
+
       .form {
-        width: 100%;
+        height: 60%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        gap: 1rem;
+        justify-content: space-around;
+        width: 50%;
+
         h2 {
           color: #474747;
           font-size: 13pt;
         }
         .focus {
-          width: 300px;
           display: flex;
           align-items: center;
-          justify-content: space-between;
-          gap: 1rem;
           border-bottom: 3px solid #689ed0;
           color: #689ed0;
-          //border: 1px solid red;
         }
         .input-div {
+          width: 100%;
           display: flex;
           flex-direction: column;
 
@@ -261,6 +265,7 @@ const StyledLogin = styled(motion.div)`
             height: 20px;
           }
           input {
+            width: 100%;
             margin: 0.2rem 0 0.5rem 0;
             border: none;
             outline: none;
@@ -275,11 +280,8 @@ const StyledLogin = styled(motion.div)`
             }
           }
           .label {
-            width: 300px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
             border-bottom: 3px solid #cbcaca;
             color: #cbcaca;
             &:hover {
@@ -290,15 +292,17 @@ const StyledLogin = styled(motion.div)`
         }
         .btn {
           display: block;
-          width: 50%;
+          width: 100%;
           height: 50px;
-          border-radius: 25px;
+          border-radius: 10px;
           margin: 1rem;
-          font-size: 1.2rem;
+          font-size: 1.6rem;
+          letter-spacing: 0.2rem;
           outline: none;
           border: none;
           cursor: pointer;
           color: white;
+          font-variant-caps: all-small-caps;
           font-family: "poppins", sans-serif;
           background-image: linear-gradient(to right, #689ed0, #8eafce);
           transition: 0.5s;
@@ -306,49 +310,219 @@ const StyledLogin = styled(motion.div)`
       }
     }
   }
-  @media screen and (max-width: 1050px) {
-  }
-  @media screen and (max-width: 1000px) {
-  }
-  @media screen and (max-width: 900px) {
+
+  //#### RESPONSIVE SECTION ####
+  //320px — 480px: Mobile devices
+  @media screen and (max-width: 480px) and (orientation: portrait) {
     #curve {
       display: none;
     }
-    #profile {
-      width: 25%;
-    }
+
     .title {
-      position: relative;
-      font-size: 1.5rem;
-      width: auto;
+      font-size: 1.4rem;
+      margin: 1rem 0;
     }
+
     .container {
-      padding: 0;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      min-height: 80vh;
+      justify-content: space-evenly;
+
       .img-container {
         display: none;
       }
+      .login-container {
+        width: 100%;
+        .profile-image {
+          width: min(60%, 150px);
+        }
+        .form {
+          width: 90%;
+          height: 80vh;
+          justify-content: space-evenly;
+        }
+      }
     }
   }
-  @media screen and (max-width: 320px) {
+
+  //320px — 480px: Mobile devices
+  @media screen and (max-width: 850px) and (orientation: landscape) {
     #curve {
       display: none;
     }
-    #profile {
-      width: 25%;
-    }
+
     .title {
-      position: relative;
-      font-size: 1.2rem;
-      width: auto;
+      font-size: 1.8rem;
+      margin: 1rem 0;
     }
+
     .container {
-      padding: 0;
-      flex-direction: column;
+      min-height: 80vh;
+      justify-content: space-evenly;
+
       .img-container {
         display: none;
+      }
+      .login-container {
+        width: 100%;
+        .profile-image {
+          display: none;
+          //width: min(60%, 150px);
+        }
+        .form {
+          width: 90%;
+          height: 80vh;
+          justify-content: space-evenly;
+        }
+      }
+    }
+  }
+
+  //481px — 768px: iPads, Tablets
+  @media screen and (min-width: 481px) and (max-width: 769px) and (orientation: portrait) {
+    #curve {
+      display: none;
+    }
+
+    .title {
+      font-size: 3rem;
+      margin: 2rem 0;
+    }
+
+    .container {
+      min-height: 80vh;
+      justify-content: space-evenly;
+
+      .img-container {
+        display: none;
+      }
+      .login-container {
+        width: 100%;
+
+        .profile-image {
+          width: min(60%, 250px);
+        }
+        .form {
+          width: 50%;
+          height: 80vh;
+          justify-content: space-evenly;
+        }
+      }
+    }
+  }
+
+  //481px — 768px: iPads, Tablets
+  //@media screen and (min-width: 481px) and (max-width: 769px) and (orientation: landscape) {}
+
+  //769px — 1024px: Small screens, laptops
+  //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {}
+
+  //769px — 1024px: Small screens, laptops
+  //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {}
+
+  //1025px — 1200px: Desktops, large screens
+  @media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: portrait) {
+    #curve {
+      display: none;
+    }
+
+    .title {
+      font-size: 3rem;
+      margin: 2rem 0;
+    }
+
+    .container {
+      min-height: 80vh;
+      justify-content: space-evenly;
+
+      .img-container {
+        display: none;
+      }
+      .login-container {
+        width: 100%;
+
+        .profile-image {
+          width: min(60%, 250px);
+        }
+        .form {
+          width: 50%;
+          height: 80vh;
+          justify-content: space-evenly;
+        }
+      }
+    }
+  }
+
+  //1025px — 1200px: Desktops, large screens
+  //@media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: landscape) {}
+
+  //1201px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: portrait) {}
+
+  //1201px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: landscape) {}
+
+  //1501px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1501px) and (orientation: portrait) {}
+
+  //1501px and more —  Extra large screens, TV
+  @media screen and (min-width: 1921px) and (orientation: landscape) {
+    #curve {
+      object-fit: fill;
+    }
+
+    .title {
+      font-size: 10rem;
+    }
+
+    .container {
+      width: 100vw;
+      min-height: 80vh;
+      display: flex;
+      justify-content: space-evenly;
+
+      .img-container {
+        width: 50%;
+        #mainImg {
+          width: 80%;
+        }
+      }
+
+      .login-container {
+        .profile-image {
+          width: min(60%, 450px);
+        }
+
+        .form {
+          h2 {
+            font-size: 40pt;
+          }
+
+          .input-div {
+            .prompt-selected {
+              font-size: 56pt;
+              transform: translateY(30px) translateX(0px);
+            }
+            //Initial position of "placeholder" text <H5 />
+            .prompt {
+              transform: translateY(140px) translateX(80px);
+              font-size: 4.8rem;
+            }
+            .icon {
+              width: 60px;
+              height: 60px;
+            }
+            input {
+              font-size: 4.8rem;
+              margin: 0.4rem 0 1rem 0;
+              padding: 1rem 1.4rem;
+            }
+          }
+          .btn {
+            height: 100px;
+            margin: 2rem;
+            font-size: 3.2rem;
+          }
+        }
       }
     }
   }

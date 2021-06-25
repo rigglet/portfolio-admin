@@ -9,7 +9,7 @@ import {
   FaTools,
   //FaMapSigns
 } from "react-icons/fa";
-import { HiChevronRight, HiChevronDown, HiCode, HiLink } from "react-icons/hi";
+import { HiChevronDown, HiChevronUp, HiCode, HiLink } from "react-icons/hi";
 import { MdWeb } from "react-icons/md";
 import { IoLibraryOutline, IoText } from "react-icons/io5";
 import { GoPackage } from "react-icons/go";
@@ -27,8 +27,8 @@ function Nav({
   videoNo,
   textNo,
 }) {
-  const [projectChevron, setProjectChevron] = useState(true);
-  const [siteChevron, setSiteChevron] = useState(true);
+  const [projectChevron, setProjectChevron] = useState(false);
+  const [siteChevron, setSiteChevron] = useState(false);
   const location = useLocation();
   const path = location.pathname.split("/")[2];
 
@@ -64,12 +64,12 @@ function Nav({
       <div className="nav-heading">
         <h3>Projects</h3>
         {projectChevron ? (
-          <HiChevronDown
+          <HiChevronUp
             onClick={() => setProjectChevron(!projectChevron)}
             className="nav-chev"
           />
         ) : (
-          <HiChevronRight
+          <HiChevronDown
             onClick={() => setProjectChevron(!projectChevron)}
             className="nav-chev"
           />
@@ -185,12 +185,12 @@ function Nav({
       <div className="nav-heading">
         <h3>Site</h3>
         {siteChevron ? (
-          <HiChevronDown
+          <HiChevronUp
             onClick={() => setSiteChevron(!siteChevron)}
             className="nav-chev"
           />
         ) : (
-          <HiChevronRight
+          <HiChevronDown
             onClick={() => setSiteChevron(!siteChevron)}
             className="nav-chev"
           />
@@ -363,6 +363,142 @@ const StyledNav = styled(motion.div)`
         height: 1.5rem;
       }
     }
+  }
+
+  //#### RESPONSIVE SECTION ####
+  //320px — 480px: Mobile devices
+  @media screen and (max-width: 480px) and (orientation: portrait) {
+    position: static;
+    //top: 9vh;
+    //left: 0;
+    //z-index: -1;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    background-color: #688297;
+    width: 100vw;
+    height: auto;
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 0.25rem 0 0.25rem 0.25rem;
+
+    .nav-heading {
+      padding: 0 1rem;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.5s ease-in;
+
+      h3 {
+        width: 100%;
+        padding: 0.5rem 0 0 1rem;
+        font-weight: 400;
+        font-size: 12pt;
+      }
+      .nav-chev {
+        cursor: pointer;
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+
+    ul {
+      margin: 1rem 0 0 0;
+      width: 100%;
+      list-style: none;
+      li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem;
+        cursor: pointer;
+        border-right: 4px solid transparent;
+        &.selected {
+          background-color: #ebebeb;
+          border-radius: 30px 0 0 30px;
+        }
+        &:hover {
+          //background-color: #313131;
+          //color: white;
+          border-right: 4px solid #313131;
+          border-radius: 30px 0 0 30px;
+        }
+        .link-info {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          .nav-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+          }
+          a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            &:visited {
+              cursor: pointer;
+              text-decoration: none;
+            }
+            &.selected {
+              color: #313131;
+            }
+          }
+        }
+        h4 {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1rem;
+          font-weight: 200;
+          border-radius: 50%;
+          background: #011e44;
+          color: white;
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+      }
+    }
+  }
+
+  //320px — 480px: Mobile devices
+  @media screen and (max-width: 850px) and (orientation: landscape) {
+  }
+
+  //481px — 768px: iPads, Tablets
+  @media screen and (min-width: 481px) and (max-width: 769px) and (orientation: portrait) {
+  }
+
+  //481px — 768px: iPads, Tablets
+  //@media screen and (min-width: 481px) and (max-width: 769px) and (orientation: landscape) {}
+
+  //769px — 1024px: Small screens, laptops
+  //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {}
+
+  //769px — 1024px: Small screens, laptops
+  //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {}
+
+  //1025px — 1200px: Desktops, large screens
+  @media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: portrait) {
+  }
+
+  //1025px — 1200px: Desktops, large screens
+  //@media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: landscape) {}
+
+  //1201px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: portrait) {}
+
+  //1201px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: landscape) {}
+
+  //1501px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1501px) and (orientation: portrait) {}
+
+  //1501px and more —  Extra large screens, TV
+  @media screen and (min-width: 1921px) and (orientation: landscape) {
   }
 `;
 
