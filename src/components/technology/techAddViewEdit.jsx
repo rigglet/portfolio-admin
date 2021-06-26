@@ -236,6 +236,14 @@ const StyledTechAddViewEdit = styled(motion.div)`
 
   //320px — 480px: Mobile devices
   @media screen and (max-width: 850px) and (orientation: landscape) {
+    top: 0vh;
+    left: 0vw;
+
+    .container {
+      width: 90vw;
+      height: auto;
+      padding: 1rem;
+    }
   }
 
   //481px — 768px: iPads, Tablets

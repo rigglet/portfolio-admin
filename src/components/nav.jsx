@@ -369,103 +369,19 @@ const StyledNav = styled(motion.div)`
   //320px — 480px: Mobile devices
   @media screen and (max-width: 480px) and (orientation: portrait) {
     position: static;
-    //top: 9vh;
-    //left: 0;
-    //z-index: -1;
-    display: flex;
-    flex-direction: column;
     flex-wrap: wrap;
-    align-items: center;
     justify-content: center;
-    background-color: #688297;
     width: 100vw;
     height: auto;
-    font-size: 1rem;
-    font-weight: 400;
-    padding: 0.25rem 0 0.25rem 0.25rem;
-
-    .nav-heading {
-      padding: 0 1rem;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: all 0.5s ease-in;
-
-      h3 {
-        width: 100%;
-        padding: 0.5rem 0 0 1rem;
-        font-weight: 400;
-        font-size: 12pt;
-      }
-      .nav-chev {
-        cursor: pointer;
-        width: 1.5rem;
-        height: 1.5rem;
-      }
-    }
-
-    ul {
-      margin: 1rem 0 0 0;
-      width: 100%;
-      list-style: none;
-      li {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0.75rem;
-        cursor: pointer;
-        border-right: 4px solid transparent;
-        &.selected {
-          background-color: #ebebeb;
-          border-radius: 30px 0 0 30px;
-        }
-        &:hover {
-          //background-color: #313131;
-          //color: white;
-          border-right: 4px solid #313131;
-          border-radius: 30px 0 0 30px;
-        }
-        .link-info {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          .nav-icon {
-            width: 1.5rem;
-            height: 1.5rem;
-          }
-          a {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            &:visited {
-              cursor: pointer;
-              text-decoration: none;
-            }
-            &.selected {
-              color: #313131;
-            }
-          }
-        }
-        h4 {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1rem;
-          font-weight: 200;
-          border-radius: 50%;
-          background: #011e44;
-          color: white;
-          width: 1.5rem;
-          height: 1.5rem;
-        }
-      }
-    }
   }
 
   //320px — 480px: Mobile devices
   @media screen and (max-width: 850px) and (orientation: landscape) {
+    position: static;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100vw;
+    height: auto;
   }
 
   //481px — 768px: iPads, Tablets

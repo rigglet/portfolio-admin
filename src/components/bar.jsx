@@ -278,110 +278,82 @@ const StyledBar = styled(motion.div)`
 
   //320px — 480px: Mobile devices
   @media screen and (max-width: 850px) and (orientation: portrait) {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    //flex-wrap: wrap;
-    background-color: #011e44;
-    width: 100vw;
-    //height: 9vh;
-    font-size: 0.5rem;
-    font-weight: 400;
-    //padding: 0.25rem;
-    border-bottom: 2px solid white;
     position: static;
 
     .bar-background {
-      width: 100vw;
-      height: 100vh;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 98;
-      background-color: rgba(255, 255, 255, 0);
       .bar-menu {
-        z-index: 99;
         width: 100vw;
         height: auto;
-        position: absolute;
         top: 9vh;
         left: 0vw;
-
-        //margin: 1rem 0 0 0;
-        .bar-list-item {
-          padding: 0.75rem 1rem;
-
-          .profile-menu-item {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            //justify-content: space-between;
-            gap: 1rem;
-            h3 {
-              color: white;
-              font-weight: 200;
-              font-size: 0.9rem;
-            }
-            .profile-menu-icon {
-              width: 1.2rem;
-              height: 1.2rem;
-              color: #313131;
-            }
-          }
-        }
       }
     }
     .header-logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
       height: 100%;
-      //gap: 1rem;
       margin-left: 0.5rem;
+      gap: 1rem;
       #logo {
         display: none;
       }
       #title {
-        font-family: "Lobster Two", cursive;
-        color: #dddddd;
-        cursor: default;
+        font-size: 1.3rem;
       }
     }
     .header-profile {
-      display: flex;
-      align-items: center;
       justify-content: center;
       //margin-right: 1rem;
-      //gap: 2rem;
+      gap: 2rem;
       .username {
-        color: white;
-        font-weight: 400;
         font-size: 10pt;
-        cursor: default;
       }
       .image-container {
-        border: 1px solid red;
-        background: whitesmoke;
-        min-width: 2.8rem;
-        height: 2.8rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-        overflow: hidden;
-        border: 2px solid transparent;
-        }
         .profileImg {
           width: 30px;
           height: 30px;
         }
       }
-      
     }
   }
 
   //320px — 480px: Mobile devices
-  @media screen and (max-width: 480px) and (orientation: landscape) {
+  @media screen and (max-width: 850px) and (orientation: landscape) {
+    position: static;
+
+    .bar-background {
+      .bar-menu {
+        width: 100vw;
+        height: auto;
+        top: 9vh;
+        left: 0vw;
+      }
+    }
+    .header-logo {
+      height: 100%;
+      margin-left: 0.5rem;
+      gap: 1rem;
+      #logo {
+        display: none;
+      }
+      #title {
+        font-size: 1.3rem;
+      }
+    }
+    .header-profile {
+      justify-content: center;
+      //margin-right: 1rem;
+      gap: 2rem;
+      .username {
+        font-size: 10pt;
+      }
+      .image-container {
+        min-width: 2rem;
+        height: 2rem;
+        .profileImg {
+          width: 30px;
+          height: 30px;
+        }
+      }
+    }
   }
 
   //481px — 768px: iPads, Tablets

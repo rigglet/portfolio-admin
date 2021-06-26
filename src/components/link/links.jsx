@@ -258,6 +258,10 @@ const StyledLinks = styled(motion.div)`
 
   //320px — 480px: Mobile devices
   @media screen and (max-width: 850px) and (orientation: landscape) {
+    position: static;
+    padding: 0.5rem;
+    display: flex;
+    width: 100vw;
   }
 
   //481px — 768px: iPads, Tablets

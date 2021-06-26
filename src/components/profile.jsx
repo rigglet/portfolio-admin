@@ -537,9 +537,12 @@ const StyledProfile = styled(motion.div)`
   //320px — 480px: Mobile devices
   @media screen and (max-width: 480px) and (orientation: portrait) {
     .container {
-      width: 90vw;
+      width: 100vw;
       height: 90vh;
       padding: 1rem;
+
+      //START OF VIEW PROFILE
+
       //IMAGE STACK
       .bottom {
         display: none !important;
@@ -561,10 +564,20 @@ const StyledProfile = styled(motion.div)`
         .profile-container {
           padding: 1rem;
           height: auto;
-          width: 70vw;
+          width: 100vw;
           align-items: center;
+          .profile-img-container {
+          }
+          .selected-profile-image {
+            border: 1px solid red;
+            width: 100%;
+            height: auto;
+            object-fit: scale-down;
+            object-position: 50% 50%;
+          }
         }
       }
+      //END OF VIEW PROFILE
 
       //EDIT PROFILE TOOLBAR
       .toolbar {
@@ -665,6 +678,50 @@ const StyledProfile = styled(motion.div)`
 
   //320px — 480px: Mobile devices
   @media screen and (max-width: 850px) and (orientation: landscape) {
+    .container {
+      width: 100vw;
+      height: 100vh;
+      padding: 1rem;
+
+      //START OF VIEW PROFILE
+
+      //IMAGE STACK
+      .bottom {
+        display: none !important;
+      }
+      .middle {
+        display: none !important;
+      }
+      .top {
+        position: relative;
+        top: 0%;
+        left: 0%;
+      }
+
+      //VIEW PROFILE MODAL
+      .profile-view-container {
+        height: auto;
+        width: auto;
+
+        .profile-container {
+          border: 1px solid red;
+          padding: 1rem;
+          height: 70vh;
+          width: auto;
+          align-items: center;
+          .profile-img-container {
+            height: 40vh;
+          }
+          .selected-profile-image {
+            width: auto;
+            height: 50vh;
+            object-fit: scale-down;
+            object-position: 50% 50%;
+          }
+        }
+      }
+      //END OF VIEW PROFILE
+    }
   }
 
   //481px — 768px: iPads, Tablets

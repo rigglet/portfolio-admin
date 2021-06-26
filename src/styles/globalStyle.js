@@ -187,6 +187,31 @@ input[type="submit"], .wizard-submit {
 
   //320px — 480px: Mobile devices
   @media screen and (max-width: 850px) and (orientation: landscape) {
+    body{
+
+    overflow-y: scroll;
+    }
+    //header section for add/view/edit modal
+    .titleHeader {
+      flex-direction: column;
+    }
+
+    //header section for each table
+    .header {
+      justify-content: space-around;
+      width: 100vw;
+      margin-bottom: 0.25rem;
+      .toolbar {
+        gap: 0.25rem;
+        .header-icon {
+          width: 1.2rem;
+          height: 1.2rem;
+        }
+      }
+      h1 {
+        font-size: 11pt;
+      }
+    }
   }
 
   //481px — 768px: iPads, Tablets

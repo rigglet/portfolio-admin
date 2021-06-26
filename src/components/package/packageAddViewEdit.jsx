@@ -321,6 +321,15 @@ const StyledPackageAddViewEdit = styled(motion.div)`
 
   //320px — 480px: Mobile devices
   @media screen and (max-width: 850px) and (orientation: landscape) {
+    top: 0vh;
+    left: 0vw;
+    align-items: flex-start;
+
+    .container {
+      width: 90vw;
+      height: auto;
+      padding: 1rem;
+    }
   }
 
   //481px — 768px: iPads, Tablets

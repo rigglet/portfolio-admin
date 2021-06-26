@@ -113,6 +113,22 @@ const StyledPackageList = styled(motion.div)`
 
   //320px — 480px: Mobile devices
   @media screen and (max-width: 850px) and (orientation: landscape) {
+    h4 {
+      padding: 0.15rem 0.25rem;
+    }
+    .name-header {
+      flex: 0 0 50%;
+    }
+    .actions-header {
+      flex: 0 0 50%;
+      justify-content: center;
+    }
+    .short-header {
+      display: none !important;
+    }
+    .long-header {
+      display: none !important;
+    }
   }
 
   //481px — 768px: iPads, Tablets

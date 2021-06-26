@@ -168,6 +168,7 @@ const StyledTextAddViewEdit = styled(motion.div)`
   @media screen and (max-width: 480px) and (orientation: portrait) {
     top: 0vh;
     left: 0vw;
+    align-items: flex-start;
 
     .container {
       width: 90vw;
@@ -178,6 +179,14 @@ const StyledTextAddViewEdit = styled(motion.div)`
 
   //320px — 480px: Mobile devices
   @media screen and (max-width: 850px) and (orientation: landscape) {
+    top: 0vh;
+    left: 0vw;
+
+    .container {
+      width: 90vw;
+      height: auto;
+      padding: 1rem;
+    }
   }
 
   //481px — 768px: iPads, Tablets

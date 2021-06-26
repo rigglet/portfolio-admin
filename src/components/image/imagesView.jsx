@@ -109,6 +109,45 @@ const StyledImagesView = styled(motion.div)`
 
   //320px — 480px: Mobile devices
   @media screen and (max-width: 850px) and (orientation: landscape) {
+    width: 100vw;
+    height: 100vh;
+    top: 0vh;
+    left: 0vw;
+
+    .container {
+      width: 95vw;
+      height: 95vh;
+
+      .image-gallery {
+        height: 90vh;
+        width: auto;
+      }
+      .image-gallery-thumbnails-container {
+        max-width: 90vw;
+      }
+      .image-gallery-thumbnails-container img {
+        height: 100%;
+        object-fit: scale-down;
+      }
+
+      .image-gallery-slide {
+        height: 55vh;
+        //background: white;
+      }
+      .image-gallery-slide img {
+        height: 100%;
+        object-fit: scale-down;
+        object-position: center center;
+      }
+
+      //fullscreen view
+      .fullscreen .image-gallery-slide {
+        height: 60vh;
+      }
+      .fullscreen .image-gallery-slide img {
+        height: 80vh;
+      }
+    }
   }
 
   //481px — 768px: iPads, Tablets

@@ -139,6 +139,19 @@ const StyledTechItem = styled(motion.li)`
 
   //320px — 480px: Mobile devices
   @media screen and (max-width: 850px) and (orientation: landscape) {
+    .name-cell {
+      flex: 0 0 50%;
+    }
+    .actions-cell {
+      flex: 0 0 50%;
+      justify-content: center;
+    }
+    .short-cell {
+      display: none !important;
+    }
+    .long-cell {
+      display: none !important;
+    }
   }
 
   //481px — 768px: iPads, Tablets
