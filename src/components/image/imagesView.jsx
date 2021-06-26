@@ -94,6 +94,94 @@ const StyledImagesView = styled(motion.div)`
       height: 80vh;
     }
   }
+
+  //#### RESPONSIVE SECTION ####
+  //320px — 480px: Mobile devices
+  @media screen and (max-width: 480px) and (orientation: portrait) {
+    top: 0vh;
+    left: 0vw;
+
+    .container {
+      width: 100vw;
+      height: 100vh;
+    }
+  }
+
+  //320px — 480px: Mobile devices
+  @media screen and (max-width: 850px) and (orientation: landscape) {
+    width: 100vw;
+    height: 100vh;
+    top: 0vh;
+    left: 0vw;
+
+    .container {
+      width: 95vw;
+      height: 95vh;
+
+      .image-gallery {
+        height: 90vh;
+        width: auto;
+      }
+      .image-gallery-thumbnails-container {
+        max-width: 90vw;
+      }
+      .image-gallery-thumbnails-container img {
+        height: 100%;
+        object-fit: scale-down;
+      }
+
+      .image-gallery-slide {
+        height: 55vh;
+        //background: white;
+      }
+      .image-gallery-slide img {
+        height: 100%;
+        object-fit: scale-down;
+        object-position: center center;
+      }
+
+      //fullscreen view
+      .fullscreen .image-gallery-slide {
+        height: 60vh;
+      }
+      .fullscreen .image-gallery-slide img {
+        height: 80vh;
+      }
+    }
+  }
+
+  //481px — 768px: iPads, Tablets
+  @media screen and (min-width: 481px) and (max-width: 769px) and (orientation: portrait) {
+  }
+
+  //481px — 768px: iPads, Tablets
+  //@media screen and (min-width: 481px) and (max-width: 769px) and (orientation: landscape) {}
+
+  //769px — 1024px: Small screens, laptops
+  //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {}
+
+  //769px — 1024px: Small screens, laptops
+  //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {}
+
+  //1025px — 1200px: Desktops, large screens
+  @media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: portrait) {
+  }
+
+  //1025px — 1200px: Desktops, large screens
+  //@media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: landscape) {}
+
+  //1201px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: portrait) {}
+
+  //1201px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: landscape) {}
+
+  //1501px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1501px) and (orientation: portrait) {}
+
+  //1501px and more —  Extra large screens, TV
+  @media screen and (min-width: 1921px) and (orientation: landscape) {
+  }
 `;
 
 export default ImagesView;

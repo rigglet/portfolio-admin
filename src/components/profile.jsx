@@ -532,6 +532,230 @@ const StyledProfile = styled(motion.div)`
       }
     }
   }
+
+  //#### RESPONSIVE SECTION ####
+  //320px — 480px: Mobile devices
+  @media screen and (max-width: 480px) and (orientation: portrait) {
+    .container {
+      width: 100vw;
+      height: 90vh;
+      padding: 1rem;
+
+      //START OF VIEW PROFILE
+
+      //IMAGE STACK
+      .bottom {
+        display: none !important;
+      }
+      .middle {
+        display: none !important;
+      }
+      .top {
+        position: relative;
+        top: 0%;
+        left: 0%;
+      }
+
+      //VIEW PROFILE MODAL
+      .profile-view-container {
+        height: auto;
+        width: auto;
+
+        .profile-container {
+          padding: 1rem;
+          height: auto;
+          width: 100vw;
+          align-items: center;
+          .profile-img-container {
+          }
+          .selected-profile-image {
+            border: 1px solid red;
+            width: 100%;
+            height: auto;
+            object-fit: scale-down;
+            object-position: 50% 50%;
+          }
+        }
+      }
+      //END OF VIEW PROFILE
+
+      //EDIT PROFILE TOOLBAR
+      .toolbar {
+        position: absolute;
+        top: 6rem;
+        left: 2rem;
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+        .toolbarItem {
+          column-gap: 0.5rem;
+          display: flex;
+          align-items: center;
+          p {
+            cursor: pointer;
+            font-size: 11pt;
+            font-weight: bold;
+            font-variant: all-small-caps;
+          }
+          .icon {
+            cursor: pointer;
+            width: 1.5rem;
+            height: 1.5rem;
+          }
+          .delete {
+            color: #920000;
+          }
+          .restore {
+            color: #005e00;
+          }
+        }
+      }
+
+      //EDIT PROFILE MODAL
+      .form-information {
+        height: 90%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        .profile-box {
+          border: dashed 3px #313131;
+          outline-offset: 5px;
+          z-index: 5;
+          height: 250px;
+          width: 250px;
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          border-radius: 50%;
+          overflow: hidden;
+
+          .profile-add-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            row-gap: 0.25rem;
+
+            .add-file-icon {
+              z-index: 1;
+              height: 50%;
+              width: 50%;
+            }
+          }
+          .profile-image-container {
+            z-index: 2;
+            background: whitesmoke;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &:hover {
+              transition: 1s ease;
+              opacity: 0;
+            }
+            .profile-image {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              object-position: 50% 50%;
+              //using overflow:hidden on container for better support
+              //clip-path: circle(125px at center);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  //320px — 480px: Mobile devices
+  @media screen and (max-width: 850px) and (orientation: landscape) {
+    .container {
+      width: 100vw;
+      height: 100vh;
+      padding: 1rem;
+
+      //START OF VIEW PROFILE
+
+      //IMAGE STACK
+      .bottom {
+        display: none !important;
+      }
+      .middle {
+        display: none !important;
+      }
+      .top {
+        position: relative;
+        top: 0%;
+        left: 0%;
+      }
+
+      //VIEW PROFILE MODAL
+      .profile-view-container {
+        height: auto;
+        width: auto;
+
+        .profile-container {
+          border: 1px solid red;
+          padding: 1rem;
+          height: 70vh;
+          width: auto;
+          align-items: center;
+          .profile-img-container {
+            height: 40vh;
+          }
+          .selected-profile-image {
+            width: auto;
+            height: 50vh;
+            object-fit: scale-down;
+            object-position: 50% 50%;
+          }
+        }
+      }
+      //END OF VIEW PROFILE
+    }
+  }
+
+  //481px — 768px: iPads, Tablets
+  @media screen and (min-width: 481px) and (max-width: 769px) and (orientation: portrait) {
+  }
+
+  //481px — 768px: iPads, Tablets
+  //@media screen and (min-width: 481px) and (max-width: 769px) and (orientation: landscape) {}
+
+  //769px — 1024px: Small screens, laptops
+  //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {}
+
+  //769px — 1024px: Small screens, laptops
+  //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {}
+
+  //1025px — 1200px: Desktops, large screens
+  @media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: portrait) {
+  }
+
+  //1025px — 1200px: Desktops, large screens
+  //@media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: landscape) {}
+
+  //1201px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: portrait) {}
+
+  //1201px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: landscape) {}
+
+  //1501px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1501px) and (orientation: portrait) {}
+
+  //1501px and more —  Extra large screens, TV
+  @media screen and (min-width: 1921px) and (orientation: landscape) {
+  }
 `;
 
 export default Profile;

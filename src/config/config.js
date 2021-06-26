@@ -1,15 +1,20 @@
 export function baseURL() {
   //DEV
-  // const protocol = "http";
-  // const host = "localhost";
-  // const port = "8081";
-  // return `${protocol}://${host}:${port}`;
+  const dev_protocol = "http";
+  const dev_host = "localhost";
+  const dev_port = "8081";
+  const devURL = `${dev_protocol}://${dev_host}:${dev_port}`;
 
   //production
-  const protocol = "https";
-  const host = "portfolio-server26052021.herokuapp.com";
-  //const port = "80";
-  return `${protocol}://${host}`;
+  const prod_protocol = "https";
+  const prod_host = "portfolio-server26052021.herokuapp.com";
+  const prodURL = `${prod_protocol}://${prod_host}`;
+
+  if (window.location.hostname === "localhost") {
+    return devURL;
+  } else {
+    return prodURL;
+  }
 }
 
 export function imagePath() {

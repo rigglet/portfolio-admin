@@ -545,6 +545,112 @@ const StyledStep = styled.div`
       transition-duration: 0.3s;
     }
   }
+
+  //#### RESPONSIVE SECTION ####
+  //320px — 480px: Mobile devices
+  @media screen and (max-width: 480px) and (orientation: portrait) {
+    height: 100vh;
+    //overflow-y: scroll;
+
+    .form-information {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      width: 100%;
+      row-gap: 1rem;
+
+      .details,
+      .addresses,
+      .descriptions,
+      .features,
+      .dates {
+        flex-direction: column;
+      }
+
+      //feature and highlight section
+      .label-icons {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        .header-icon {
+          cursor: pointer;
+          width: 1.4rem;
+          height: 1.4rem;
+          &:hover {
+            transition: 0.3s ease;
+            transform: scale(1.1);
+          }
+        }
+      }
+
+      .address-item {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        .address-icon {
+          width: 2rem;
+          height: 2rem;
+        }
+      }
+      .input-item {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .highlights-container,
+      .features-container {
+        margin-top: 0.5rem;
+        width: 100%;
+        height: 66px;
+        color: #0c395e;
+        border-radius: 4px;
+        border: 1px solid #313131;
+        padding: 0.25rem;
+        font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        font-size: 10pt;
+        overflow-y: scroll;
+      }
+    }
+  }
+
+  //320px — 480px: Mobile devices
+  @media screen and (max-width: 850px) and (orientation: landscape) {
+  }
+
+  //481px — 768px: iPads, Tablets
+  @media screen and (min-width: 481px) and (max-width: 769px) and (orientation: portrait) {
+  }
+
+  //481px — 768px: iPads, Tablets
+  //@media screen and (min-width: 481px) and (max-width: 769px) and (orientation: landscape) {}
+
+  //769px — 1024px: Small screens, laptops
+  //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {}
+
+  //769px — 1024px: Small screens, laptops
+  //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {}
+
+  //1025px — 1200px: Desktops, large screens
+  @media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: portrait) {
+  }
+
+  //1025px — 1200px: Desktops, large screens
+  //@media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: landscape) {}
+
+  //1201px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: portrait) {}
+
+  //1201px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: landscape) {}
+
+  //1501px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1501px) and (orientation: portrait) {}
+
+  //1501px and more —  Extra large screens, TV
+  @media screen and (min-width: 1921px) and (orientation: landscape) {
+  }
 `;
 
 export default Step1;

@@ -27,29 +27,30 @@ body {
     text-transform: capitalize;
   }
 
+//header section for add/view/edit modal
 .titleHeader {
-      display: flex;
-      column-gap: 1rem;
-      margin-bottom: 1rem;
-      h1 {
-        font-size: 16pt;
-        font-weight: 600;
-        //margin-bottom: 0.5rem;
-      }
-      .titleIcon {
-        width: 30px;
-        height: 30px;
-      }
-      h5 {
-        border-radius: 4px;
-        padding: 0.25rem;
-        background-color: rgba(131, 169, 204, 0.5);
-        font-family: "Poppins", sans-serif;
-        font-weight: 300;
-        font-size: 10pt;
-        //margin-bottom: 1.5rem;
-      }
-    }
+  display: flex;
+  column-gap: 1rem;
+  margin-bottom: 1rem;
+  h1 {
+    font-size: 16pt;
+    font-weight: 600;
+    //margin-bottom: 0.5rem;
+  }
+  .titleIcon {
+    width: 30px;
+    height: 30px;
+  }
+  h5 {
+    border-radius: 4px;
+    padding: 0.25rem;
+    background-color: rgba(131, 169, 204, 0.5);
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+    font-size: 10pt;
+    //margin-bottom: 1.5rem;
+  }
+}
 
 //FORM SUBMIT
 input[type="submit"], .wizard-submit {
@@ -92,31 +93,31 @@ input[type="submit"], .wizard-submit {
 }
 
 //Header section
-  .header {
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80vw;
+  margin-bottom: 0.5rem;
+  .toolbar {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 80vw;
-    margin-bottom: 0.5rem;
-    .toolbar {
-      display: flex;
-      gap: 0.5rem;
-      .header-icon {
-        cursor: pointer;
-        width: 1.4rem;
-        height: 1.4rem;
-        &:hover {
-          transition: 0.3s ease;
-          transform: scale(1.1);
-        }
+    gap: 0.5rem;
+    .header-icon {
+      cursor: pointer;
+      width: 1.4rem;
+      height: 1.4rem;
+      &:hover {
+        transition: 0.3s ease;
+        transform: scale(1.1);
       }
     }
-    h1 {
-      font-size: 16pt;
-      font-weight: 600;
-      cursor: default;
-    }
   }
+  h1 {
+    font-size: 16pt;
+    font-weight: 600;
+    cursor: default;
+  }
+}
 
 //Action column icons
 .action-bar {
@@ -154,6 +155,96 @@ input[type="submit"], .wizard-submit {
   progress[value]::-webkit-progress-value {
     background-color: #688297;
     border-radius: 2px;
+  }
+
+
+
+//#### RESPONSIVE SECTION ####
+//320px — 480px: Mobile devices
+@media screen and (max-width: 480px) and (orientation: portrait) {
+  //header section for add/view/edit modal
+  .titleHeader {
+    flex-direction: column;
+  }
+
+  //header section for each table
+  .header {
+    justify-content: space-around;
+    width: 100vw;
+    margin-bottom: 0.25rem;
+    .toolbar {
+      gap: 0.25rem;
+      .header-icon {
+        width: 1.2rem;
+        height: 1.2rem;
+      }
+    }
+    h1 {
+      font-size: 11pt;
+    }
+  }
+}
+
+  //320px — 480px: Mobile devices
+  @media screen and (max-width: 850px) and (orientation: landscape) {
+    body{
+
+    overflow-y: scroll;
+    }
+    //header section for add/view/edit modal
+    .titleHeader {
+      flex-direction: column;
+    }
+
+    //header section for each table
+    .header {
+      justify-content: space-around;
+      width: 100vw;
+      margin-bottom: 0.25rem;
+      .toolbar {
+        gap: 0.25rem;
+        .header-icon {
+          width: 1.2rem;
+          height: 1.2rem;
+        }
+      }
+      h1 {
+        font-size: 11pt;
+      }
+    }
+  }
+
+  //481px — 768px: iPads, Tablets
+  @media screen and (min-width: 481px) and (max-width: 769px) and (orientation: portrait) {
+  }
+
+  //481px — 768px: iPads, Tablets
+  //@media screen and (min-width: 481px) and (max-width: 769px) and (orientation: landscape) {}
+
+  //769px — 1024px: Small screens, laptops
+  //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {}
+
+  //769px — 1024px: Small screens, laptops
+  //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {}
+
+  //1025px — 1200px: Desktops, large screens
+  @media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: portrait) {
+  }
+
+  //1025px — 1200px: Desktops, large screens
+  //@media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: landscape) {}
+
+  //1201px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: portrait) {}
+
+  //1201px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: landscape) {}
+
+  //1501px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1501px) and (orientation: portrait) {}
+
+  //1501px and more —  Extra large screens, TV
+  @media screen and (min-width: 1921px) and (orientation: landscape) {
   }
 `;
 

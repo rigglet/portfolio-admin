@@ -9,7 +9,7 @@ import {
   FaTools,
   //FaMapSigns
 } from "react-icons/fa";
-import { HiChevronRight, HiChevronDown, HiCode, HiLink } from "react-icons/hi";
+import { HiChevronDown, HiChevronUp, HiCode, HiLink } from "react-icons/hi";
 import { MdWeb } from "react-icons/md";
 import { IoLibraryOutline, IoText } from "react-icons/io5";
 import { GoPackage } from "react-icons/go";
@@ -27,8 +27,8 @@ function Nav({
   videoNo,
   textNo,
 }) {
-  const [projectChevron, setProjectChevron] = useState(true);
-  const [siteChevron, setSiteChevron] = useState(true);
+  const [projectChevron, setProjectChevron] = useState(false);
+  const [siteChevron, setSiteChevron] = useState(false);
   const location = useLocation();
   const path = location.pathname.split("/")[2];
 
@@ -64,12 +64,12 @@ function Nav({
       <div className="nav-heading">
         <h3>Projects</h3>
         {projectChevron ? (
-          <HiChevronDown
+          <HiChevronUp
             onClick={() => setProjectChevron(!projectChevron)}
             className="nav-chev"
           />
         ) : (
-          <HiChevronRight
+          <HiChevronDown
             onClick={() => setProjectChevron(!projectChevron)}
             className="nav-chev"
           />
@@ -185,12 +185,12 @@ function Nav({
       <div className="nav-heading">
         <h3>Site</h3>
         {siteChevron ? (
-          <HiChevronDown
+          <HiChevronUp
             onClick={() => setSiteChevron(!siteChevron)}
             className="nav-chev"
           />
         ) : (
-          <HiChevronRight
+          <HiChevronDown
             onClick={() => setSiteChevron(!siteChevron)}
             className="nav-chev"
           />
@@ -363,6 +363,58 @@ const StyledNav = styled(motion.div)`
         height: 1.5rem;
       }
     }
+  }
+
+  //#### RESPONSIVE SECTION ####
+  //320px — 480px: Mobile devices
+  @media screen and (max-width: 480px) and (orientation: portrait) {
+    position: static;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100vw;
+    height: auto;
+  }
+
+  //320px — 480px: Mobile devices
+  @media screen and (max-width: 850px) and (orientation: landscape) {
+    position: static;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100vw;
+    height: auto;
+  }
+
+  //481px — 768px: iPads, Tablets
+  @media screen and (min-width: 481px) and (max-width: 769px) and (orientation: portrait) {
+  }
+
+  //481px — 768px: iPads, Tablets
+  //@media screen and (min-width: 481px) and (max-width: 769px) and (orientation: landscape) {}
+
+  //769px — 1024px: Small screens, laptops
+  //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {}
+
+  //769px — 1024px: Small screens, laptops
+  //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {}
+
+  //1025px — 1200px: Desktops, large screens
+  @media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: portrait) {
+  }
+
+  //1025px — 1200px: Desktops, large screens
+  //@media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: landscape) {}
+
+  //1201px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: portrait) {}
+
+  //1201px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: landscape) {}
+
+  //1501px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1501px) and (orientation: portrait) {}
+
+  //1501px and more —  Extra large screens, TV
+  @media screen and (min-width: 1921px) and (orientation: landscape) {
   }
 `;
 

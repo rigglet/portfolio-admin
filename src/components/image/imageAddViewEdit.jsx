@@ -322,7 +322,6 @@ const StyledImageAddViewEdit = styled(motion.div)`
 
         //form text field container
         .form-information {
-          //border: 1px solid blue;
           height: 100%;
           width: 50%;
           display: flex;
@@ -373,6 +372,242 @@ const StyledImageAddViewEdit = styled(motion.div)`
         }
       }
     }
+  }
+
+  //#### RESPONSIVE SECTION ####
+  //320px — 480px: Mobile devices
+  @media screen and (max-width: 480px) and (orientation: portrait) {
+    top: 0vh;
+    left: 0vw;
+    overflow-y: scroll;
+    align-items: flex-start;
+
+    .container {
+      width: 100vw;
+      height: auto;
+      padding: 1rem;
+
+      //image and form container
+      .inner-container {
+        display: flex;
+        height: auto;
+        width: 100%;
+
+        form {
+          display: flex;
+          flex-direction: column;
+          justify-items: flex-start;
+          gap: 1rem;
+          width: 100%;
+          height: auto;
+
+          //image div
+          .image-information {
+            flex-direction: column;
+            width: 100%;
+            height: auto;
+            .form {
+            }
+            //add image container - dashed box
+            .add-image-container {
+              width: 100%;
+              height: 100%;
+              padding: 0.5rem;
+            }
+
+            //view / edit image container
+            .view-edit-image-container {
+              width: 100%;
+              height: 100%;
+            }
+          }
+
+          //form text field container
+          .form-information {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  //320px — 480px: Mobile devices
+  @media screen and (max-width: 850px) and (orientation: landscape) {
+    top: 0vh;
+    left: 0vw;
+    align-items: flex-start;
+
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+    position: absolute;
+    display: flex;
+    //align-items: center;
+    justify-content: center;
+    position: absolute;
+    background-color: rgba(256, 256, 256, 0.5);
+
+    //"modal" popup
+    .container {
+      width: 90vw;
+      height: 100vh;
+      padding: 1rem;
+      background-color: #ebebeb;
+      font-size: 12pt;
+      border: 0.05rem #689ed0 solid;
+      position: relative;
+      box-shadow: 0 0 20px 10px #689ed0;
+      //padding: 2rem;
+
+      //image and form container
+      .inner-container {
+        width: 100%;
+        display: flex;
+        height: 80%;
+
+        form {
+          display: flex;
+          justify-items: flex-start;
+          column-gap: 1rem;
+          width: 100%;
+
+          //image div
+          .image-information {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+
+            //add image container - dashed box
+            .add-image-container {
+              z-index: 5;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background-color: hsl(0, 0%, 100%);
+              border: dashed 3px #313131;
+              position: relative;
+              cursor: pointer;
+              border-radius: 4px;
+              width: 100%;
+              height: 100%;
+              padding: 0.5rem;
+
+              //new image <img />
+              .add-image-img {
+                z-index: 2;
+                max-width: 100%;
+                max-height: 100%;
+                object-position: 50% 50%;
+                object-fit: scale-down;
+                overflow: none;
+                transition: 0.5s ease;
+                &:hover {
+                  transition: 1s ease;
+                  opacity: 0;
+                }
+              }
+
+              .add-file-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                row-gap: 0.5rem;
+
+                .add-file-icon {
+                  pointer-events: none;
+                  z-index: 1;
+                  height: 33%;
+                  width: 33%;
+                }
+              }
+
+              input[type="file"] {
+                display: none;
+              }
+            }
+
+            //view / edit image container
+            .view-edit-image-container {
+              z-index: 5;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background-color: #ffffff;
+              border: solid 1px #313131;
+              border-radius: 4px;
+              cursor: default;
+              width: 100%;
+              height: 80%;
+              padding: 0.5rem;
+
+              .view-edit-image-img {
+                z-index: 2;
+                max-width: 100%;
+                max-height: 100%;
+                object-position: 50% 50%;
+                object-fit: scale-down;
+                overflow: none;
+              }
+            }
+          }
+
+          //form text field container
+          .form-information {
+            height: 90%;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            .form {
+              display: flex;
+              flex-direction: column;
+              row-gap: 1rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  //481px — 768px: iPads, Tablets
+  @media screen and (min-width: 481px) and (max-width: 769px) and (orientation: portrait) {
+  }
+
+  //481px — 768px: iPads, Tablets
+  //@media screen and (min-width: 481px) and (max-width: 769px) and (orientation: landscape) {}
+
+  //769px — 1024px: Small screens, laptops
+  //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {}
+
+  //769px — 1024px: Small screens, laptops
+  //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {}
+
+  //1025px — 1200px: Desktops, large screens
+  @media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: portrait) {
+  }
+
+  //1025px — 1200px: Desktops, large screens
+  //@media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: landscape) {}
+
+  //1201px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: portrait) {}
+
+  //1201px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: landscape) {}
+
+  //1501px and more —  Extra large screens, TV
+  //@media screen and (min-width: 1501px) and (orientation: portrait) {}
+
+  //1501px and more —  Extra large screens, TV
+  @media screen and (min-width: 1921px) and (orientation: landscape) {
   }
 `;
 
