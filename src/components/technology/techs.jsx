@@ -18,6 +18,7 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
     type: "",
     address: "",
     icon: "",
+    color: "",
     documentation: "",
   });
   const [viewViewTech, setViewViewTech] = useState(false);
@@ -76,6 +77,7 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
           type: "",
           address: "",
           icon: "",
+          color: "",
           documentation: "",
         });
         setViewAddTech(false);
@@ -126,6 +128,7 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
           type: "",
           address: "",
           icon: "",
+          color: "",
           documentation: "",
         });
         setViewEditTech(false);

@@ -34,6 +34,7 @@ const PackageAddViewEdit = function ({
             homepage: "",
             documentation: "",
             icon: "",
+            color: "",
           }}
         />
 
@@ -80,22 +81,40 @@ const PackageAddViewEdit = function ({
                   }
                 />
               </div>
-              <div className="input-item">
-                <label htmlFor="icon">Icon:</label>
-                <input
-                  disabled={formType === "VIEW" ? true : false}
-                  type="text"
-                  name="icon"
-                  autoComplete="off"
-                  size="50"
-                  value={currentPackage?.icon}
-                  onChange={(e) =>
-                    setCurrentPackage({
-                      ...currentPackage,
-                      [e.target.name]: e.target.value,
-                    })
-                  }
-                />
+              <div className="color-item">
+                <div className="input-item">
+                  <label htmlFor="icon">Icon:</label>
+                  <input
+                    disabled={formType === "VIEW" ? true : false}
+                    type="text"
+                    name="icon"
+                    autoComplete="off"
+                    size="50"
+                    value={currentPackage?.icon}
+                    onChange={(e) =>
+                      setCurrentPackage({
+                        ...currentPackage,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="input-item">
+                  <label htmlFor="color">Color:</label>
+                  <input
+                    disabled={formType === "VIEW" ? true : false}
+                    type="color"
+                    name="color"
+                    autoComplete="off"
+                    value={currentPackage?.color}
+                    onChange={(e) =>
+                      setCurrentPackage({
+                        ...currentPackage,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
+                  />
+                </div>
               </div>
             </div>
             <div className="description">
@@ -233,7 +252,7 @@ const StyledPackageAddViewEdit = styled(motion.div)`
 
   .container {
     width: 60vw;
-    height: 95vh;
+    height: auto;
     background-color: #ebebeb;
     border: 0.05rem #689ed0 solid;
     position: relative;
@@ -247,6 +266,11 @@ const StyledPackageAddViewEdit = styled(motion.div)`
       flex-direction: column;
       row-gap: 2rem;
 
+      .color-item {
+        display: flex;
+        column-gap: 1rem;
+        align-items: center;
+      }
       .address-item {
         display: flex;
         column-gap: 0.25rem;

@@ -107,7 +107,7 @@ const StyledTextAddViewEdit = styled(motion.div)`
 
   .container {
     width: 60vw;
-    height: 60vh;
+    height: auto;
     background-color: #ebebeb;
     border: 0.05rem #689ed0 solid;
     position: relative;

@@ -18,6 +18,7 @@ function Links({ auth, links, setLinks }) {
     type: "",
     address: "",
     icon: "",
+    color: "",
   });
   const [viewViewLink, setViewViewLink] = useState(false);
   const [viewAddLink, setViewAddLink] = useState(false);
@@ -75,6 +76,7 @@ function Links({ auth, links, setLinks }) {
           type: "",
           address: "",
           icon: "",
+          color: "",
         });
         setViewAddLink(false);
       })
@@ -109,6 +111,7 @@ function Links({ auth, links, setLinks }) {
           type: "",
           address: "",
           icon: "",
+          color: "",
         });
         setViewEditLink(false);
       })
