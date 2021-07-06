@@ -22,6 +22,7 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
     homepage: "",
     documentation: "",
     icon: "",
+    color: "",
   });
   const [viewViewLib, setViewViewLib] = useState(false);
   const [viewAddLib, setViewAddLib] = useState(false);
@@ -83,6 +84,7 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
           homepage: "",
           documentation: "",
           icon: "",
+          color: "",
         });
         setViewAddLib(false);
       })
@@ -135,6 +137,7 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
           homepage: "",
           documentation: "",
           icon: "",
+          color: "",
         });
         setViewEditLib(false);
       })

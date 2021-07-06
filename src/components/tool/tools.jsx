@@ -18,8 +18,9 @@ function Tools({ auth, tools, setTools }) {
     type: "",
     category: "",
     address: "",
-    icon: "",
     documentation: "",
+    icon: "",
+    color: "",
   });
   const [viewViewTool, setViewViewTool] = useState(false);
   const [viewAddTool, setViewAddTool] = useState(false);
@@ -77,8 +78,9 @@ function Tools({ auth, tools, setTools }) {
           type: "",
           category: "",
           address: "",
-          icon: "",
           documentation: "",
+          icon: "",
+          color: "",
         });
         setViewAddTool(false);
       })
@@ -114,8 +116,9 @@ function Tools({ auth, tools, setTools }) {
           type: "",
           category: "",
           address: "",
-          icon: "",
           documentation: "",
+          icon: "",
+          color: "",
         });
         setViewEditTool(false);
       })

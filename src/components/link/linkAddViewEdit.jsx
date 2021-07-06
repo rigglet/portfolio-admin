@@ -24,7 +24,7 @@ const LinkAddViewEdit = function ({
         <CloseButton
           closeFunction={openingHookSetter}
           resetFunction={setCurrentLink}
-          resetObject={{ name: "", type: "", address: "" }}
+          resetObject={{ name: "", type: "", address: "", icon: "", color: "" }}
         />
 
         <div className="titleHeader">
@@ -87,7 +87,23 @@ const LinkAddViewEdit = function ({
                 }
               />
             </div>
+            <div className="input-item">
+              <label htmlFor="color">Color:</label>
+              <input
+                disabled={formType === "VIEW" ? true : false}
+                type="color"
+                name="color"
+                value={currentLink?.color}
+                onChange={(e) =>
+                  setCurrentLink({
+                    ...currentLink,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </div>
           </div>
+
           <div className="addresses">
             <div className="input-item">
               <label htmlFor="address">Address:</label>
@@ -142,7 +158,7 @@ const StyledLinkAddViewEdit = styled(motion.div)`
 
   .container {
     width: 60vw;
-    height: 60vh;
+    height: auto;
     background-color: #ebebeb;
     border: 0.05rem #689ed0 solid;
     position: relative;

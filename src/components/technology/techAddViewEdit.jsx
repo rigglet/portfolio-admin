@@ -31,6 +31,7 @@ const TechAddViewEdit = function ({
             type: "",
             address: "",
             icon: "",
+            color: "",
             documentation: "",
           }}
         />
@@ -119,22 +120,39 @@ const TechAddViewEdit = function ({
             </div>
           </div>
 
-          <div className="input-item">
-            <label htmlFor="icon">Icon:</label>
-            <input
-              disabled={formType === "VIEW" ? true : false}
-              type="text"
-              name="icon"
-              autoComplete="off"
-              size="50"
-              value={currentTech?.icon}
-              onChange={(e) =>
-                setCurrentTech({
-                  ...currentTech,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
+          <div className="color-section">
+            <div className="input-item">
+              <label htmlFor="icon">Icon:</label>
+              <input
+                disabled={formType === "VIEW" ? true : false}
+                type="text"
+                name="icon"
+                autoComplete="off"
+                value={currentTech?.icon}
+                onChange={(e) =>
+                  setCurrentTech({
+                    ...currentTech,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <div className="color-item">
+              <label htmlFor="color">Color:</label>
+              <input
+                disabled={formType === "VIEW" ? true : false}
+                type="color"
+                name="color"
+                autoComplete="off"
+                value={currentTech?.color}
+                onChange={(e) =>
+                  setCurrentTech({
+                    ...currentTech,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </div>
           </div>
 
           {formType !== "VIEW" &&
@@ -167,7 +185,7 @@ const StyledTechAddViewEdit = styled(motion.div)`
 
   .container {
     width: 60vw;
-    height: 75vh;
+    height: auto;
     background-color: #ebebeb;
     border: 0.05rem #689ed0 solid;
     position: relative;
@@ -181,6 +199,11 @@ const StyledTechAddViewEdit = styled(motion.div)`
       flex-direction: column;
       row-gap: 1rem;
 
+      .color-section {
+        display: flex;
+        column-gap: 1rem;
+        align-items: center;
+      }
       .address-item {
         display: flex;
         column-gap: 0.25rem;
@@ -190,7 +213,12 @@ const StyledTechAddViewEdit = styled(motion.div)`
           height: 1.5rem;
         }
       }
+      .color-item {
+        display: flex;
+        flex-direction: column;
+      }
       .input-item {
+        width: 100%;
         display: flex;
         flex-direction: column;
       }

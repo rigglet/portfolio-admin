@@ -30,8 +30,9 @@ const ToolAddViewEdit = function ({
             type: "",
             category: "",
             address: "",
-            icon: "",
             documentation: "",
+            icon: "",
+            color: "",
           }}
         />
 
@@ -139,22 +140,39 @@ const ToolAddViewEdit = function ({
             </div>
           </div>
 
-          <div className="input-item">
-            <label htmlFor="icon">Icon:</label>
-            <input
-              disabled={formType === "VIEW" ? true : false}
-              type="text"
-              name="icon"
-              autoComplete="off"
-              size="50"
-              value={currentTool?.icon}
-              onChange={(e) =>
-                setCurrentTool({
-                  ...currentTool,
-                  [e.target.name]: e.target.value,
-                })
-              }
-            />
+          <div className="color-section">
+            <div className="input-item">
+              <label htmlFor="icon">Icon:</label>
+              <input
+                disabled={formType === "VIEW" ? true : false}
+                type="text"
+                name="icon"
+                autoComplete="off"
+                value={currentTool?.icon}
+                onChange={(e) =>
+                  setCurrentTool({
+                    ...currentTool,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </div>
+
+            <div className="color-item">
+              <label htmlFor="color">Color:</label>
+              <input
+                disabled={formType === "VIEW" ? true : false}
+                type="color"
+                name="color"
+                value={currentTool?.color}
+                onChange={(e) =>
+                  setCurrentTool({
+                    ...currentTool,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </div>
           </div>
 
           {formType !== "VIEW" &&
@@ -183,12 +201,11 @@ const StyledToolAddViewEdit = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
   background-color: rgba(256, 256, 256, 0.5);
 
   .container {
     width: 60vw;
-    height: 80vh;
+    height: auto;
     background-color: #ebebeb;
     border: 0.05rem #689ed0 solid;
     position: relative;
@@ -202,6 +219,11 @@ const StyledToolAddViewEdit = styled(motion.div)`
       flex-direction: column;
       row-gap: 1rem;
 
+      .color-section {
+        display: flex;
+        column-gap: 1rem;
+        align-items: center;
+      }
       .address-item {
         display: flex;
         column-gap: 0.25rem;
@@ -211,7 +233,12 @@ const StyledToolAddViewEdit = styled(motion.div)`
           height: 1.5rem;
         }
       }
+      .color-item {
+        display: flex;
+        flex-direction: column;
+      }
       .input-item {
+        width: 100%;
         display: flex;
         flex-direction: column;
       }

@@ -22,6 +22,7 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
     homepage: "",
     documentation: "",
     icon: "",
+    color: "",
   });
 
   const [viewViewPackage, setViewViewPackage] = useState(false);
@@ -84,6 +85,7 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
           homepage: "",
           documentation: "",
           icon: "",
+          color: "",
         });
         setViewAddPackage(false);
       })
@@ -136,6 +138,7 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
           homepage: "",
           documentation: "",
           icon: "",
+          color: "",
         });
         setViewEditPackage(false);
       })
