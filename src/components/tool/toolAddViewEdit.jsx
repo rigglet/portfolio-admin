@@ -29,6 +29,7 @@ const ToolAddViewEdit = function ({
             name: "",
             type: "",
             category: "",
+            description: "",
             address: "",
             documentation: "",
             icon: "",
@@ -89,6 +90,24 @@ const ToolAddViewEdit = function ({
                 autoComplete="off"
                 size="40"
                 value={currentTool?.type}
+                onChange={(e) =>
+                  setCurrentTool({
+                    ...currentTool,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </div>
+
+            <div className="input-item">
+              <label htmlFor="type">Description:</label>
+              <input
+                disabled={formType === "VIEW" ? true : false}
+                type="text"
+                name="description"
+                autoComplete="off"
+                size="40"
+                value={currentTool?.description}
                 onChange={(e) =>
                   setCurrentTool({
                     ...currentTool,

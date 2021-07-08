@@ -29,6 +29,8 @@ const TechAddViewEdit = function ({
           resetObject={{
             name: "",
             type: "",
+            category: "",
+            description: "",
             address: "",
             icon: "",
             color: "",
@@ -70,6 +72,40 @@ const TechAddViewEdit = function ({
               autoComplete="off"
               size="50"
               value={currentTech?.type}
+              onChange={(e) =>
+                setCurrentTech({
+                  ...currentTech,
+                  [e.target.name]: e.target.value,
+                })
+              }
+            />
+          </div>
+          <div className="input-item">
+            <label htmlFor="type">Category:</label>
+            <input
+              disabled={formType === "VIEW" ? true : false}
+              type="text"
+              name="category"
+              autoComplete="off"
+              size="50"
+              value={currentTech?.category}
+              onChange={(e) =>
+                setCurrentTech({
+                  ...currentTech,
+                  [e.target.name]: e.target.value,
+                })
+              }
+            />
+          </div>
+          <div className="input-item">
+            <label htmlFor="type">Description:</label>
+            <input
+              disabled={formType === "VIEW" ? true : false}
+              type="text"
+              name="description"
+              autoComplete="off"
+              size="50"
+              value={currentTech?.description}
               onChange={(e) =>
                 setCurrentTech({
                   ...currentTech,
