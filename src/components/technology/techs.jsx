@@ -16,6 +16,8 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
   const [currentTech, setCurrentTech] = useState({
     name: "",
     type: "",
+    category: "",
+    description: "",
     address: "",
     icon: "",
     color: "",
@@ -75,6 +77,8 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
         setCurrentTech({
           name: "",
           type: "",
+          category: "",
+          description: "",
           address: "",
           icon: "",
           color: "",
@@ -126,6 +130,8 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
         setCurrentTech({
           name: "",
           type: "",
+          category: "",
+          description: "",
           address: "",
           icon: "",
           color: "",
