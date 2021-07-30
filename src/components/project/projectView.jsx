@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 //dates
 import { DateTime } from "luxon";
 //icons
-import { FaGithub, FaRegCheckCircle } from "react-icons/fa";
+import { FaGithub, FaRegCheckCircle, FaYoutube } from "react-icons/fa";
 import { BsCardText, BsStarFill, BsCardChecklist } from "react-icons/bs";
 import { CgWebsite } from "react-icons/cg";
 import { ImImages } from "react-icons/im";
@@ -40,6 +40,7 @@ const ProjectView = function ({
             included: false,
             website: "",
             githubLink: "",
+            walkthroughVideo: "",
             shortDescription: "",
             projectDescription: "",
             addedDate: DateTime.now(),
@@ -121,6 +122,13 @@ const ProjectView = function ({
               <div className="address">
                 <CgWebsite className="address-icon" />
                 <p>{currentProject?.website}</p>
+              </div>
+            </div>
+            <div className="address-item">
+              <label htmlFor="walkthrough">Walkthrough:</label>
+              <div className="address">
+                <FaYoutube className="address-icon" />
+                <p>{currentProject?.walkthroughVideo}</p>
               </div>
             </div>
           </fieldset>
