@@ -35,7 +35,6 @@ function ToolItem({
 
       <div className="data-item name-cell upper">{tool.name}</div>
       <div className="data-item short-cell">{tool.category}</div>
-      <div className="data-item short-cell">{tool.type}</div>
       <div className="data-item long-cell">{tool.address}</div>
 
       <div className="data-item actions-cell">

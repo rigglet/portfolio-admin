@@ -15,7 +15,7 @@ import { deleteData, postData, updateData } from "../../api/api";
 function Techs({ auth, techs, setTechs, projects, setProjects }) {
   const [currentTech, setCurrentTech] = useState({
     name: "",
-    type: "",
+    //type: "",
     category: "",
     description: "",
     address: "",
@@ -76,7 +76,7 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
         setFetchingData(false);
         setCurrentTech({
           name: "",
-          type: "",
+          //type: "",
           category: "",
           description: "",
           address: "",
@@ -129,7 +129,7 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
         setFetchingData(false);
         setCurrentTech({
           name: "",
-          type: "",
+          //type: "",
           category: "",
           description: "",
           address: "",

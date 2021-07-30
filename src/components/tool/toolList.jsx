@@ -22,7 +22,6 @@ function ToolList({
           <li key={uuidv4()} className="headers">
             <h4 className="name-header">Name</h4>
             <h4 className="short-header">Category</h4>
-            <h4 className="short-header">Type</h4>
             <h4 className="long-header">Address</h4>
             <h4 className="actions-header">Actions</h4>
           </li>

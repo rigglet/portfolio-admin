@@ -35,7 +35,7 @@ function TechItem({
       }
 
       <div className="data-item name-cell upper">{tech.name}</div>
-      <div className="data-item short-cell">{tech.type}</div>
+      <div className="data-item short-cell">{tech.category}</div>
       <div className="data-item long-cell">{tech.address}</div>
 
       <div className="data-item actions-cell">

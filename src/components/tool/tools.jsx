@@ -15,7 +15,7 @@ import { deleteData, postData, updateData } from "../../api/api";
 function Tools({ auth, tools, setTools }) {
   const [currentTool, setCurrentTool] = useState({
     name: "",
-    type: "",
+    //type: "",
     category: "",
     description: "",
     address: "",
@@ -76,7 +76,7 @@ function Tools({ auth, tools, setTools }) {
         setFetchingData(false);
         setCurrentTool({
           name: "",
-          type: "",
+          //type: "",
           category: "",
           description: "",
           address: "",
@@ -115,7 +115,7 @@ function Tools({ auth, tools, setTools }) {
         setFetchingData(false);
         setCurrentTool({
           name: "",
-          type: "",
+          //type: "",
           category: "",
           description: "",
           address: "",
