@@ -17,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { CgWebsite } from "react-icons/cg";
 import { RiAddCircleLine } from "react-icons/ri";
 import { BiMinusCircle } from "react-icons/bi";
+import { FaYoutube } from "react-icons/fa";
 
 const Step1 = function ({
   currentStep,
@@ -218,8 +219,28 @@ const Step1 = function ({
               <input
                 value={currentProject?.website}
                 type="text"
-                id="text"
+                id="website"
                 name="website"
+                autoComplete="off"
+                size="40"
+                onChange={(e) =>
+                  setCurrentProject({
+                    ...currentProject,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </div>
+          <div className="input-item">
+            <label htmlFor="walkthroughVideo">Walkthrough:</label>
+            <div className="address-item">
+              <FaYoutube className="address-icon" />
+              <input
+                value={currentProject?.walkthroughVideo}
+                type="text"
+                id="walkthroughVideo"
+                name="walkthroughVideo"
                 autoComplete="off"
                 size="40"
                 onChange={(e) =>

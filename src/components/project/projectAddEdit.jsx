@@ -40,6 +40,7 @@ const ProjectAddEdit = function ({
             included: false,
             website: "",
             githubLink: "",
+            walkthroughVideo: "",
             shortDescription: "",
             projectDescription: "",
             addedDate: DateTime.now(),

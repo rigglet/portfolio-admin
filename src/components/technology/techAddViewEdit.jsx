@@ -28,7 +28,7 @@ const TechAddViewEdit = function ({
           resetFunction={setCurrentTech}
           resetObject={{
             name: "",
-            type: "",
+            //type: "",
             category: "",
             description: "",
             address: "",
@@ -63,7 +63,7 @@ const TechAddViewEdit = function ({
             />
           </div>
 
-          <div className="input-item">
+          {/* <div className="input-item">
             <label htmlFor="type">Type:</label>
             <input
               disabled={formType === "VIEW" ? true : false}
@@ -79,7 +79,7 @@ const TechAddViewEdit = function ({
                 })
               }
             />
-          </div>
+          </div> */}
           <div className="input-item">
             <label htmlFor="type">Category:</label>
             <input
