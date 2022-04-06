@@ -83,7 +83,7 @@ function Projects({
 
   //HANDLE LIST EDIT
   const handleSaveList = async (project) => {
-    setFetchingData(true);
+    setFetchingData(() => true);
 
     const updateProject = async () => {
       return await updateData(auth, "projects", project);
@@ -102,13 +102,13 @@ function Projects({
       })
       .catch((err) => {
         notify("EDIT_ERROR", err);
-        setFetchingData(false);
+        setFetchingData(() => false);
       });
   };
 
   //HANDLE ADD PROJECT
   const handleSaveProject = async () => {
-    setFetchingData(true);
+    setFetchingData(() => true);
 
     const addProject = async () => {
       return await postData(auth, "projects", currentProject);
@@ -123,7 +123,8 @@ function Projects({
         }
       })
       .then(() => {
-        setFetchingData(false);
+        setFetchingData(() => false);
+
         setCurrentProject({
           projectName: "",
           version: "",
@@ -150,13 +151,13 @@ function Projects({
       })
       .catch((err) => {
         notify("ADD_ERROR", err);
-        setFetchingData(false);
+        setFetchingData(() => false);
       });
   };
 
   //HANDLE EDIT PROJECT
   const handleEditProject = async () => {
-    setFetchingData(true);
+    setFetchingData(() => true);
 
     const editProject = async () => {
       return await updateData(auth, "projects", currentProject);
@@ -174,7 +175,7 @@ function Projects({
         }
       })
       .then(() => {
-        setFetchingData(false);
+        setFetchingData(() => false);
         setCurrentProject({
           projectName: "",
           version: "",
@@ -198,7 +199,7 @@ function Projects({
       })
       .catch((err) => {
         notify("EDIT_ERROR", err);
-        setFetchingData(false);
+        setFetchingData(() => false);
       });
   };
 
