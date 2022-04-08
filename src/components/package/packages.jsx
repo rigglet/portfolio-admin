@@ -116,13 +116,17 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
             projects.map((project) => ({
               ...project,
               packages: [
-                ...project.packages.filter(
-                  (pack) => pack._id !== currentPackage._id
-                ),
-                currentPackage,
+                ...project.packages.map((pack) => {
+                  if (pack._id === currentPackage._id) {
+                    return currentPackage;
+                  } else {
+                    return pack;
+                  }
+                }),
               ],
             }))
           );
+
           //Toast message
           notify("EDITED");
         }

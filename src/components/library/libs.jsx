@@ -115,10 +115,13 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
             projects.map((project) => ({
               ...project,
               libraries: [
-                ...project.libraries.filter(
-                  (library) => library._id !== currentLib._id
-                ),
-                currentLib,
+                ...project.libraries.map((library) => {
+                  if (library._id === currentLib._id) {
+                    return currentLib;
+                  } else {
+                    return library;
+                  }
+                }),
               ],
             }))
           );

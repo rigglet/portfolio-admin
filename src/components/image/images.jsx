@@ -131,10 +131,13 @@ function Images({ auth, images, setImages, projects, setProjects }) {
             projects.map((project) => ({
               ...project,
               screenshots: [
-                ...project.screenshots.filter(
-                  (image) => image._id !== currentImage._id
-                ),
-                currentImage,
+                ...project.screenshots.map((image) => {
+                  if (image._id === currentImage._id) {
+                    return currentImage;
+                  } else {
+                    return image;
+                  }
+                }),
               ],
             }))
           );

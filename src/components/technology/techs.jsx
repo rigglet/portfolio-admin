@@ -113,10 +113,13 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
             projects.map((project) => ({
               ...project,
               technologies: [
-                ...project.technologies.filter(
-                  (technology) => technology._id !== currentTech._id
-                ),
-                currentTech,
+                ...project.technologies.map((technology) => {
+                  if (technology._id === currentTech._id) {
+                    return currentTech;
+                  } else {
+                    return technology;
+                  }
+                }),
               ],
             }))
           );
