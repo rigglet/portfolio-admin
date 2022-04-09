@@ -250,6 +250,7 @@ function Techs({ auth, techs, setTechs, projects, setProjects, allIcons }) {
             setCurrentTech={setCurrentTech}
             title="View technology"
             formType={"VIEW"}
+            allIcons={allIcons}
           />
         )
       }

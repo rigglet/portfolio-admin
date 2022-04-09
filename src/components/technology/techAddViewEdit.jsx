@@ -9,6 +9,7 @@ import { HiCode } from "react-icons/hi";
 import SubmitButton from "../submitButton";
 import CloseButton from "../closeButton";
 import Spinner from "../spinner";
+//import Icon from "../Icon";
 
 const TechAddViewEdit = function ({
   openingHookSetter,
@@ -21,6 +22,18 @@ const TechAddViewEdit = function ({
   fetchingData,
   allIcons,
 }) {
+  // let arrIcons = [];
+
+  // for (const icon in allIcons) {
+  //   arrIcons.push(icon);
+  // }
+
+  // console.log(allIcons);
+  // console.log(arrIcons);
+  // for (const key in allIcons) {
+  //   console.log(`${key}: ${allIcons[key]}`);
+  // }
+
   return (
     <StyledTechAddViewEdit>
       <div className="container">
@@ -160,7 +173,7 @@ const TechAddViewEdit = function ({
           <div className="color-section">
             <div className="input-item">
               <label htmlFor="icon">Icon:</label>
-              <input
+              {/* <select
                 disabled={formType === "VIEW" ? true : false}
                 type="text"
                 name="icon"
@@ -172,7 +185,39 @@ const TechAddViewEdit = function ({
                     [e.target.name]: e.target.value,
                   })
                 }
-              />
+              >
+                {arrIcons.map((i) => {
+                  return (
+                    <option key={i}>
+                      {i}
+                      {/* <Icon
+                        icon={i}
+                        //color={children.color}
+                        size="25px"
+                        title={i}
+                        className="item-icon"
+                        allIcons={allIcons}
+                      /> 
+                    </option>
+                  );
+                })}
+              </select> */}
+
+              {
+                <input
+                  disabled={formType === "VIEW" ? true : false}
+                  type="text"
+                  name="icon"
+                  autoComplete="off"
+                  value={currentTech?.icon}
+                  onChange={(e) =>
+                    setCurrentTech({
+                      ...currentTech,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
+              }
             </div>
             <div className="color-item">
               <label htmlFor="color">Color:</label>
