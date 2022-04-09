@@ -5,10 +5,7 @@ const ListItem = (props) => {
   const { children, handleItemClick, allIcons } = props;
 
   return (
-    <StyledListItem
-      onClick={() => handleItemClick(children)}
-      allIcons={allIcons}
-    >
+    <StyledListItem onClick={() => handleItemClick(children)}>
       <Icon
         icon={children.icon}
         color={children.color}

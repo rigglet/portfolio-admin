@@ -69,11 +69,13 @@ const ProjectAddEdit = function ({
             currentProject={currentProject}
             setCurrentProject={setCurrentProject}
             libraries={libraries}
+            allIcons={allIcons}
           />
           <StepPackages
             currentProject={currentProject}
             setCurrentProject={setCurrentProject}
             packages={packages}
+            allIcons={allIcons}
           />
           <StepTechnologies
             currentProject={currentProject}

@@ -96,6 +96,7 @@ const Step4 = function ({
                 <ListItem
                   key={uuidv4()}
                   handleItemClick={handleSelectedItemClick}
+                  allIcons={allIcons}
                 >
                   {p}
                 </ListItem>

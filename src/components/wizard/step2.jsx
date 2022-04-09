@@ -17,6 +17,7 @@ const Step2 = function ({
   currentProject,
   setCurrentProject,
   libraries,
+  allIcons,
 }) {
   //If NEW project then selected libraries should be empty - set in ProjectAddEdit.jsx
   //If EDIT project then selected libraries should be loaded for specific project
@@ -72,7 +73,11 @@ const Step2 = function ({
             {availableLibraries
               .sort((a, b) => (a.name > b.name ? 1 : -1))
               .map((l) => (
-                <ListItem key={uuidv4()} handleItemClick={handleLibItemClick}>
+                <ListItem
+                  key={uuidv4()}
+                  handleItemClick={handleLibItemClick}
+                  allIcons={allIcons}
+                >
                   {l}
                 </ListItem>
               ))}
@@ -88,6 +93,7 @@ const Step2 = function ({
                 <ListItem
                   key={uuidv4()}
                   handleItemClick={handleSelectedItemClick}
+                  allIcons={allIcons}
                 >
                   {l}
                 </ListItem>

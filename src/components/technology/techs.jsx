@@ -12,7 +12,7 @@ import TechAdd from "./techAddViewEdit";
 //data
 import { deleteData, postData, updateData } from "../../api/api";
 
-function Techs({ auth, techs, setTechs, projects, setProjects }) {
+function Techs({ auth, techs, setTechs, projects, setProjects, allIcons }) {
   const [currentTech, setCurrentTech] = useState({
     name: "",
     //type: "",
@@ -219,6 +219,7 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
             fetchingData={fetchingData}
             title="Add new technology"
             formType={"ADD"}
+            allIcons={allIcons}
           />
         )
       }
@@ -235,6 +236,7 @@ function Techs({ auth, techs, setTechs, projects, setProjects }) {
             fetchingData={fetchingData}
             title="Edit technology"
             formType={"EDIT"}
+            allIcons={allIcons}
           />
         )
       }

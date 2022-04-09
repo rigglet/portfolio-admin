@@ -79,6 +79,7 @@ function Admin({ auth, setAuth, allIcons }) {
             setTechs={setTechs}
             projects={projects}
             setProjects={setProjects}
+            allIcons={allIcons}
           />
         );
       case "/admin/libraries":

@@ -19,6 +19,7 @@ const TechAddViewEdit = function ({
   setCurrentTech,
   formType,
   fetchingData,
+  allIcons,
 }) {
   return (
     <StyledTechAddViewEdit>

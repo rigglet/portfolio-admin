@@ -1,9 +1,8 @@
 import PropTypes from "prop-types";
 //icons
 import { IconContext } from "react-icons";
-import * as allIcons from "react-icons/all";
 
-const Icon = ({ icon, color, size, title, className }) => {
+const Icon = ({ icon, color, size, title, className, allIcons }) => {
   //icons
   let DynamicIcon = allIcons[icon];
   if (icon in allIcons) {
@@ -12,24 +11,9 @@ const Icon = ({ icon, color, size, title, className }) => {
     DynamicIcon = allIcons["FaLaptopCode"];
   }
 
-  //console.log("DynamicIcon: ", DynamicIcon);
-  console.log(icon, color, size, title, className);
-
   return (
     <IconContext.Provider value={{ icon, color, size, title, className }}>
       <DynamicIcon />
-
-      {/* {DynamicIcon !== undefined ? (
-        <DynamicIcon
-          //icon={icon ? icon : "FaDAndD"}
-          color={color ? color : "green"}
-          // size={(size = "100px")}
-          // title={(title = "Icon")}
-          // className={(className = "")}
-        />
-      ) : (
-        ""
-      )} */}
     </IconContext.Provider>
   );
 };

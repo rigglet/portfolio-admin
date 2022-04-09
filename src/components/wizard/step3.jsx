@@ -17,6 +17,7 @@ const Step3 = function ({
   currentProject,
   setCurrentProject,
   packages,
+  allIcons,
 }) {
   //If NEW package then selected packages should be empty - set in PackageAddViewEdit.jsx
   //If EDIT package then selected packages should be loaded for specific project
@@ -68,7 +69,11 @@ const Step3 = function ({
             {availablePackages
               .sort((a, b) => (a.name > b.name ? 1 : -1))
               .map((p) => (
-                <ListItem key={uuidv4()} handleItemClick={handlePackItemClick}>
+                <ListItem
+                  key={uuidv4()}
+                  handleItemClick={handlePackItemClick}
+                  allIcons={allIcons}
+                >
                   {p}
                 </ListItem>
               ))}
@@ -84,6 +89,7 @@ const Step3 = function ({
                 <ListItem
                   key={uuidv4()}
                   handleItemClick={handleSelectedItemClick}
+                  allIcons={allIcons}
                 >
                   {p}
                 </ListItem>
