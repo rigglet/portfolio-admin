@@ -148,13 +148,12 @@ const StyledStep = styled.div`
         margin-bottom: 0.5rem;
       }
       .list {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        gap: 0.5rem;
-        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        grid-template-rows: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 1rem;
+        padding: 1rem;
         height: 93%;
-        padding: 0.5rem;
         box-shadow: 0 0 3px 5px #688297;
         overflow-y: scroll;
         border-radius: 4px;

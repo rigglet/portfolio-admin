@@ -80,6 +80,7 @@ const StyledProjectList = styled(motion.div)`
   ul {
     width: auto;
     height: 80vh;
+    height: auto;
     list-style: none;
   }
 

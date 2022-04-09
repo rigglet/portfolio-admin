@@ -25,6 +25,7 @@ const ProjectAddEdit = function ({
   packages,
   libraries,
   fetchingData,
+  allIcons,
 }) {
   return (
     <StyledProjectAddEdit>
@@ -78,6 +79,7 @@ const ProjectAddEdit = function ({
             currentProject={currentProject}
             setCurrentProject={setCurrentProject}
             techs={techs}
+            allIcons={allIcons}
           />
           <StepImages
             formType={formType}

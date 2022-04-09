@@ -19,7 +19,7 @@ import Bar from "../components/bar";
 //data
 import { getUserData } from "../api/api";
 
-function Admin({ auth, setAuth }) {
+function Admin({ auth, setAuth, allIcons }) {
   const location = useLocation();
   const path = location.pathname;
 
@@ -68,6 +68,7 @@ function Admin({ auth, setAuth }) {
             setPackages={setPackages}
             libraries={libraries}
             setLibraries={setLibraries}
+            allIcons={allIcons}
           />
         );
       case "/admin/tech":

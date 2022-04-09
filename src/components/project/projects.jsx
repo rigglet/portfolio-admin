@@ -12,6 +12,7 @@ import { DateTime } from "luxon";
 import ProjectList from "./projectList";
 import ProjectAddEdit from "./projectAddEdit";
 import ProjectView from "./projectView";
+
 //message components
 import { ToastContainer, toast, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,6 +25,7 @@ function Projects({
   techs,
   packages,
   libraries,
+  allIcons,
 }) {
   const [currentProject, setCurrentProject] = useState({
     projectName: "",
@@ -264,6 +266,7 @@ function Projects({
             techs={techs}
             packages={packages}
             libraries={libraries}
+            allIcons={allIcons}
           />
         )
       }
@@ -283,6 +286,7 @@ function Projects({
             techs={techs}
             packages={packages}
             libraries={libraries}
+            allIcons={allIcons}
           />
         )
       }
@@ -310,16 +314,18 @@ function Projects({
       </div>
 
       {projects.length > 0 ? (
-        <ProjectList
-          projects={projects}
-          acceptFnc={handleDeleteRecord}
-          handleViewEditRecord={handleViewEditRecord}
-          handleSaveList={handleSaveList}
-          setViewEditProject={setViewEditProject}
-          setViewViewProject={setViewViewProject}
-          deletingData={deletingData}
-          clickedItem={clickedItem}
-        />
+        <>
+          <ProjectList
+            projects={projects}
+            acceptFnc={handleDeleteRecord}
+            handleViewEditRecord={handleViewEditRecord}
+            handleSaveList={handleSaveList}
+            setViewEditProject={setViewEditProject}
+            setViewViewProject={setViewViewProject}
+            deletingData={deletingData}
+            clickedItem={clickedItem}
+          />
+        </>
       ) : (
         <h4 className="empty">No projects to display</h4>
       )}
