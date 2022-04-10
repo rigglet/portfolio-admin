@@ -102,6 +102,10 @@ function Projects({
           notify("EDITED");
         }
       })
+      .then(() => {
+        //TODOS: BUG - added to fix bug - spinner not disappearing after edit
+        setFetchingData(() => false);
+      })
       .catch((err) => {
         notify("EDIT_ERROR", err);
         setFetchingData(() => false);
