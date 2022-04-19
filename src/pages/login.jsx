@@ -22,9 +22,9 @@ import { signin } from "../api/api";
 function Login({ setAuth }) {
   const history = useHistory();
 
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [emailFocus, toggleEmail] = useState(false);
+  const [usernameFocus, toggleUsername] = useState(false);
   const [passwordFocus, togglePassword] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
@@ -45,11 +45,11 @@ function Login({ setAuth }) {
   const handleSubmit = async (e) => {
     //e.preventDefault();
     setLoading(true);
-    toggleEmail(false);
+    toggleUsername(false);
     togglePassword(false);
 
-    if (email.length > 0 && password.length > 0) {
-      const data = { email, password };
+    if (username.length > 0 && password.length > 0) {
+      const data = { username, password };
       const res = await signin(data);
 
       if (res.status === 200) {
@@ -58,11 +58,10 @@ function Login({ setAuth }) {
           username: res.data.username,
           token: res.data.token,
           profileImageUrl: res.data.profileImageUrl,
-          email: res.data.email,
         });
 
         setPassword("");
-        setEmail("");
+        setUsername("");
         history.push("/admin/projects");
       } else {
         //toast message - invalid credentials
@@ -107,19 +106,21 @@ function Login({ setAuth }) {
             <div className="input-div">
               <h5
                 className={
-                  emailFocus || email.length > 0 ? "prompt-selected" : "prompt"
+                  usernameFocus || username.length > 0
+                    ? "prompt-selected"
+                    : "prompt"
                 }
               >
-                Email
+                Username
               </h5>
-              <div className={emailFocus ? "focus" : "label"}>
+              <div className={usernameFocus ? "focus" : "label"}>
                 <FaUser className="icon" />
                 <input
-                  name="email"
-                  onFocus={() => toggleEmail(!emailFocus)}
-                  onBlur={() => toggleEmail(!emailFocus)}
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
+                  name="username"
+                  onFocus={() => toggleUsername(!usernameFocus)}
+                  onBlur={() => toggleUsername(!usernameFocus)}
+                  onChange={(e) => setUsername(e.target.value)}
+                  value={username}
                   type="text"
                   //size="20"
                   autoComplete="off"
