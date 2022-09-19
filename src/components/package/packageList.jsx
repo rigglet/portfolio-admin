@@ -12,37 +12,43 @@ function PackageList({
   declineFnc,
   acceptFnc,
   handleViewEditRecord,
+  handleDuplicatePackage,
   deletingData,
   clickedItem,
 }) {
   return (
     <StyledPackageList>
       {packages.length > 0 && (
-        <ul>
+        <>
+        <ul className="table-header">
           <li key={uuidv4()} className="headers">
             <h4 className="name-header">Name</h4>
             <h4 className="short-header">Version</h4>
             <h4 className="long-header">Description</h4>
             <h4 className="actions-header">Actions</h4>
-          </li>
+            </li>
+          </ul>
+          <ul className="table-data">
           {packages
             .sort((a, b) => (a.name > b.name ? 1 : -1))
             .map((pack) => {
               return (
                 <PackageItem
-                  key={uuidv4()}
-                  pack={pack}
-                  declineFnc={declineFnc}
+                key={uuidv4()}
+                pack={pack}
+                declineFnc={declineFnc}
                   acceptFnc={acceptFnc}
                   setViewEditPackage={setViewEditPackage}
                   setViewViewPackage={setViewViewPackage}
                   handleViewEditRecord={handleViewEditRecord}
+                  handleDuplicatePackage={handleDuplicatePackage}
                   deletingData={deletingData}
                   clickedItem={clickedItem}
                 />
               );
             })}
         </ul>
+      </>
       )}
     </StyledPackageList>
   );
@@ -51,18 +57,15 @@ function PackageList({
 const StyledPackageList = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  height: 80vh;
+  row-gap: 0.5rem;
 
-  ul {
-    width: auto;
-    height: 80vh;
-    list-style: none;
-  }
+  .table-header{
 
-  .headers {
-    display: flex;
+    .headers {
+      display: flex;
     gap: 0.25rem;
-
+    
     h4 {
       background-color: #688297;
       padding: 0.25rem 0.5rem;
@@ -86,8 +89,15 @@ const StyledPackageList = styled(motion.div)`
     text-align: left;
   }
   .actions-header {
-    flex: 0 0 10%;
+    flex: 0 0 165px;
     justify-content: center;
+  }
+}
+  .table-data{
+    height: 100%;
+    width: auto;
+    list-style: none;
+    overflow-y: scroll;
   }
 
   //#### RESPONSIVE SECTION ####

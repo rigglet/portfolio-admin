@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
-import { FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
+import { FaCopy, FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
 import DeleteConfirmation from "../DeleteConfirmation";
 import Spinner from "../spinner";
 
@@ -11,6 +11,7 @@ function PackageItem({
   setViewEditPackage,
   setViewViewPackage,
   handleViewEditRecord,
+  handleDuplicatePackage,
   declineFnc,
   acceptFnc,
   deletingData,
@@ -51,6 +52,12 @@ function PackageItem({
             onClick={() => {
               handleViewEditRecord(pack);
               setViewEditPackage(true);
+            }}
+          />
+          <FaCopy
+            className="action-icon"
+            onClick={() => {
+              handleDuplicatePackage(pack);
             }}
           />
           {deletingData && pack._id === clickedItem ? (
@@ -103,7 +110,7 @@ const StyledPackageItem = styled(motion.li)`
   }
   .actions-cell {
     display: flex;
-    flex: 0 0 10%;
+    flex: 0 0 150px;
     justify-content: center;
   }
 

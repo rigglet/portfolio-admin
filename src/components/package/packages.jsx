@@ -41,6 +41,9 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
       case "ADDED":
         toast.dark(`Package ADDED successfully`);
         break;
+      case "DUPLICATED":
+        toast.dark(`Package DUPLICATED successfully`);
+        break;
       case "DELETED":
         toast.dark(`Package DELETED successfully`);
         break;
@@ -88,6 +91,30 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
           color: "",
         });
         setViewAddPackage(false);
+      })
+      .catch((err) => {
+        notify("ADD_ERROR", err);
+        setFetchingData(false);
+      });
+  };
+  //HANDLE ADD PACKAGE
+  const handleDuplicatePackage = async (pack) => {
+    setFetchingData(true);
+
+    const addPackage = async () => {
+      return await postData(auth, "packages", pack);
+    };
+
+    addPackage()
+      .then((result) => {
+        if (result.status === 200) {
+          setPackages([...packages, result.data]);
+          //Toast message
+          notify("DUPLICATED");
+        }
+      })
+      .then(() => {
+        setFetchingData(false);
       })
       .catch((err) => {
         notify("ADD_ERROR", err);
@@ -264,6 +291,7 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
           packages={packages}
           acceptFnc={handleDeleteRecord}
           handleViewEditRecord={handleViewEditRecord}
+          handleDuplicatePackage={handleDuplicatePackage}
           setViewEditPackage={setViewEditPackage}
           setViewViewPackage={setViewViewPackage}
           deletingData={deletingData}
