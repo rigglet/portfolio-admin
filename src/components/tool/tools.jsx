@@ -39,6 +39,9 @@ function Tools({ auth, tools, setTools }) {
       case "ADDED":
         toast.dark(`Tool ADDED successfully`);
         break;
+      case "DUPLICATED":
+        toast.dark(`Tool DUPLICATED successfully`);
+        break;
       case "DELETED":
         toast.dark(`Tool DELETED successfully`);
         break;
@@ -54,6 +57,31 @@ function Tools({ auth, tools, setTools }) {
       default:
         toast.dark("Nothing to report");
     }
+  };
+
+  //HANDLE ADD TOOL
+  const handleDuplicateTool = async (tool) => {
+    setFetchingData(true);
+
+    const addTool = async () => {
+      return await postData(auth, "tools", tool);
+    };
+
+    addTool()
+      .then((result) => {
+        if (result.status === 200) {
+          setTools([...tools, result.data]);
+          //Toast message
+          notify("DUPLICATED");
+        }
+      })
+      .then(() => {
+        setFetchingData(false);
+      })
+      .catch((err) => {
+        notify("ADD_ERROR", err);
+        setFetchingData(false);
+      });
   };
 
   //HANDLE ADD TOOL
@@ -236,6 +264,7 @@ function Tools({ auth, tools, setTools }) {
           tools={tools}
           acceptFnc={handleDeleteRecord}
           handleViewEditRecord={handleViewEditRecord}
+          handleDuplicateTool={handleDuplicateTool}
           setViewEditTool={setViewEditTool}
           setViewViewTool={setViewViewTool}
           deletingData={deletingData}

@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
-import { FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
+import { FaCopy, FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
 import DeleteConfirmation from "../DeleteConfirmation";
 import Spinner from "../spinner";
 
@@ -11,6 +11,7 @@ function ToolItem({
   setViewEditTool,
   setViewViewTool,
   handleViewEditRecord,
+  handleDuplicateTool,
   declineFnc,
   acceptFnc,
   deletingData,
@@ -51,6 +52,12 @@ function ToolItem({
             onClick={() => {
               handleViewEditRecord(tool);
               setViewEditTool(true);
+            }}
+          />
+          <FaCopy
+            className="action-icon"
+            onClick={() => {
+              handleDuplicateTool(tool);
             }}
           />
           {deletingData && tool._id === clickedItem ? (
@@ -94,7 +101,7 @@ const StyledToolItem = styled(motion.li)`
   }
   .actions-cell {
     display: flex;
-    flex: 0 0 10%;
+    flex: 0 0 150px;
     justify-content: center;
   }
   .short-cell {
