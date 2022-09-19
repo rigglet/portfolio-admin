@@ -30,6 +30,9 @@ function Texts({ auth, texts, setTexts }) {
       case "ADDED":
         toast.dark(`Text ADDED successfully`);
         break;
+      case "DUPLICATED":
+        toast.dark(`Text DUPLICATED successfully`);
+        break;
       case "DELETED":
         toast.dark(`TextDELETED successfully`);
         break;
@@ -45,6 +48,31 @@ function Texts({ auth, texts, setTexts }) {
       default:
         toast.dark("Nothing to report");
     }
+  };
+
+  //HANDLE DUPLICATE TEXT
+  const handleDuplicateText = async (text) => {
+    setFetchingData(true);
+
+    const addText = async () => {
+      return await postData(auth, "texts", text);
+    };
+
+    addText()
+      .then((result) => {
+        if (result.status === 200) {
+          setTexts([...texts, result.data]);
+          //Toast message
+          notify("DUPLICATED");
+        }
+      })
+      .then(() => {
+        setFetchingData(false);
+      })
+      .catch((err) => {
+        notify("ADD_ERROR", err);
+        setFetchingData(false);
+      });
   };
 
   //HANDLE ADD TEXT
@@ -208,6 +236,7 @@ function Texts({ auth, texts, setTexts }) {
           texts={texts}
           acceptFnc={handleDeleteRecord}
           handleViewEditRecord={handleViewEditRecord}
+          handleDuplicateText={handleDuplicateText}
           setViewEditText={setViewEditText}
           setViewViewText={setViewViewText}
           deletingData={deletingData}

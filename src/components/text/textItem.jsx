@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
-import { FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
+import { FaCopy, FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
 import DeleteConfirmation from "../DeleteConfirmation";
 import Spinner from "../spinner";
 
@@ -11,6 +11,7 @@ function TextItem({
   setViewEditText,
   setViewViewText,
   handleViewEditRecord,
+  handleDuplicateText,
   declineFnc,
   acceptFnc,
   deletingData,
@@ -50,6 +51,12 @@ function TextItem({
             onClick={() => {
               handleViewEditRecord(text);
               setViewEditText(true);
+            }}
+          />
+          <FaCopy
+            className="action-icon"
+            onClick={() => {
+              handleDuplicateText(text);
             }}
           />
           {deletingData && text._id === clickedItem ? (
@@ -93,7 +100,7 @@ const StyledTextItem = styled(motion.li)`
   }
   .short-cell {
     display: flex;
-    flex: 0 0 10%;
+    flex: 0 0 150px;
     justify-content: center;
   }
   .long-cell {
@@ -102,7 +109,7 @@ const StyledTextItem = styled(motion.li)`
   }
   .actions-cell {
     display: flex;
-    flex: 0 0 10%;
+    flex: 0 0 150px;
     justify-content: center;
   }
 
