@@ -36,6 +36,9 @@ function Links({ auth, links, setLinks }) {
       case "ADDED":
         toast.dark(`Link ADDED successfully`);
         break;
+      case "DUPLICATED":
+        toast.dark(`Link DUPLICATED successfully`);
+        break;
       case "DELETED":
         toast.dark(`Link DELETED successfully`);
         break;
@@ -51,6 +54,31 @@ function Links({ auth, links, setLinks }) {
       default:
         toast.dark("Nothing to report");
     }
+  };
+
+  //HANDLE DUPLICATE LINK
+  const handleDuplicateLink = async (link) => {
+    setFetchingData(true);
+
+    const addLink = async () => {
+      return await postData(auth, "links", link);
+    };
+
+    addLink()
+      .then((result) => {
+        if (result.status === 200) {
+          setLinks([...links, result.data]);
+          //Toast message
+          notify("DUPLICATED");
+        }
+      })
+      .then(() => {
+        setFetchingData(false);
+      })
+      .catch((err) => {
+        notify("ADD_ERROR", err);
+        setFetchingData(false);
+      });
   };
 
   //HANDLE SAVE LINK
@@ -225,6 +253,7 @@ function Links({ auth, links, setLinks }) {
           links={links}
           acceptFnc={handleDeleteRecord}
           handleViewEditRecord={handleViewEditRecord}
+          handleDuplicateLink={handleDuplicateLink}
           setViewEditLink={setViewEditLink}
           setViewViewLink={setViewViewLink}
           deletingData={deletingData}

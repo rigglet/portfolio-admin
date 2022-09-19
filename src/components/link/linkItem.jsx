@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
-import { FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
+import { FaCopy, FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
 import DeleteConfirmation from "../DeleteConfirmation";
 import Spinner from "../spinner";
 
@@ -11,6 +11,7 @@ function LinkItem({
   setViewEditLink,
   setViewViewLink,
   handleViewEditRecord,
+  handleDuplicateLink,
   declineFnc,
   acceptFnc,
   deletingData,
@@ -51,6 +52,12 @@ function LinkItem({
             onClick={() => {
               handleViewEditRecord(link);
               setViewEditLink(true);
+            }}
+          />
+          <FaCopy
+            className="action-icon"
+            onClick={() => {
+              handleDuplicateLink(link);
             }}
           />
           {deletingData && link._id === clickedItem ? (
@@ -105,7 +112,7 @@ const StyledLinkItem = styled(motion.li)`
   }
   .actions-cell {
     display: flex;
-    flex: 0 0 10%;
+    flex: 0 0 150px;
     justify-content: center;
   }
 

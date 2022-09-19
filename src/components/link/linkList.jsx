@@ -12,19 +12,23 @@ function LinkList({
   declineFnc,
   acceptFnc,
   handleViewEditRecord,
+  handleDuplicateLink,
   deletingData,
   clickedItem,
 }) {
   return (
     <StyledLinkList>
       {links.length > 0 && (
-        <ul>
+        <>
+        <ul className="table-header">
           <li key={uuidv4()} className="headers">
             <h4 className="name-header">Name</h4>
             <h4 className="short-header">Type</h4>
             <h4 className="long-header">Address</h4>
             <h4 className="actions-header">Actions</h4>
-          </li>
+            </li>
+          </ul>
+          <ul className="table-data">
           {links
             .sort((a, b) => (a.name > b.name ? 1 : -1))
             .map((link) => {
@@ -37,12 +41,14 @@ function LinkList({
                   setViewEditLink={setViewEditLink}
                   setViewViewLink={setViewViewLink}
                   handleViewEditRecord={handleViewEditRecord}
+                  handleDuplicateLink={handleDuplicateLink}
                   deletingData={deletingData}
                   clickedItem={clickedItem}
                 />
               );
             })}
         </ul>
+      </>
       )}
     </StyledLinkList>
   );
@@ -51,43 +57,47 @@ function LinkList({
 const StyledLinkList = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
-
-  ul {
-    width: auto;
-    height: 80vh;
-    list-style: none;
-  }
-
-  .headers {
-    display: flex;
-    gap: 0.25rem;
-
-    h4 {
-      background-color: #688297;
-      padding: 0.25rem 0.5rem;
-      font-weight: 500;
-      color: white;
-      text-align: left;
+  height: 80vh;
+  row-gap: 0.5rem;
+  
+  .table-header{
+    .headers {
       display: flex;
-      align-items: center;
-      cursor: default;
+      gap: 0.25rem;
+
+      h4 {
+        background-color: #688297;
+        padding: 0.25rem 0.5rem;
+        font-weight: 500;
+        color: white;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        cursor: default;
+      }
+    }
+    .name-header {
+      flex: 0 0 20%;
+    }
+    .short-header {
+      flex: 0 0 10%;
+      justify-content: center;
+    }
+    .long-header {
+      flex-grow: 1;
+      text-align: left;
+    }
+    .actions-header {
+      flex: 0 0 165px;
+      justify-content: center;
     }
   }
-  .name-header {
-    flex: 0 0 20%;
-  }
-  .short-header {
-    flex: 0 0 10%;
-    justify-content: center;
-  }
-  .long-header {
-    flex-grow: 1;
-    text-align: left;
-  }
-  .actions-header {
-    flex: 0 0 10%;
-    justify-content: center;
+  
+  .table-data{
+    height: 100%;
+    width: auto;
+    list-style: none;
+    overflow-y: scroll;
   }
 
   //#### RESPONSIVE SECTION ####
