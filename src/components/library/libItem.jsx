@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
-import { FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
+import { FaCopy, FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
 //components
 import DeleteConfirmation from "../DeleteConfirmation";
 import Spinner from "../spinner";
@@ -16,6 +16,7 @@ function LibItem({
   acceptFnc,
   deletingData,
   clickedItem,
+  handleDuplicateLibrary,
 }) {
   const [viewDelete, setViewDelete] = useState(false);
 
@@ -52,6 +53,12 @@ function LibItem({
             onClick={() => {
               handleViewEditRecord(lib);
               setViewEditLib(true);
+            }}
+          />
+          <FaCopy
+            className="action-icon"
+            onClick={() => {
+              handleDuplicateLibrary(lib);
             }}
           />
           {deletingData && lib._id === clickedItem ? (
@@ -104,7 +111,7 @@ const StyledLibItem = styled(motion.li)`
   }
   .actions-cell {
     display: flex;
-    flex: 0 0 10%;
+    flex: 0 0 150px;
     justify-content: center;
   }
 

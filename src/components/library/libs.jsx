@@ -40,6 +40,9 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
       case "ADDED":
         toast.dark(`Library ADDED successfully`);
         break;
+      case "DUPLICATED":
+        toast.dark(`Library DUPLICATED successfully`);
+        break;
       case "DELETED":
         toast.dark(`Library DELETED successfully`);
         break;
@@ -87,6 +90,31 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
           color: "",
         });
         setViewAddLib(false);
+      })
+      .catch((err) => {
+        notify("ADD_ERROR", err);
+        setFetchingData(false);
+      });
+  };
+
+  //HANDLE ADD LIBRARY
+  const handleDuplicateLibrary = async (library) => {
+    setFetchingData(true);
+
+    const addLib = async () => {
+      return await postData(auth, "libraries", library);
+    };
+
+    addLib()
+      .then((result) => {
+        if (result.status === 200) {
+          setLibraries([...libraries, result.data]);
+          //Toast message
+          notify("ADDED");
+        }
+      })
+      .then(() => {
+        setFetchingData(false);
       })
       .catch((err) => {
         notify("ADD_ERROR", err);
@@ -264,6 +292,7 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
           libraries={libraries}
           acceptFnc={handleDeleteRecord}
           handleViewEditRecord={handleViewEditRecord}
+          handleDuplicateLibrary={handleDuplicateLibrary}
           setViewEditLib={setViewEditLib}
           setViewViewLib={setViewViewLib}
           deletingData={deletingData}
