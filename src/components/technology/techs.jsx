@@ -39,6 +39,9 @@ function Techs({ auth, techs, setTechs, projects, setProjects, allIcons }) {
       case "ADDED":
         toast.dark(`Technology ADDED successfully`);
         break;
+      case "DUPLICATED":
+        toast.dark(`Technology DUPLICATED successfully`);
+        break;
       case "DELETED":
         toast.dark(`Technology DELETED successfully`);
         break;
@@ -85,6 +88,30 @@ function Techs({ auth, techs, setTechs, projects, setProjects, allIcons }) {
           documentation: "",
         });
         setViewAddTech(false);
+      })
+      .catch((err) => {
+        notify("ADD_ERROR", err);
+        setFetchingData(false);
+      });
+  };
+  //HANDLE ADD TECHNOLOGY
+  const handleDuplicateTechnology = async (technology) => {
+    setFetchingData(true);
+
+    const addTech = async () => {
+      return await postData(auth, "technologies", technology);
+    };
+
+    addTech()
+      .then((result) => {
+        if (result.status === 200) {
+          setTechs([...techs, result.data]);
+          //Toast message
+          notify("DUPLICATED");
+        }
+      })
+      .then(() => {
+        setFetchingData(false);
       })
       .catch((err) => {
         notify("ADD_ERROR", err);
@@ -269,6 +296,7 @@ function Techs({ auth, techs, setTechs, projects, setProjects, allIcons }) {
           techs={techs}
           acceptFnc={handleDeleteRecord}
           handleViewEditRecord={handleViewEditRecord}
+          handleDuplicateTechnology={handleDuplicateTechnology}
           setViewEditTech={setViewEditTech}
           setViewViewTech={setViewViewTech}
           deletingData={deletingData}

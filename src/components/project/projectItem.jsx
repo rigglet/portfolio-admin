@@ -125,7 +125,6 @@ const StyledProjectItem = styled(motion.li)`
     flex: 0 0 25%;
   }
   .actions-cell {
-    border: 1px solid red;
     display: flex;
     flex: 0 0 150px;
     justify-content: center;

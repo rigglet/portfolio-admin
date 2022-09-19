@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
-import { FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
+import { FaCopy,FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
 //components
 import DeleteConfirmation from "../DeleteConfirmation";
 import Spinner from "../spinner";
@@ -12,6 +12,7 @@ function TechItem({
   setViewEditTech,
   setViewViewTech,
   handleViewEditRecord,
+  handleDuplicateTechnology,
   declineFnc,
   acceptFnc,
   deletingData,
@@ -52,6 +53,12 @@ function TechItem({
             onClick={() => {
               handleViewEditRecord(tech);
               setViewEditTech(true);
+            }}
+          />
+          <FaCopy
+            className="action-icon"
+            onClick={() => {
+              handleDuplicateTechnology(tech);
             }}
           />
           {deletingData && tech._id === clickedItem ? (
@@ -95,7 +102,7 @@ const StyledTechItem = styled(motion.li)`
   }
   .actions-cell {
     display: flex;
-    flex: 0 0 10%;
+    flex: 0 0 150px;
     justify-content: center;
   }
   .short-cell {
