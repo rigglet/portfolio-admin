@@ -66,6 +66,9 @@ function Projects({
       case "ADDED":
         toast.dark(`Project ADDED successfully`);
         break;
+      case "DUPLICATED":
+        toast.dark(`Project DUPLICATED successfully`);
+        break;
       case "DELETED":
         toast.dark(`Project DELETED successfully`);
         break;
@@ -240,6 +243,32 @@ function Projects({
     setCurrentProject({ ...currentProject, ...project });
   };
 
+  //HANDLE DUPLICATE RECORD
+  const handleDuplicateRecord = async (project) => {
+    setFetchingData(() => true);
+
+    //console.log(project);
+    const addProject = async () => {
+      return await postData(auth, "projects", project);
+    };
+
+    addProject()
+      .then((result) => {
+        if (result.status === 200) {
+          setProjects([...projects, result.data]);
+          //Toast message
+          notify("DUPLICATED");
+        }
+      })
+      .then(() => {
+        setFetchingData(() => false);
+      })
+      .catch((err) => {
+        notify("ADD_ERROR", err);
+        setFetchingData(() => false);
+      });
+  };
+
   return (
     <StyledProjects>
       <ToastContainer
@@ -323,6 +352,7 @@ function Projects({
             projects={projects}
             acceptFnc={handleDeleteRecord}
             handleViewEditRecord={handleViewEditRecord}
+            handleDuplicateRecord={handleDuplicateRecord}
             handleSaveList={handleSaveList}
             setViewEditProject={setViewEditProject}
             setViewViewProject={setViewViewProject}
@@ -349,7 +379,7 @@ const StyledProjects = styled(motion.div)`
   .empty {
     margin-top: 2rem;
   }
-
+  
   //#### RESPONSIVE SECTION ####
   //320px — 480px: Mobile devices
   @media screen and (max-width: 480px) and (orientation: portrait) {
@@ -358,7 +388,7 @@ const StyledProjects = styled(motion.div)`
     display: flex;
     width: 100vw;
   }
-
+  
   //320px — 480px: Mobile devices
   @media screen and (max-width: 850px) and (orientation: landscape) {
     position: static;
@@ -366,39 +396,39 @@ const StyledProjects = styled(motion.div)`
     display: flex;
     width: 100vw;
   }
-
+  
   //481px — 768px: iPads, Tablets
   @media screen and (min-width: 481px) and (max-width: 769px) and (orientation: portrait) {
   }
 
   //481px — 768px: iPads, Tablets
   //@media screen and (min-width: 481px) and (max-width: 769px) and (orientation: landscape) {}
-
+  
   //769px — 1024px: Small screens, laptops
   //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {}
 
   //769px — 1024px: Small screens, laptops
   //@media screen and (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {}
-
+  
   //1025px — 1200px: Desktops, large screens
   @media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: portrait) {
   }
-
+  
   //1025px — 1200px: Desktops, large screens
   //@media screen and (min-width: 1024px) and (max-width: 1200px) and (orientation: landscape) {}
-
+  
   //1201px and more —  Extra large screens, TV
   //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: portrait) {}
-
+  
   //1201px and more —  Extra large screens, TV
   //@media screen and (min-width: 1201px) and (max-width: 1500px) and (orientation: landscape) {}
 
   //1501px and more —  Extra large screens, TV
   //@media screen and (min-width: 1501px) and (orientation: portrait) {}
-
+  
   //1501px and more —  Extra large screens, TV
   @media screen and (min-width: 1921px) and (orientation: landscape) {
   }
-`;
+  `;
 
 export default Projects;

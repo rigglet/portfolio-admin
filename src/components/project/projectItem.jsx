@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
-import { FaTrash, FaEdit, FaRegFolderOpen } from "react-icons/fa";
+import { FaTrash, FaEdit, FaRegFolderOpen, FaCopy } from "react-icons/fa";
 import { TiTick, TiTimes } from "react-icons/ti";
 //components
 import DeleteConfirmation from "../DeleteConfirmation";
@@ -13,6 +13,7 @@ function ProjectItem({
   setViewEditProject,
   setViewViewProject,
   handleViewEditRecord,
+  handleDuplicateRecord,
   declineFnc,
   acceptFnc,
   toggleFeatured,
@@ -80,6 +81,12 @@ function ProjectItem({
               setViewEditProject(true);
             }}
           />
+          <FaCopy
+            className="action-icon"
+            onClick={() => {
+              handleDuplicateRecord(project);
+            }}
+          />
           {deletingData && project._id === clickedItem ? (
             <Spinner size="20px" alignment="flex-end" />
           ) : (
@@ -118,8 +125,9 @@ const StyledProjectItem = styled(motion.li)`
     flex: 0 0 25%;
   }
   .actions-cell {
+    border: 1px solid red;
     display: flex;
-    flex: 0 0 10%;
+    flex: 0 0 150px;
     justify-content: center;
   }
   .short-cell {

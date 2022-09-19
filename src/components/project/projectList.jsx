@@ -12,6 +12,7 @@ function ProjectList({
   declineFnc,
   acceptFnc,
   handleViewEditRecord,
+  handleDuplicateRecord,
   handleSaveList,
   deletingData,
   clickedItem,
@@ -39,7 +40,8 @@ function ProjectList({
   return (
     <StyledProjectList>
       {projects.length > 0 && (
-        <ul>
+        <>
+        <ul className="table-header">
           <li key={uuidv4()} className="headers">
             <h4 className="name-header">Name</h4>
             <h4 className="long-header">Description</h4>
@@ -47,6 +49,8 @@ function ProjectList({
             <h4 className="short-header">Included?</h4>
             <h4 className="actions-header">Actions</h4>
           </li>
+          </ul>
+          <ul className="table-data">
           {projects
             .sort((a, b) => (a.projectName > b.projectName ? 1 : -1))
             .map((project) => {
@@ -61,12 +65,14 @@ function ProjectList({
                   setViewEditProject={setViewEditProject}
                   setViewViewProject={setViewViewProject}
                   handleViewEditRecord={handleViewEditRecord}
+                  handleDuplicateRecord={handleDuplicateRecord}
                   deletingData={deletingData}
                   clickedItem={clickedItem}
-                />
-              );
-            })}
+                  />
+                  );
+                })}
         </ul>
+        </>
       )}
     </StyledProjectList>
   );
@@ -75,49 +81,53 @@ function ProjectList({
 const StyledProjectList = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
-
-  ul {
-    width: auto;
-    height: 80vh;
-    height: auto;
-    list-style: none;
-  }
-
-  .headers {
-    display: flex;
-    gap: 0.25rem;
-    h4 {
-      background-color: #688297;
-      padding: 0.25rem 0.5rem;
-      font-weight: 500;
-      color: white;
-      text-align: left;
+  height: 80vh;
+  row-gap: 0.5rem;
+  
+  .table-header{
+    .headers {
       display: flex;
-      align-items: center;
-      cursor: default;
+      gap: 0.25rem;
+      h4 {
+        background-color: #688297;
+        padding: 0.25rem 0.5rem;
+        font-weight: 500;
+        color: white;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        cursor: default;
+      }
+    }
+    .name-header {
+      flex: 0 0 25%;
+    }
+    .actions-header {
+      flex: 0 0 165px;
+      justify-content: center;
+    }
+    .short-header {
+      flex: 0 0 10%;
+      justify-content: center;
+      text-align: left;
+    }
+    .long-header {
+      flex-grow: 1;
+      text-align: left;
     }
   }
-  .name-header {
-    flex: 0 0 25%;
-  }
-  .actions-header {
-    flex: 0 0 10%;
-    justify-content: center;
-  }
-  .short-header {
-    flex: 0 0 10%;
-    justify-content: center;
-    text-align: left;
-  }
-  .long-header {
-    flex-grow: 1;
-    text-align: left;
+
+  .table-data{
+    height: 100%;
+    width: auto;
+    list-style: none;
+    overflow-y: scroll;
   }
 
   //#### RESPONSIVE SECTION ####
   //320px — 480px: Mobile devices
   @media screen and (max-width: 480px) and (orientation: portrait) {
+    border: 1px solid red;
     h4 {
       padding: 0.15rem 0.25rem;
     }
