@@ -42,7 +42,7 @@ function Login({ setAuth }) {
         toast.dark("Nothing to report");
     }
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = async () => {
     //e.preventDefault();
     setLoading(true);
     toggleUsername(false);
@@ -306,7 +306,14 @@ const StyledLogin = styled(motion.div)`
           font-variant-caps: all-small-caps;
           font-family: "poppins", sans-serif;
           background-image: linear-gradient(to right, #689ed0, #8eafce);
-          transition: 0.5s;
+          transition: 0.3s;
+          &:hover{
+            border: 2px solid #689ed0;
+            color: #313131;
+          } 
+          &:focus, &:active {
+            border: 2px solid #689ed0;
+          }
         }
       }
     }

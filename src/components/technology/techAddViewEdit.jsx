@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
@@ -42,9 +42,9 @@ const TechAddViewEdit = function ({
     }
   };
   
-  console.log(currentTech.icon);
+  console.log("Render");
   
-  function updateList (searchText, currentTech) {
+  function updateList (searchText) {
     let list = []
     if (searchText.length > 2) {
       list = arrIcons.filter(icon => icon.toLowerCase().includes(searchText))
@@ -54,20 +54,8 @@ const TechAddViewEdit = function ({
   }
   
   // const updateDBText = useCallback(debounce(text => { setDbText(text) }, 1000), [])
-  const updateFilteredIconList = useCallback(debounce((text, currentTech) => { updateList(text, currentTech) }, 1000), [])
-  // const cb = updateList;
-  // const delay = 1000;
-  // const updateFilteredIconList = useCallback(
-  //   (cb, delay) => {
-  //   let timeout;
-  //   return (...args) => {
-  //     clearTimeout(timeout)
-  //     timeout = setTimeout(() => {
-  //       cb(...args)
-  //     }, delay)
-  //   }
-  // }
-  //   , [])
+  //const updateFilteredIconList = useCallback(debounce((text, currentTech) => { updateList(text, currentTech) }, 1000), [])
+  const updateFilteredIconList = debounce((text, currentTech) => { updateList(text, currentTech) }, 1000);
   
   return (
     <StyledTechAddViewEdit>
