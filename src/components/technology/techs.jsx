@@ -13,16 +13,17 @@ import TechAdd from "./techAddViewEdit";
 import { deleteData, postData, updateData } from "../../api/api";
 
 function Techs({ auth, techs, setTechs, projects, setProjects, allIcons }) {
-  const [currentTech, setCurrentTech] = useState({
+  const technologyResetObject = {
     name: "",
-    //type: "",
     category: "",
     description: "",
     address: "",
+    iconSearch: "",
     icon: "",
-    color: "",
+    color: "#313131",
     documentation: "",
-  });
+  };
+  const [currentTech, setCurrentTech] = useState(technologyResetObject);
   const [viewViewTech, setViewViewTech] = useState(false);
   const [viewAddTech, setViewAddTech] = useState(false);
   const [viewEditTech, setViewEditTech] = useState(false);
@@ -77,16 +78,7 @@ function Techs({ auth, techs, setTechs, projects, setProjects, allIcons }) {
       })
       .then(() => {
         setFetchingData(false);
-        setCurrentTech({
-          name: "",
-          //type: "",
-          category: "",
-          description: "",
-          address: "",
-          icon: "",
-          color: "",
-          documentation: "",
-        });
+        setCurrentTech(technologyResetObject);
         setViewAddTech(false);
       })
       .catch((err) => {
@@ -157,16 +149,7 @@ function Techs({ auth, techs, setTechs, projects, setProjects, allIcons }) {
       })
       .then(() => {
         setFetchingData(false);
-        setCurrentTech({
-          name: "",
-          //type: "",
-          category: "",
-          description: "",
-          address: "",
-          icon: "",
-          color: "",
-          documentation: "",
-        });
+        setCurrentTech(technologyResetObject);
         setViewEditTech(false);
       })
       .catch((err) => {
