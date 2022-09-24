@@ -29,7 +29,7 @@ const IconPicker = function ({
         <div className={formType !== "VIEW" ? "fields" : "notfields"}>
             {formType !== "VIEW" && 
             <>
-            <div className="input-item">
+            <div className="input-container">
                 <label htmlFor="iconSearch">Search icons (enter at least 3 letters):</label>
                 <input
                     disabled={formType === "VIEW" ? true : false}
@@ -47,7 +47,7 @@ const IconPicker = function ({
                 />
             </div>
               
-            <div className="input-item">
+            <div className="input-container">
                 <label htmlFor="icon">Select from ({filteredList.length}) icons:</label>
                 <select
                   disabled={formType === "VIEW" ? true : false}
@@ -95,23 +95,23 @@ const IconPicker = function ({
             }
         </div>
             
-            <div className="preview">
-              <Icon
-                icon={currentObject?.icon}
-                color={currentObject?.color}
-                size="100px"
-                title={currentObject?.icon}
-                className="item-icon"
-                allIcons={allIcons}
-              /> 
-              {currentObject.icon &&
-                <>
-                  <h5>{currentObject.icon}</h5>
-                  <h5>{currentObject.color}</h5>
-                </>
-          
-              }
-            </div>
+        <div className="preview">
+          <Icon
+            icon={currentObject?.icon}
+            color={currentObject?.color}
+            size="100px"
+            title={currentObject?.icon}
+            className="item-icon"
+            allIcons={allIcons}
+          /> 
+          {currentObject.icon &&
+            <>
+              <h5>{currentObject.icon}</h5>
+              <h5>{currentObject.color}</h5>
+            </>
+      
+          }
+        </div>
     </StyledIconPicker>
   );
 };
@@ -128,6 +128,9 @@ const StyledIconPicker = styled(motion.div)`
     
     .fields{
         flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        row-gap: 0.5rem;
         .color-item {
             display: flex;
             flex-direction: column;

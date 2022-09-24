@@ -27,8 +27,8 @@ const ProjectView = function ({
   openingHookSetter,
 }) {
   return (
-    <StyledProjectView>
-      <div className="container">
+    <StyledProjectView className="add-view-edit-modal">
+      <div className="add-view-edit-modal-container">
         <CloseButton
           closeFunction={openingHookSetter}
           resetFunction={setCurrentProject}
@@ -56,8 +56,8 @@ const ProjectView = function ({
           }}
         />
 
-        <div className="titleHeader">
-          <MdWeb className="titleIcon" />
+        <div className="title-header">
+          <MdWeb className="title-icon" />
           <h1>{title} </h1>
           <h5>{currentProject?._id}</h5>
         </div>
@@ -68,21 +68,21 @@ const ProjectView = function ({
               Details <BsCardText />
             </legend>
             <div className="subsection">
-              <div className="input-item">
+              <div className="input-container">
                 <label htmlFor="projectName">Project name:</label>
                 <p>{currentProject?.projectName}</p>
               </div>
-              <div className="input-item">
+              <div className="input-container">
                 <label htmlFor="version">Version:</label>
                 <p>{currentProject?.version}</p>
               </div>
-              <div className="input-item">
+              <div className="input-container">
                 <label htmlFor="author">Author:</label>
                 <p>{currentProject?.author}</p>
               </div>
             </div>
             <div className="subsection">
-              <div className="input-item">
+              <div className="input-container">
                 <label htmlFor="featured">Featured:</label>
                 <input
                   disabled={true}
@@ -92,7 +92,7 @@ const ProjectView = function ({
                   id="featured"
                 />
               </div>
-              <div className="input-item">
+              <div className="input-container">
                 <label htmlFor="included">Included:</label>
                 <input
                   disabled={true}
@@ -110,21 +110,21 @@ const ProjectView = function ({
               Addresses
               <HiLink />
             </legend>
-            <div className="address-item">
+            <div className="address-input-container">
               <label htmlFor="github">Github:</label>
               <div className="address">
                 <FaGithub className="address-icon" />
                 <p>{currentProject?.githubLink}</p>
               </div>
             </div>
-            <div className="address-item">
+            <div className="address-input-container">
               <label htmlFor="website">Website:</label>
               <div className="address">
                 <CgWebsite className="address-icon" />
                 <p>{currentProject?.website}</p>
               </div>
             </div>
-            <div className="address-item">
+            <div className="address-input-container">
               <label htmlFor="walkthrough">Walkthrough:</label>
               <div className="address">
                 <FaYoutube className="address-icon" />
@@ -137,7 +137,7 @@ const ProjectView = function ({
             <legend>
               Dates <AiOutlineCalendar />
             </legend>
-            <div className="input-item">
+            <div className="input-container">
               <label htmlFor="started">Started:</label>
               <p>
                 {DateTime.fromISO(currentProject?.startedDate)
@@ -147,7 +147,7 @@ const ProjectView = function ({
                   })}
               </p>
             </div>
-            <div className="input-item">
+            <div className="input-container">
               <label htmlFor="started">Completed:</label>
               <p>
                 {DateTime.fromISO(currentProject?.completedDate)
@@ -157,7 +157,7 @@ const ProjectView = function ({
                   })}
               </p>
             </div>
-            <div className="input-item">
+            <div className="input-container">
               <label htmlFor="started">Added:</label>
               <p>
                 {DateTime.fromISO(currentProject?.addedDate)
@@ -173,11 +173,11 @@ const ProjectView = function ({
               Descriptions
               <BiMessageSquareDetail />
             </legend>
-            <div className="input-item">
+            <div className="input-container">
               <label htmlFor="short">Short description:</label>
               <p>{currentProject?.shortDescription}</p>
             </div>
-            <div className="input-item">
+            <div className="input-container">
               <label htmlFor="description">Description:</label>
               <p>{currentProject?.projectDescription}</p>
             </div>
@@ -258,28 +258,10 @@ const ProjectView = function ({
 };
 
 const StyledProjectView = styled.div`
-  width: 100vw;
-  height: 100vh;
-  z-index: 10;
-  position: absolute;
-  top: -9vh;
-  left: -15.5vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  background-color: rgba(256, 256, 256, 0.5);
-
-  .container {
+  .add-view-edit-modal-container {
     width: 90vw;
     height: 90vh;
-    background-color: #ebebeb;
-    font-size: 12pt;
-    border: 0.05rem #689ed0 solid;
-    position: relative;
-    box-shadow: 0 0 20px 10px #689ed0;
-    padding: 2rem;
-
+  }
     .form-information {
       width: 100%;
       height: 90%;
@@ -392,9 +374,10 @@ const StyledProjectView = styled.div`
         font-weight: 300;
         font-size: 10pt;
       }
-      .address-item {
+      .address-input-container {
         display: flex;
         flex-direction: column;
+        align-items: flex-start;
         .address {
           display: flex;
           align-items: center;
@@ -418,18 +401,12 @@ const StyledProjectView = styled.div`
         font-size: 14pt;
         font-variant-caps: all-small-caps;
       }
-      .input-item {
+      /* .input-item {
         display: flex;
         flex-direction: column;
-      }
-      label {
-        font-weight: bold;
-        font-size: 12pt;
-        font-variant-caps: all-small-caps;
-        margin-bottom: 0.5rem;
-      }
+      } */
     }
-  }
+  
 
   //#### RESPONSIVE SECTION ####
   //320px — 480px: Mobile devices

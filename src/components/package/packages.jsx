@@ -12,8 +12,8 @@ import PackageAdd from "./packageAddViewEdit";
 //data
 import { deleteData, postData, updateData } from "../../api/api";
 
-function Packages({ auth, packages, setPackages, projects, setProjects }) {
-  const [currentPackage, setCurrentPackage] = useState({
+function Packages({ auth, packages, setPackages, projects, setProjects, allIcons }) {
+  const packageResetObject = {
     name: "",
     version: "",
     description: "",
@@ -21,9 +21,11 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
     githubrepo: "",
     homepage: "",
     documentation: "",
+    iconSearch: "",
     icon: "",
-    color: "",
-  });
+    color: "#313131",
+  }
+  const [currentPackage, setCurrentPackage] = useState(packageResetObject);
 
   const [viewViewPackage, setViewViewPackage] = useState(false);
   const [viewAddPackage, setViewAddPackage] = useState(false);
@@ -79,17 +81,7 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
       })
       .then(() => {
         setFetchingData(false);
-        setCurrentPackage({
-          name: "",
-          version: "",
-          description: "",
-          npmaddress: "",
-          githubrepo: "",
-          homepage: "",
-          documentation: "",
-          icon: "",
-          color: "",
-        });
+        setCurrentPackage(packageResetObject);
         setViewAddPackage(false);
       })
       .catch((err) => {
@@ -160,17 +152,7 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
       })
       .then(() => {
         setFetchingData(false);
-        setCurrentPackage({
-          name: "",
-          version: "",
-          description: "",
-          npmaddress: "",
-          githubrepo: "",
-          homepage: "",
-          documentation: "",
-          icon: "",
-          color: "",
-        });
+        setCurrentPackage(packageResetObject);
         setViewEditPackage(false);
       })
       .catch((err) => {
@@ -244,6 +226,7 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
             handleEditPackage={handleEditPackage}
             handleSavePackage={handleSavePackage}
             fetchingData={fetchingData}
+            allIcons={allIcons}
             title="Add new package"
             formType={"ADD"}
           />
@@ -260,6 +243,7 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
             handleEditPackage={handleEditPackage}
             handleSavePackage={handleSavePackage}
             fetchingData={fetchingData}
+            allIcons={allIcons}
             title="Edit package"
             formType={"EDIT"}
           />
@@ -272,6 +256,7 @@ function Packages({ auth, packages, setPackages, projects, setProjects }) {
             openingHookSetter={setViewViewPackage}
             currentPackage={currentPackage}
             setCurrentPackage={setCurrentPackage}
+            allIcons={allIcons}
             title="View package"
             formType={"VIEW"}
           />

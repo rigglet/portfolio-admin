@@ -83,86 +83,86 @@ function Nav({
           variants={item}
           className={path === "projects" ? "selected" : ""}
         >
-          <div className="link-info">
-            <MdWeb className="nav-icon" />
-            <Link
-              to="/admin/projects"
-              className={path === "projects" ? "selected" : ""}
-            >
-              Projects
-            </Link>
-          </div>
-          <div className="link-amount">
-            <h4>{projectNo}</h4>
-          </div>
+          <Link
+            to="/admin/projects"
+            className={path === "projects" ? "selected" : ""}
+          >
+            <div className="link-info">
+              <MdWeb className="nav-icon" />
+                Projects
+            </div>
+            <div className="link-amount">
+              <h4>{projectNo}</h4>
+            </div>
+          </Link>
         </motion.li>
         <motion.li
           variants={item}
           className={path === "tech" ? "selected" : ""}
         >
-          <div className="link-info">
-            <HiCode className="nav-icon" />
-            <Link
-              className={path === "tech" ? "selected" : ""}
-              to="/admin/tech"
-            >
-              Technologies
-            </Link>
-          </div>
-          <div className="link-amount">
-            <h4>{techNo}</h4>
-          </div>
+          <Link
+            className={path === "tech" ? "selected" : ""}
+            to="/admin/tech"
+          >
+            <div className="link-info">
+              <HiCode className="nav-icon" />
+                Technologies
+            </div>
+            <div className="link-amount">
+              <h4>{techNo}</h4>
+            </div>
+          </Link>
         </motion.li>
         <motion.li
           variants={item}
           className={path === "libraries" ? "selected" : ""}
         >
-          <div className="link-info">
-            <IoLibraryOutline className="nav-icon" />
-            <Link
-              className={path === "libraries" ? "selected" : ""}
-              to="/admin/libraries"
-            >
-              Libraries
-            </Link>
-          </div>
-          <div className="link-amount">
-            <h4>{libNo}</h4>
-          </div>
+          <Link
+            className={path === "libraries" ? "selected" : ""}
+            to="/admin/libraries"
+          >
+            <div className="link-info">
+              <IoLibraryOutline className="nav-icon" />
+                Libraries
+            </div>
+            <div className="link-amount">
+              <h4>{libNo}</h4>
+            </div>
+          </Link>
         </motion.li>
         <motion.li
           variants={item}
           className={path === "packages" ? "selected" : ""}
         >
-          <div className="link-info">
-            <GoPackage className="nav-icon" />
-            <Link
-              className={path === "packages" ? "selected" : ""}
-              to="/admin/packages"
-            >
-              Packages
-            </Link>
-          </div>
-          <div className="link-amount">
-            <h4>{packageNo}</h4>
-          </div>
+          <Link
+            className={path === "packages" ? "selected" : ""}
+            to="/admin/packages"
+          >
+            <div className="link-info">
+              <GoPackage className="nav-icon" />
+                Packages
+            </div>
+            <div className="link-amount">
+              <h4>{packageNo}</h4>
+            </div>
+          </Link>
         </motion.li>
         <motion.li
           variants={item}
           className={path === "images" ? "selected" : ""}
         >
-          <div className="link-info">
-            <ImImages className="nav-icon" />
-            <Link
-              className={path === "images" ? "selected" : ""}
-              to="/admin/images"
-            >
-              Images
-            </Link>
-          </div>
-          <div className="link-amount">
-            <h4>{imageNo}</h4>
-          </div>
+          <Link
+            className={path === "images" ? "selected" : ""}
+            to="/admin/images"
+          >
+            <div className="link-info">
+              <ImImages className="nav-icon" />
+                Images
+            </div>
+            <div className="link-amount">
+              <h4>{imageNo}</h4>
+            </div>
+          </Link>
         </motion.li>
         {/* <motion.li
           variants={item}
@@ -182,6 +182,7 @@ function Nav({
           </div>
         </motion.li> */}
       </motion.ul>
+      
       <div className="nav-heading">
         <h3>Site</h3>
         {siteChevron ? (
@@ -201,52 +202,52 @@ function Nav({
           variants={item}
           className={path === "tools" ? "selected" : ""}
         >
-          <div className="link-info">
-            <FaTools className="nav-icon" />
-            <Link
-              className={path === "tools" ? "selected" : ""}
-              to="/admin/tools"
-            >
-              Tools
-            </Link>
-          </div>
-          <div className="link-amount">
-            <h4>{toolNo}</h4>
-          </div>
+          <Link
+            className={path === "tools" ? "selected" : ""}
+            to="/admin/tools"
+          >
+            <div className="link-info">
+              <FaTools className="nav-icon" />
+                Tools
+            </div>
+            <div className="link-amount">
+              <h4>{toolNo}</h4>
+            </div>
+          </Link>
         </motion.li>
         <motion.li
           variants={item}
           className={path === "links" ? "selected" : ""}
         >
-          <div className="link-info">
-            <HiLink className="nav-icon" />
-            <Link
-              className={path === "links" ? "selected" : ""}
-              to="/admin/links"
-            >
-              Links
-            </Link>
-          </div>
-          <div className="link-amount">
-            <h4>{linkNo}</h4>
-          </div>
+          <Link
+            className={path === "links" ? "selected" : ""}
+            to="/admin/links"
+          >
+            <div className="link-info">
+              <HiLink className="nav-icon" />
+                Links
+            </div>
+            <div className="link-amount">
+              <h4>{linkNo}</h4>
+            </div>
+          </Link>
         </motion.li>
         <motion.li
           variants={item}
           className={path === "texts" ? "selected" : ""}
         >
-          <div className="link-info">
-            <IoText className="nav-icon" />
-            <Link
-              className={path === "texts" ? "selected" : ""}
-              to="/admin/texts"
-            >
-              Text
-            </Link>
-          </div>
-          <div className="link-amount">
-            <h4>{textNo}</h4>
-          </div>
+          <Link
+            className={path === "texts" ? "selected" : ""}
+            to="/admin/texts"
+          >
+            <div className="link-info">
+              <IoText className="nav-icon" />
+                Text
+            </div>
+            <div className="link-amount">
+              <h4>{textNo}</h4>
+            </div>
+          </Link>
         </motion.li>
         {/* <motion.li
           variants={item}
@@ -328,28 +329,33 @@ const StyledNav = styled(motion.div)`
         border-right: 4px solid #313131;
         border-radius: 30px 0 0 30px;
       }
-      .link-info {
+      a {
         display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        .nav-icon {
-          width: 1.5rem;
-          height: 1.5rem;
-        }
-        a {
-          color: white;
+        justify-content: space-between;
+        width: 100%;
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        &:visited {
+          cursor: pointer;
           text-decoration: none;
-          font-weight: 600;
-          font-size: 0.9rem;
-          &:visited {
-            cursor: pointer;
-            text-decoration: none;
-          }
-          &.selected {
+        }
+        &.selected {
+          color: #313131;
+        }
+        .link-info {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          .nav-icon {
             color: #313131;
+            width: 1.5rem;
+            height: 1.5rem;
           }
         }
       }
+      
       h4 {
         display: flex;
         align-items: center;

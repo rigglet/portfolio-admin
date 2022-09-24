@@ -23,8 +23,8 @@ const LibAddViewEdit = function ({
 }) {
 
   return (
-    <StyledLibAddViewEdit>
-      <div className="container">
+    <StyledLibAddViewEdit className="add-view-edit-modal">
+      <div className="add-view-edit-modal-container">
         <CloseButton
           closeFunction={openingHookSetter}
           resetFunction={setCurrentLib}
@@ -42,16 +42,16 @@ const LibAddViewEdit = function ({
           }}
         />
 
-        <div className="titleHeader">
-          <IoLibraryOutline className="titleIcon" />
+        <div className="title-header">
+          <IoLibraryOutline className="title-icon" />
           <h1>{title} </h1>
           {formType !== "ADD" && <h5>{currentLib?._id}</h5>}
         </div>
 
-        <div className="form-information">
-          <div className="nvb">
+        <div className="ave-modal-form-information">
+          <div className="name-version-description-container">
             <div className="name-version">
-              <div className="input-item">
+              <div className="input-container">
                 <label htmlFor="name">Library name:</label>
                 <input
                   disabled={formType === "VIEW" ? true : false}
@@ -68,7 +68,7 @@ const LibAddViewEdit = function ({
                 />
               </div>
 
-              <div className="input-item">
+              <div className="input-container">
                 <label htmlFor="version">Version:</label>
                 <input
                   disabled={formType === "VIEW" ? true : false}
@@ -85,7 +85,7 @@ const LibAddViewEdit = function ({
                 />
               </div>
 
-              <div className="input-item">
+              <div className="input-container">
                 <label htmlFor="description">Description:</label>
                 <textarea
                   disabled={formType === "VIEW" ? true : false}
@@ -104,6 +104,7 @@ const LibAddViewEdit = function ({
                 />
               </div>
             </div>
+          
 
               <IconPicker
                 formType={formType}
@@ -114,9 +115,9 @@ const LibAddViewEdit = function ({
           </div>
 
           <div className="addresses">
-            <div className="input-item">
+            <div className="input-container">
               <label htmlFor="npmaddress">NPM Address:</label>
-              <div className="address-item">
+              <div className="address-input-container">
                 <CgNpm className="address-icon" />
                 <input
                   disabled={formType === "VIEW" ? true : false}
@@ -134,9 +135,9 @@ const LibAddViewEdit = function ({
                 />
               </div>
             </div>
-            <div className="input-item">
+            <div className="input-container">
               <label htmlFor="githubrepo">Github Respository:</label>
-              <div className="address-item">
+              <div className="address-input-container">
                 <FaGithub className="address-icon" />
                 <input
                   disabled={formType === "VIEW" ? true : false}
@@ -155,9 +156,9 @@ const LibAddViewEdit = function ({
               </div>
             </div>
 
-            <div className="input-item">
+            <div className="input-container">
               <label htmlFor="homepage">Homepage:</label>
-              <div className="address-item">
+              <div className="address-input-container">
                 <CgWebsite className="address-icon" />
                 <input
                   disabled={formType === "VIEW" ? true : false}
@@ -176,9 +177,9 @@ const LibAddViewEdit = function ({
               </div>
             </div>
 
-            <div className="input-item">
+            <div className="input-container">
               <label htmlFor="documentation">Documentation:</label>
-              <div className="address-item">
+              <div className="address-input-container">
                 <FaBook className="address-icon" />
                 <input
                   disabled={formType === "VIEW" ? true : false}
@@ -214,104 +215,23 @@ const LibAddViewEdit = function ({
 };
 
 const StyledLibAddViewEdit = styled(motion.div)`
-  width: 100vw;
-  height: 100vh;
-  z-index: 10;
-  position: absolute;
-  top: -9vh;
-  left: -15.5vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  background-color: rgba(256, 256, 256, 0.5);
-
-  .container {
-    width: 60vw;
-    height: auto;
-    background-color: #ebebeb;
-    border: 0.05rem #689ed0 solid;
-    position: relative;
-    box-shadow: 0 0 20px 10px #689ed0;
-    padding: 2rem;
+  //containers to control layout
+  .name-version-description-container {
+    display: flex;
+    width: 100%;
+    column-gap: 1rem;
+    justify-content: space-evenly;
+    align-items: space-evenly;
+  }
+  .name-version {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+  }
+  .addresses {
     display: flex;
     flex-direction: column;
     row-gap: 1rem;
-
-    .form-information {
-      height: 100%;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      row-gap: 0.5rem;
-      justify-content: center;
-      //align-items: center;
-
-      label {
-        font-weight: bold;
-        font-size: 12pt;
-        font-variant-caps: all-small-caps;
-        margin-bottom: 0.5rem;
-      }
-
-      .color-item {
-        display: flex;
-        column-gap: 1rem;
-        align-items: center;
-      }
-      .address-item {
-        display: flex;
-        column-gap: 0.25rem;
-        align-items: center;
-        .address-icon {
-          width: 1.5rem;
-          height: 1.5rem;
-        }
-      }
-      .input-item {
-        display: flex;
-        flex-direction: column;
-      }
-
-      select,
-      input[type="text"],
-      textarea {
-        width: 100%;
-        color: #0c395e;
-        resize: none;
-        outline: solid 3px transparent;
-        border-radius: 4px;
-        padding: 0.25rem;
-        font-family: "Poppins", sans-serif;
-        font-weight: 300;
-        font-size: 10pt;
-        border: 1px solid #313131;
-        flex-grow: 1;
-      }
-      input[type="text"]:focus,
-      textarea:focus {
-        outline: solid 3px #688297;
-        border-color: transparent;
-      }
-      .nvb {
-        display: flex;
-        width: 100%;
-        column-gap: 1rem;
-        justify-content: space-evenly;
-        align-items: space-evenly;
-      }
-      .name-version {
-        width: 40%;
-        display: flex;
-        flex-direction: column;
-      }
-      .addresses {
-        display: flex;
-        flex-direction: column;
-        row-gap: 1rem;
-      }
-      
-    }
   }
 
   //#### RESPONSIVE SECTION ####

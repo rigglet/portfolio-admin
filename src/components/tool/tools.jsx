@@ -12,17 +12,18 @@ import ToolAdd from "./toolAddViewEdit";
 //data
 import { deleteData, postData, updateData } from "../../api/api";
 
-function Tools({ auth, tools, setTools }) {
-  const [currentTool, setCurrentTool] = useState({
+function Tools({ auth, tools, setTools, allIcons }) {
+  const toolResetObject = {
     name: "",
-    //type: "",
     category: "",
     description: "",
     address: "",
     documentation: "",
+    iconSearch: "",
     icon: "",
-    color: "",
-  });
+    color: "#313131",
+  }
+  const [currentTool, setCurrentTool] = useState(toolResetObject);
   const [viewViewTool, setViewViewTool] = useState(false);
   const [viewAddTool, setViewAddTool] = useState(false);
   const [viewEditTool, setViewEditTool] = useState(false);
@@ -102,16 +103,7 @@ function Tools({ auth, tools, setTools }) {
       })
       .then(() => {
         setFetchingData(false);
-        setCurrentTool({
-          name: "",
-          //type: "",
-          category: "",
-          description: "",
-          address: "",
-          documentation: "",
-          icon: "",
-          color: "",
-        });
+        setCurrentTool(toolResetObject);
         setViewAddTool(false);
       })
       .catch((err) => {
@@ -141,16 +133,7 @@ function Tools({ auth, tools, setTools }) {
       })
       .then(() => {
         setFetchingData(false);
-        setCurrentTool({
-          name: "",
-          //type: "",
-          category: "",
-          description: "",
-          address: "",
-          documentation: "",
-          icon: "",
-          color: "",
-        });
+        setCurrentTool(toolResetObject);
         setViewEditTool(false);
       })
       .catch((err) => {
@@ -216,6 +199,7 @@ function Tools({ auth, tools, setTools }) {
             handleSaveTool={handleSaveTool}
             handleEditTool={handleEditTool}
             fetchingData={fetchingData}
+            allIcons={allIcons}
             title="Add new tool"
             formType={"ADD"}
           />
@@ -232,6 +216,7 @@ function Tools({ auth, tools, setTools }) {
             handleSaveTool={handleSaveTool}
             handleEditTool={handleEditTool}
             fetchingData={fetchingData}
+            allIcons={allIcons}
             title="Edit tool"
             formType={"EDIT"}
           />
@@ -244,6 +229,7 @@ function Tools({ auth, tools, setTools }) {
             openingHookSetter={setViewViewTool}
             currentTool={currentTool}
             setCurrentTool={setCurrentTool}
+            allIcons={allIcons}
             title="View tool"
             formType={"VIEW"}
           />

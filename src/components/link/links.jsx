@@ -12,14 +12,16 @@ import LinkAdd from "./linkAddViewEdit";
 //data
 import { deleteData, postData, updateData } from "../../api/api";
 
-function Links({ auth, links, setLinks }) {
-  const [currentLink, setCurrentLink] = useState({
+function Links({ auth, links, setLinks, allIcons }) {
+  const linkResetObject = {
     name: "",
     type: "",
     address: "",
+    iconSearch: "",
     icon: "",
-    color: "",
-  });
+    color: "#313131",
+  }
+  const [currentLink, setCurrentLink] = useState(linkResetObject);
   const [viewViewLink, setViewViewLink] = useState(false);
   const [viewAddLink, setViewAddLink] = useState(false);
   const [viewEditLink, setViewEditLink] = useState(false);
@@ -99,13 +101,7 @@ function Links({ auth, links, setLinks }) {
       })
       .then(() => {
         setFetchingData(false);
-        setCurrentLink({
-          name: "",
-          type: "",
-          address: "",
-          icon: "",
-          color: "",
-        });
+        setCurrentLink(linkResetObject);
         setViewAddLink(false);
       })
       .catch((err) => {
@@ -134,13 +130,7 @@ function Links({ auth, links, setLinks }) {
       })
       .then(() => {
         setFetchingData(false);
-        setCurrentLink({
-          name: "",
-          type: "",
-          address: "",
-          icon: "",
-          color: "",
-        });
+        setCurrentLink(linkResetObject);
         setViewEditLink(false);
       })
       .catch((err) => {
@@ -206,6 +196,7 @@ function Links({ auth, links, setLinks }) {
             handleSaveLink={handleSaveLink}
             handleEditLink={handleEditLink}
             fetchingData={fetchingData}
+            allIcons={allIcons}
             title="Add new link"
             formType={"ADD"}
           />
@@ -222,6 +213,7 @@ function Links({ auth, links, setLinks }) {
             handleSaveLink={handleSaveLink}
             handleEditLink={handleEditLink}
             fetchingData={fetchingData}
+            allIcons={allIcons}
             title="Edit link"
             formType={"EDIT"}
           />
@@ -234,6 +226,7 @@ function Links({ auth, links, setLinks }) {
             openingHookSetter={setViewViewLink}
             currentLink={currentLink}
             setCurrentLink={setCurrentLink}
+            allIcons={allIcons}
             title="View link"
             formType={"VIEW"}
           />

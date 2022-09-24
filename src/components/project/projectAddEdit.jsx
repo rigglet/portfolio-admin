@@ -54,8 +54,8 @@ const ProjectAddEdit = function ({
           }}
         />
 
-        <div className="titleHeader">
-          <MdWeb className="titleIcon" />
+        <div className="title-header">
+          <MdWeb className="title-icon" />
           <h1>{title} </h1>
           {formType !== "ADD" && <h5>{currentProject?.projectName}</h5>}
         </div>

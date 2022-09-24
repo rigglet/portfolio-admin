@@ -23,8 +23,8 @@ const TechAddViewEdit = function ({
 }) {
   
   return (
-    <StyledTechAddViewEdit>
-      <div className="container">
+    <StyledTechAddViewEdit className="add-view-edit-modal">
+      <div className="add-view-edit-modal-container">
         <CloseButton
           closeFunction={openingHookSetter}
           resetFunction={setCurrentTech}
@@ -40,14 +40,14 @@ const TechAddViewEdit = function ({
           }}
         />
 
-        <div className="titleHeader">
-          <HiCode className="titleIcon" />
+        <div className="title-header">
+          <HiCode className="title-icon" />
           <h1>{title} </h1>
           {formType !== "ADD" && <h5>{currentTech?._id}</h5>}
         </div>
 
-        <div className="form-information">
-          <div className="input-item">
+        <div className="ave-modal-form-information">
+          <div className="input-container">
             <label htmlFor="name">Technology name:</label>
             <input
               disabled={formType === "VIEW" ? true : false}
@@ -64,7 +64,7 @@ const TechAddViewEdit = function ({
               />
           </div>
           
-          <div className="input-item">
+          <div className="input-container">
             <label htmlFor="type">Category:</label>
             <input
               disabled={formType === "VIEW" ? true : false}
@@ -81,7 +81,7 @@ const TechAddViewEdit = function ({
               />
           </div>
          
-          <div className="input-item">
+          <div className="input-container">
             <label htmlFor="type">Description:</label>
             <input
               disabled={formType === "VIEW" ? true : false}
@@ -98,9 +98,9 @@ const TechAddViewEdit = function ({
               />
           </div>
 
-          <div className="input-item">
+          <div className="input-container">
             <label htmlFor="address">Address:</label>
-            <div className="address-item">
+            <div className="address-input-container">
               <CgWebsite className="address-icon" />
               <input
                 disabled={formType === "VIEW" ? true : false}
@@ -118,9 +118,9 @@ const TechAddViewEdit = function ({
             </div>
           </div>
 
-          <div className="input-item">
+          <div className="input-container">
             <label htmlFor="documentation">Documentation:</label>
-            <div className="address-item">
+            <div className="address-input-container">
               <FaBook className="address-icon" />
               <input
                 disabled={formType === "VIEW" ? true : false}
@@ -134,7 +134,7 @@ const TechAddViewEdit = function ({
                     [e.target.name]: e.target.value,
                   })
                 }
-                />
+              />
             </div>
           </div>
           
@@ -164,78 +164,6 @@ const TechAddViewEdit = function ({
 };
 
 const StyledTechAddViewEdit = styled(motion.div)`
-  width: 100vw;
-  height: 100vh;
-  z-index: 10;
-  position: absolute;
-  top: -9vh;
-  left: -15.5vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(256, 256, 256, 0.5);
-
-  .container {
-    width: 60vw;
-    height: auto;
-    background-color: #ebebeb;
-    border: 0.05rem #689ed0 solid;
-    position: relative;
-    box-shadow: 0 0 20px 10px #689ed0;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    row-gap: 1rem;
-    
-    .form-information {
-      height: 100%;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      row-gap: 0.5rem;
-      justify-content: center;
-      
-      label {
-        font-weight: bold;
-        font-size: 12pt;
-        font-variant-caps: all-small-caps;
-        margin-bottom: 0.25rem;
-      }
-
-      .input-item {
-        display: flex;
-        flex-direction: column;
-      }
-      .address-item {
-        display: flex;
-        column-gap: 0.25rem;
-        align-items: center;
-        .address-icon {
-          width: 1.5rem;
-          height: 1.5rem;
-        }
-      }
-      
-      input[type="text"], select {
-        color: #0c395e;
-        resize: none;
-        outline: solid 3px transparent;
-        border-radius: 4px;
-        padding: 0.25rem;
-        font-family: "Poppins", sans-serif;
-        font-weight: 300;
-        font-size: 10pt;
-        border: 1px solid #313131;
-        flex-grow: 1;
-      }
-      
-      input[type="text"]:focus {
-        outline: solid 3px #688297;
-        border-color: transparent;
-      }
-    }
-  }
-
   //#### RESPONSIVE SECTION ####
   //320px — 480px: Mobile devices
   @media screen and (max-width: 480px) and (orientation: portrait) {
