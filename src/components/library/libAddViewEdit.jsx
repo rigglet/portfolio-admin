@@ -8,6 +8,7 @@ import { IoLibraryOutline } from "react-icons/io5";
 import SubmitButton from "../submitButton";
 import CloseButton from "../closeButton";
 import Spinner from "../spinner";
+import IconPicker from "../IconPicker";
 
 const LibAddViewEdit = function ({
   openingHookSetter,
@@ -18,7 +19,9 @@ const LibAddViewEdit = function ({
   setCurrentLib,
   formType,
   fetchingData,
+  allIcons,
 }) {
+
   return (
     <StyledLibAddViewEdit>
       <div className="container">
@@ -33,8 +36,9 @@ const LibAddViewEdit = function ({
             githubrepo: "",
             homepage: "",
             documentation: "",
+            iconSearch: "",
             icon: "",
-            color: "",
+            color: "#313131",
           }}
         />
 
@@ -80,44 +84,7 @@ const LibAddViewEdit = function ({
                   }
                 />
               </div>
-              <div className="color-item">
-                <div className="input-item">
-                  <label htmlFor="icon">Icon:</label>
-                  <input
-                    disabled={formType === "VIEW" ? true : false}
-                    type="text"
-                    name="icon"
-                    autoComplete="off"
-                    size="50"
-                    value={currentLib?.icon}
-                    onChange={(e) =>
-                      setCurrentLib({
-                        ...currentLib,
-                        [e.target.name]: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div className="input-item">
-                  <label htmlFor="color">Color:</label>
-                  <input
-                    disabled={formType === "VIEW" ? true : false}
-                    type="color"
-                    name="color"
-                    autoComplete="off"
-                    value={currentLib?.color}
-                    onChange={(e) =>
-                      setCurrentLib({
-                        ...currentLib,
-                        [e.target.name]: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-              </div>
-            </div>
 
-            <div className="description">
               <div className="input-item">
                 <label htmlFor="description">Description:</label>
                 <textarea
@@ -126,7 +93,7 @@ const LibAddViewEdit = function ({
                   name="description"
                   autoComplete="off"
                   cols="50"
-                  rows="7"
+                  rows="4"
                   value={currentLib?.description}
                   onChange={(e) =>
                     setCurrentLib({
@@ -137,6 +104,13 @@ const LibAddViewEdit = function ({
                 />
               </div>
             </div>
+
+              <IconPicker
+                formType={formType}
+                currentObject={currentLib}
+                setCurrentObject={setCurrentLib}
+                allIcons={allIcons}
+              />
           </div>
 
           <div className="addresses">
@@ -260,13 +234,25 @@ const StyledLibAddViewEdit = styled(motion.div)`
     position: relative;
     box-shadow: 0 0 20px 10px #689ed0;
     padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
 
     .form-information {
       height: 100%;
       width: 100%;
       display: flex;
       flex-direction: column;
-      row-gap: 2rem;
+      row-gap: 0.5rem;
+      justify-content: center;
+      //align-items: center;
+
+      label {
+        font-weight: bold;
+        font-size: 12pt;
+        font-variant-caps: all-small-caps;
+        margin-bottom: 0.5rem;
+      }
 
       .color-item {
         display: flex;
@@ -286,13 +272,8 @@ const StyledLibAddViewEdit = styled(motion.div)`
         display: flex;
         flex-direction: column;
       }
-      label {
-        font-weight: bold;
-        font-size: 12pt;
-        font-variant-caps: all-small-caps;
-        margin-bottom: 0.5rem;
-      }
 
+      select,
       input[type="text"],
       textarea {
         width: 100%;
@@ -305,6 +286,7 @@ const StyledLibAddViewEdit = styled(motion.div)`
         font-weight: 300;
         font-size: 10pt;
         border: 1px solid #313131;
+        flex-grow: 1;
       }
       input[type="text"]:focus,
       textarea:focus {
@@ -318,7 +300,6 @@ const StyledLibAddViewEdit = styled(motion.div)`
         justify-content: space-evenly;
         align-items: space-evenly;
       }
-      .description,
       .name-version {
         width: 40%;
         display: flex;
@@ -329,6 +310,7 @@ const StyledLibAddViewEdit = styled(motion.div)`
         flex-direction: column;
         row-gap: 1rem;
       }
+      
     }
   }
 

@@ -12,8 +12,8 @@ import LibAdd from "./libAddViewEdit";
 //data
 import { deleteData, postData, updateData } from "../../api/api";
 
-function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
-  const [currentLib, setCurrentLib] = useState({
+function Libs({ auth, libraries, setLibraries, projects, setProjects, allIcons }) {
+  const libraryResetObject = {
     name: "",
     version: "",
     description: "",
@@ -21,9 +21,11 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
     githubrepo: "",
     homepage: "",
     documentation: "",
+    iconSearch: "",
     icon: "",
-    color: "",
-  });
+    color: "#313131",
+  }
+  const [currentLib, setCurrentLib] = useState(libraryResetObject);
   const [viewViewLib, setViewViewLib] = useState(false);
   const [viewAddLib, setViewAddLib] = useState(false);
   const [viewEditLib, setViewEditLib] = useState(false);
@@ -78,17 +80,7 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
       })
       .then(() => {
         setFetchingData(false);
-        setCurrentLib({
-          name: "",
-          version: "",
-          description: "",
-          npmaddress: "",
-          githubrepo: "",
-          homepage: "",
-          documentation: "",
-          icon: "",
-          color: "",
-        });
+        setCurrentLib(libraryResetObject);
         setViewAddLib(false);
       })
       .catch((err) => {
@@ -159,17 +151,7 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
       })
       .then(() => {
         setFetchingData(false);
-        setCurrentLib({
-          name: "",
-          version: "",
-          description: "",
-          npmaddress: "",
-          githubrepo: "",
-          homepage: "",
-          documentation: "",
-          icon: "",
-          color: "",
-        });
+        setCurrentLib(libraryResetObject);
         setViewEditLib(false);
       })
       .catch((err) => {
@@ -245,6 +227,7 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
             handleSaveLib={handleSaveLib}
             handleEditLib={handleEditLib}
             fetchingData={fetchingData}
+            allIcons={allIcons}
             title="Add new library"
             formType={"ADD"}
           />
@@ -261,6 +244,7 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
             handleEditLib={handleEditLib}
             handleSaveLib={handleSaveLib}
             fetchingData={fetchingData}
+            allIcons={allIcons}
             title="Edit library"
             formType={"EDIT"}
           />
@@ -273,6 +257,7 @@ function Libs({ auth, libraries, setLibraries, projects, setProjects }) {
             openingHookSetter={setViewViewLib}
             currentLib={currentLib}
             setCurrentLib={setCurrentLib}
+            allIcons={allIcons}
             title="View library"
             formType={"VIEW"}
           />

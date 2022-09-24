@@ -80,8 +80,8 @@ function Admin({ auth, setAuth, allIcons }) {
             projects={projects}
             setProjects={setProjects}
             allIcons={allIcons}
-          />
-        );
+            />
+            );
       case "/admin/libraries":
         return (
           <Libraries
@@ -90,18 +90,20 @@ function Admin({ auth, setAuth, allIcons }) {
             setLibraries={setLibraries}
             projects={projects}
             setProjects={setProjects}
-          />
-        );
-      case "/admin/packages":
-        return (
-          <Packages
-            auth={auth}
-            packages={packages}
-            setPackages={setPackages}
-            projects={projects}
-            setProjects={setProjects}
-          />
-        );
+            allIcons={allIcons}
+            />
+            );
+            case "/admin/packages":
+              return (
+                <Packages
+                auth={auth}
+                packages={packages}
+                setPackages={setPackages}
+                projects={projects}
+                setProjects={setProjects}
+                allIcons={allIcons}
+                />
+                );
       case "/admin/images":
         return (
           <Images
@@ -113,9 +115,9 @@ function Admin({ auth, setAuth, allIcons }) {
           />
         );
       case "/admin/tools":
-        return <Tools auth={auth} tools={tools} setTools={setTools} />;
+        return <Tools allIcons={allIcons} auth={auth} tools={tools} setTools={setTools} />;
       case "/admin/links":
-        return <Links auth={auth} links={links} setLinks={setLinks} />;
+        return <Links allIcons={allIcons} auth={auth} links={links} setLinks={setLinks} />;
       case "/admin/texts":
         return <Texts auth={auth} texts={texts} setTexts={setTexts} />;
       // case "/admin/roadmaps":

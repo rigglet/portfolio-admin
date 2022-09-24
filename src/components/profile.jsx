@@ -137,7 +137,7 @@ function Profile({ auth, setAuth, openingHookSetter, title, formType }) {
       option = "NEW";
     } else {
       if (clearingImage) {
-        console.log("No file selected - clearing image");
+        //console.log("No file selected - clearing image");
         option = "CLEAR";
         //clearing image so set to null
         formData.append("profileImage", null);
@@ -150,7 +150,7 @@ function Profile({ auth, setAuth, openingHookSetter, title, formType }) {
     editUser()
       .then((result) => {
         if (result.status === 200) {
-          console.log("result: ", result);
+          //console.log("result: ", result);
           //Toast message
           notify("EDITED");
         } else {

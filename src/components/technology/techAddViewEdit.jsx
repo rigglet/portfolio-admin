@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 //icons
@@ -9,7 +8,7 @@ import { HiCode } from "react-icons/hi";
 import SubmitButton from "../submitButton";
 import CloseButton from "../closeButton";
 import Spinner from "../spinner";
-import Icon from "../Icon";
+import IconPicker from "../IconPicker";
 
 const TechAddViewEdit = function ({
   openingHookSetter,
@@ -23,40 +22,6 @@ const TechAddViewEdit = function ({
   allIcons,
 }) {
   
-  //const [dbText, setDbText] = useState("")
-  const [filteredList, setFilteredList] = useState([])
-  //const [clickedIcon, setClickedIcon] = useState("");
-  let arrIcons = [];
-
-  for (const icon in allIcons) {
-    arrIcons.push(icon);
-  }
-  
-  function debounce(cb, delay = 1000) {
-    let timeout;
-    return (...args) => {
-      clearTimeout(timeout)
-      timeout = setTimeout(() => {
-        cb(...args)
-      }, delay)
-    }
-  };
-  
-  console.log("Render");
-  
-  function updateList (searchText) {
-    let list = []
-    if (searchText.length > 2) {
-      list = arrIcons.filter(icon => icon.toLowerCase().includes(searchText))
-      setCurrentTech((currentTech) => ({...currentTech, icon: list[0]}));
-      setFilteredList(arrIcons.filter(icon => icon.toLowerCase().includes(searchText)));
-    }
-  }
-  
-  // const updateDBText = useCallback(debounce(text => { setDbText(text) }, 1000), [])
-  //const updateFilteredIconList = useCallback(debounce((text, currentTech) => { updateList(text, currentTech) }, 1000), [])
-  const updateFilteredIconList = debounce((text, currentTech) => { updateList(text, currentTech) }, 1000);
-  
   return (
     <StyledTechAddViewEdit>
       <div className="container">
@@ -68,10 +33,10 @@ const TechAddViewEdit = function ({
             category: "",
             description: "",
             address: "",
+            documentation: "",
             iconSearch: "",
             icon: "",
             color: "#313131",
-            documentation: "",
           }}
         />
 
@@ -173,101 +138,13 @@ const TechAddViewEdit = function ({
             </div>
           </div>
           
-          {/* icon section start  */}
-          <div className="icon-section">
-            <div className="fields">
-              {formType !== "VIEW" && 
-              <>
-              <div className="input-item">
-                <label htmlFor="documentation">Search icons (enter at least 3 letters):</label>
-                <input
-                  disabled={formType === "VIEW" ? true : false}
-                  type="text"
-                  name="iconSearch"
-                  autoComplete="off"
-                  value={currentTech?.iconSearch}
-                  onChange={(e) =>{
-                    setCurrentTech({
-                      ...currentTech,
-                      //icon: filteredList[0],
-                      [e.target.name]: e.target.value,
-                    });
-                    updateFilteredIconList(e.target.value);
-                  }}
-                  />
-              </div>
-              
-                <div className="input-item">
-                  <label htmlFor="icon">Select from ({filteredList.length}) icons:</label>
-                <select
-                  disabled={formType === "VIEW" ? true : false}
-                  name="icon"
-                  placeholder={currentTech?.icon}
-                  value={currentTech?.icon}
-                  onChange={(e) =>{
-                    setCurrentTech({
-                      ...currentTech,
-                      [e.target.name]: e.target.value,
-                    });
-                    //setClickedIcon(() => e.target.value);
-                    setCurrentTech(()=> ({...currentTech, icon: e.target.value}));
-                  }
-                  }
-                  >
-                {filteredList.map((i) => {
-                  return (
-                    <option key={i} value={i}>
-                      {i}
-                    </option>
-                  );
-                })}
-                </select>
-              </div>
-            </>
-            }
-              
-            {formType !== "VIEW" && 
-            <div className="color-item">
-              <label htmlFor="color">Color:</label>
-              <input
-                disabled={formType === "VIEW" ? true : false}
-                type="color"
-                name="color"
-                autoComplete="off"
-                value={currentTech?.color}
-                onChange={(e) =>
-                  setCurrentTech({
-                    ...currentTech,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-            </div>
-            }
-            </div>
-            
-            <div className="preview">
-              <Icon
-                icon={currentTech?.icon}
-                color={currentTech?.color}
-                size="100px"
-                title={currentTech?.icon}
-                className="item-icon"
-                allIcons={allIcons}
-              /> 
-              {currentTech.icon &&
-                //formType === "VIEW" &&
-                <>
-                  <h5>{currentTech.icon}</h5>
-                  <h5>{currentTech.color}</h5>
-                </>
-          
-              }
-            </div>
-
-          </div>
-          {/* icon section end  */}
-
+            <IconPicker
+              formType={formType}
+              currentObject={currentTech}
+              setCurrentObject={setCurrentTech}
+              allIcons={allIcons}
+            />
+        
         </div>{/* form-information end  */}
 
           {formType !== "VIEW" &&
@@ -317,7 +194,6 @@ const StyledTechAddViewEdit = styled(motion.div)`
       flex-direction: column;
       row-gap: 0.5rem;
       justify-content: center;
-      //align-items: center;
       
       label {
         font-weight: bold;
@@ -326,38 +202,6 @@ const StyledTechAddViewEdit = styled(motion.div)`
         margin-bottom: 0.25rem;
       }
 
-      .icon-section{
-        display: flex;
-        //border: 1px solid green;
-        justify-content: center;
-        align-self: center;
-        width: 80%;
-        column-gap: 1rem;
-        .fields{
-          .color-item {
-            display: flex;
-            flex-direction: column;
-          }
-        }
-        .preview {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          row-gap: 0.25rem;
-          
-          h5{
-            color: #0c395e;
-          }
-          .item-icon{
-            border: 1px solid #313131;
-            border-radius: 4px;
-            aspect-ratio: 1;
-            padding: 0.25rem;
-          }
-        }
-      }
-      
       .input-item {
         display: flex;
         flex-direction: column;
