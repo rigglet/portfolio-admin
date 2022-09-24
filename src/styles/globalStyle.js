@@ -89,6 +89,16 @@ input[type="submit"], .wizard-submit {
     height: 2rem;
     color: #688297;
     cursor: pointer;
+    transition: color 0.3s ease;
+    &:hover, &:focus {
+      color: #313131;
+      transform: scale(1.05);
+    } 
+    &:active {
+      //outline: 2px solid #689ed0;
+      //color: #1a7113;
+      transform: scale(0.95);
+    }
   }
 }
 
