@@ -19,8 +19,8 @@ const TextAddViewEdit = function ({
   fetchingData,
 }) {
   return (
-    <StyledTextAddViewEdit>
-      <div className="container">
+    <StyledTextAddViewEdit className="add-view-edit-modal">
+      <div className="add-view-edit-modal-container">
         <CloseButton
           closeFunction={openingHookSetter}
           resetFunction={setCurrentText}
@@ -30,15 +30,15 @@ const TextAddViewEdit = function ({
           }}
         />
 
-        <div className="titleHeader">
-          <IoText className="titleIcon" />
+        <div className="title-header">
+          <IoText className="title-icon" />
           <h1>{title} </h1>
           {formType !== "ADD" && <h5>{currentText?._id}</h5>}
         </div>
 
-        <div className="form-information">
-          <div className="form-fields">
-            <div className="input-item">
+        <div className="ave-modal-form-information">
+          
+            <div className="input-container">
               <label htmlFor="name">Text name:</label>
               <input
                 disabled={formType === "VIEW" ? true : false}
@@ -56,7 +56,7 @@ const TextAddViewEdit = function ({
               />
             </div>
 
-            <div className="input-item">
+            <div className="input-container">
               <label htmlFor="content">Content:</label>
               <textarea
                 disabled={formType === "VIEW" ? true : false}
@@ -74,7 +74,7 @@ const TextAddViewEdit = function ({
                 }
               />
             </div>
-          </div>
+          
 
           {formType !== "VIEW" &&
             (fetchingData ? (
@@ -93,7 +93,7 @@ const TextAddViewEdit = function ({
 };
 
 const StyledTextAddViewEdit = styled(motion.div)`
-  width: 100vw;
+  /* width: 100vw;
   height: 100vh;
   z-index: 10;
   position: absolute;
@@ -160,7 +160,7 @@ const StyledTextAddViewEdit = styled(motion.div)`
         outline: solid 3px #688297;
         border-color: transparent;
       }
-    }
+    } */
   }
 
   //#### RESPONSIVE SECTION ####
