@@ -60,8 +60,8 @@ const ImageAddViewEdit = function ({
           resetObject={{ name: "", description: "", file: {} }}
         />
 
-        <div className="titleHeader">
-          <ImImages className="titleIcon" />
+        <div className="title-header">
+          <ImImages className="title-icon" />
           <h1>{title} </h1>
           {formType !== "ADD" && <h5>{currentImage?._id}</h5>}
         </div>
